@@ -29,8 +29,7 @@ public class MemberDAO extends DAO {
 	}
 
 	public MemberDAO() {
-		con = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ORACLE_ID, Constants.ORACLE_PASSWORD)
-				.getConnection();
+		con = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ORACLE_ID, Constants.ORACLE_PASSWORD).getConnection();
 	}
 
 	public int insert(MemberVO o) {
@@ -92,7 +91,7 @@ public class MemberDAO extends DAO {
 				temp.setEmail(rs.getString("email"));
 				temp.setGender(rs.getString("gender"));
 				temp.setAddr(rs.getString("addr"));
-				temp.setRegdata(rs.getString("regdata"));
+				temp.setRegdate(rs.getString("regdate"));
 				temp.setProfile(rs.getString("profile"));
 				list.add(temp);
 			}
@@ -119,7 +118,7 @@ public class MemberDAO extends DAO {
 				temp.setEmail(rs.getString("email"));
 				temp.setGender(rs.getString("gender"));
 				temp.setAddr(rs.getString("addr"));
-				temp.setRegdata(rs.getString("regdata"));
+				temp.setRegdate(rs.getString("regdata"));
 				temp.setProfile(rs.getString("profile"));
 				list.add(temp);
 			}
@@ -145,7 +144,7 @@ public class MemberDAO extends DAO {
 				temp.setEmail(rs.getString("email"));
 				temp.setGender(rs.getString("gender"));
 				temp.setAddr(rs.getString("addr"));
-				temp.setRegdata(rs.getString("regdata"));
+				temp.setRegdate(rs.getString("regdate"));
 				temp.setProfile(rs.getString("profile"));
 			}
 		} catch (SQLException e) {
@@ -198,7 +197,7 @@ public class MemberDAO extends DAO {
 				temp.setEmail(rs.getString("email"));
 				temp.setGender(rs.getString("gender"));
 				temp.setAddr(rs.getString("addr"));
-				temp.setRegdata(rs.getString("regdata"));
+				temp.setRegdate(rs.getString("regdate"));
 				temp.setProfile(rs.getString("profile"));
 				list.add(temp);
 			}

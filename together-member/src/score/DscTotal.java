@@ -12,8 +12,8 @@ public class DscTotal implements Comparator<ScoreVO>{
 
 	@Override
 	public int compare(ScoreVO front, ScoreVO back) {
-		
-		return 0;
+		return (front.getTotal() > back.getTotal()) ? -1 :
+			front.getTotal() < back.getTotal() ? 1 : 0; // 여기서 숫자는 위치값
 		/**
 		 * 삼항연산자
 		 * (컨디션) ? true : false:
