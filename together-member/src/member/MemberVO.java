@@ -18,7 +18,7 @@ public class MemberVO implements Serializable, SQL{
 	private String email; //이메일
 	private String gender;  // 성별
 	private String addr; //주소
-	private String regdata; //등록일
+	private String regdate; //등록일
 	private String profile;   //프로필 사진
 	
 	
@@ -46,8 +46,8 @@ public class MemberVO implements Serializable, SQL{
 	public String getAddr() {
 		return addr;
 	}
-	public String getRegdata() {
-		return regdata;
+	public String getRegdate() {
+		return regdate;
 	}
 	public String getProfile() {
 		return profile;
@@ -76,8 +76,8 @@ public class MemberVO implements Serializable, SQL{
 	public void setAddr(String addr) {
 		this.addr = addr;
 	}
-	public void setRegdata(String regdata) {
-		this.regdata = regdata;
+	public void setRegdate(String regdate) {
+		this.regdate = regdate;
 	}
 	public void setProfile(String profile) {
 		this.profile = "default.png";
@@ -93,7 +93,7 @@ public class MemberVO implements Serializable, SQL{
 				+ ", 이메일=" + email 
 				+ ", 성별=" + gender 
 				+ ", 주소=" + addr 
-				+ ", 등록일="+ regdata 
+				+ ", 등록일="+ regdate 
 				+ ", 프로필사진=" + profile + "]";
 	}
 	public MemberVO() {
@@ -119,7 +119,7 @@ public class MemberVO implements Serializable, SQL{
 	 */
 	public String insert() {
 		String query ="insert into member "
-				+ "(userid, password, name, birth, phone, email, gender, addr, regdata, profile) values(?,?,?,?,?,?,?,?,sysdate,?)";
+				+ "(userid, password, name, birth, phone, email, gender, addr, regdate, profile) values(?,?,?,?,?,?,?,?,sysdate,?)";
 		return query;
 	}
 	public String update() {
