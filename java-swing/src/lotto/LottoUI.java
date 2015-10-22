@@ -16,7 +16,7 @@ public class LottoUI extends JFrame implements ActionListener {
 	Lotto lotto;
 	// 컴포넌트(스윙에서 화면을 나타내는 클래스)는 연관관계로 부모-자식 관계를 맺는다.
 	JButton btn;
-	JPanel panelNorth, panelSouth; // 보더레이아웃 개념으로 볼때 동서남북으로 위치값을 줌.
+	JPanel panelNorth, panelSouth; // 보더레이아웃 개념으로 볼때 동서남북으로 위치값을 줌
 	ImageIcon icon;
 	List<JButton> btns;
 
