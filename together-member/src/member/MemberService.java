@@ -18,8 +18,8 @@ public interface MemberService {
 	 * DQL->stmt.executeQuery()
 	 */
 	//로그인
-	public MemberVO login(String id, String pass);
-	//이름 검색(중복적용)
-	public List<MemberVO> selectByName(String id);
+	public Object login(String id, String pass);
+	//친구 검색
+	public MemberVO selectByPhone(int phoneNum);
 		
 }
