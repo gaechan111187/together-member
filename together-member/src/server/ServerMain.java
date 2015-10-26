@@ -13,7 +13,7 @@ public class ServerMain {
 			System.out.println("서버 소켓을 생성했습니다.");
 			while (true) {
 				Socket clientSocket = serverSocket.accept(); // 클라이언트의 접속을 대기
-				ServerService service = new ServerService(clientSocket); // 서버 서비스 생성
+				ServerServiceImpl service = new ServerServiceImpl(clientSocket); // 서버 서비스 생성
 				Thread server = new Thread(service);
 				server.start();
 			}

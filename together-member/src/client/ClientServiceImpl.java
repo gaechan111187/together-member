@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 
 import global.Command;
 
-public class ClientService implements Runnable {
+public class ClientServiceImpl implements Runnable {
 	private static final int PORT = 2222;
 	private static final String COMMAND_DELIMITER = "|";
 	private static final String USER_DELIMETER = "'";
@@ -37,7 +37,7 @@ public class ClientService implements Runnable {
 		this.name = name;
 	}
 
-	public ClientService() {
+	public ClientServiceImpl() {
 		try {
 			serverIP = JOptionPane.showInputDialog("서버IP 설정");
 			clientSocket = new Socket(serverIP, PORT);
@@ -61,7 +61,6 @@ public class ClientService implements Runnable {
 				String command = in.readUTF(); // 명령을 읽어옴
 				switch (command) {
 				case Command.LOGIN:
-					
 					break;
 				case Command.SIGNUP:
 					break;

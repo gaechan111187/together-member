@@ -9,11 +9,11 @@ import javax.swing.JPanel;
 
 public class ClientUI extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1L;
-	private ClientService user;
+	private ClientServiceImpl user;
 	private JPanel jpMain;
 	private JButton jbLogin, jbAdd, jbExit;
 	
-	public ClientUI(ClientService service) {
+	public ClientUI(ClientServiceImpl service) {
 		super("클라이언트 데모");
 		user = service;
 		// 부품준비

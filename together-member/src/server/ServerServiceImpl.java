@@ -8,16 +8,16 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-public class ServerService implements Runnable{
+public class ServerServiceImpl implements Runnable{
 	private Socket client;
 	private DataInputStream in;
 	private DataOutputStream out;
 	private StringBuffer buffer;
 	
-	public ServerService() {
+	public ServerServiceImpl() {
 	}
 	
-	public ServerService(Socket clientSocket) {
+	public ServerServiceImpl(Socket clientSocket) {
 		client = clientSocket;
 		try {
 			in = new DataInputStream(client.getInputStream());
