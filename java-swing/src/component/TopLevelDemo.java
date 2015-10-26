@@ -34,7 +34,7 @@ public class TopLevelDemo {
  
         //메뉴바 생성, 보더레이아웃은 중앙정렬이 가능하다
         frame.setJMenuBar(greenMenuBar);
-        frame.getContentPane().add(yellowLabel, BorderLayout.CENTER);
+        frame.getContentPane().add(yellowLabel, BorderLayout.NORTH);
  
         //pack() 메소드는 컴포넌트를 팩킹시키는 역할
         frame.pack();
