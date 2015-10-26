@@ -1,6 +1,6 @@
-package member;
+package chat;
 
-public class MemberVO{
+public class ChatVO{
 	
 	private static final long serialVersionUID = 1L;
 	private String name; //회원이름

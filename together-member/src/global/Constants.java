@@ -11,8 +11,8 @@ public class Constants {
 	 */
 	public static final String ORACLE_DRIVER="oracle.jdbc.driver.OracleDriver";
 	public static final String ORACLE_URL="jdbc:oracle:thin:@localhost:1521:xe";
-	public static final String ORACLE_ID="java_dp2";
-	public static final String ORACLE_PASSWORD="java_dp2";
+	public static final String ORACLE_ID="tog";
+	public static final String ORACLE_PASSWORD="tog";
 	public static final String MYSQL_DRIVER="com.mysql.jdbc.Driver";
 	public static final String MYSQL_URL="jdbc:mysql://localhost:3306/DB_NAME";
 	public static final String MSSQL_DRIVER="com.microsoft.sqlserver.jdbc.SQLServerDriver";

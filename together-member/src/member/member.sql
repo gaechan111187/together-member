@@ -1,15 +1,12 @@
 create table Member(
-	userid varchar2(50),
-	password varchar2(50),
 	name varchar2(50),
-	birth varchar2(50),
-	phone varchar2(50),
+	password varchar2(50),
+	phone number(20),
 	email varchar2(50),
-	gender varchar2(50),
-	addr varchar2(50),
-	regdate varchar2(50),
-	profile varchar2(50),
-);
+	temp01 varchar2(30),
+	temp02 varchar2(30),
+	temp03 varchar2(30)
+); 
 
 alter table Member
-add constraint member_pk primary key(userid);
+add constraint member_pk primary key(phone);
