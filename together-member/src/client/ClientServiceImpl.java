@@ -63,7 +63,7 @@ public class ClientServiceImpl implements Runnable {
 
 	@Override
 	public void run() {
-		new MemberUI(this); // 최초에 로그인 UI를 부름
+		new MemberUI(); // 최초에 로그인 UI를 부름
 		Thread currThread = Thread.currentThread();
 		while (currThread == thisThread) { // 현재 스레드가 나와 일치하면
 			try {
