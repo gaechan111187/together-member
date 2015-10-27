@@ -11,16 +11,17 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 
+import client.ClientServiceImpl;
+
 public class JoinUsUI extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private JPanel jPanel;
 	private JButton b1;
 	private JTextField fieldName, fieldPhone, fieldPass, fieldEmail;
-	
-	public JoinUsUI() {
+	ClientServiceImpl client;
+	public JoinUsUI(ClientServiceImpl client) {
 		super("회원가입");
-		
-		
+		this.client = client;
 		jPanel = new JPanel();
 		jPanel.setLayout(new GridLayout(9, 1));
 		b1 = new JButton("회원가입");
@@ -41,7 +42,7 @@ public class JoinUsUI extends JFrame implements ActionListener {
 		fieldEmail = new JTextField(20);
 		jPanel.add(fieldEmail);
 		jPanel.add(b1);
-		
+		b1.addActionListener(this);
 		add(jPanel);
 		pack();
 		setLocation(700,350);
@@ -50,15 +51,17 @@ public class JoinUsUI extends JFrame implements ActionListener {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
-	
-	public static void main(String[] args) {
-		JoinUsUI joinUsUI = new JoinUsUI();
-	}
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		switch (e.getActionCommand()) {
+		case "회원가입":
+			client.requestSignUp(fieldName.getText(), fieldPhone.getText(), fieldPass.getText(), fieldEmail.getText());
+			dispose();
+			break;
+
+		default:
+			break;
+		}
 	}
 }
 

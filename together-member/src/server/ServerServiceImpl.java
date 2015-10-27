@@ -52,11 +52,27 @@ public class ServerServiceImpl implements Runnable {
 					List<MemberVO> temp = dao.confirmLogin(phone, password);
 					System.out.println("템프수 : " + temp.size());
 					System.out.println(temp);
-					respondLogin(temp.toString());
+					if (!temp.isEmpty()) {
+						respondLogin(temp.toString());
+					} else {
+						respondLogin(null);
+					}
 					break;
 				case Command.SEND_MESSAGE:
 					String msg = token.nextToken();
-					
+				case Command.SIGN_UP:
+					StringTokenizer content = new StringTokenizer(token.nextToken(), Command.CONTENT_DELIMITER);
+					System.out.println(content);
+					int result = dao.confirmSignUp(content.nextToken(),content.nextToken(),content.nextToken(),content.nextToken());
+					if (result != 0) {
+						buffer.setLength(0);
+						buffer.append(Command.ALLOW_SIGN_UP);
+						send(buffer.toString());
+					} else {
+						buffer.setLength(0);
+						buffer.append(Command.DENY_SIGN_UP);
+						send(buffer.toString());
+					}
 				default:
 					break;
 				}
@@ -66,15 +82,14 @@ public class ServerServiceImpl implements Runnable {
 			e.printStackTrace();
 		}
 	}
-	public String respondLogin(String str) {
-		if (str != null) {
+	public void respondLogin(String str) {
+		if (str!=null) {
 			buffer.setLength(0);
 			buffer.append(Command.ALLOW_LOGIN + "|" + str); // 로그인 허가
 			send(buffer.toString());
 		} else {
 			send(Command.DENY_LOGIN); // 로그인 거부 전송
 		}
-		return null;
 	}
 	public void send(String sendData) {
 		try {

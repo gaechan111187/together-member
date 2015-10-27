@@ -61,7 +61,7 @@ public class ClientServiceImpl implements Runnable {
 
 	@Override
 	public void run() {
-		new MemberUI(); // 최초에 로그인 UI를 부름
+		new MemberUI(this); // 최초에 로그인 UI를 부름
 		Thread currThread = Thread.currentThread();
 		while (currThread == thisThread) { // 현재 스레드가 나와 일치하면
 			try {
@@ -93,13 +93,17 @@ public class ClientServiceImpl implements Runnable {
 					JOptionPane.showMessageDialog(null, "로그인이 실패하였습니다.");
 					break;
 				case Command.ADD_FRIENDS:
-					// 친구추가 UI실행
 					break;
 				case Command.CREATE_CHATROOM:
-					// 친구추가 UI실행
 					break;
 				case Command.RECEIVE_MESSAGE:
-					// 서버에서 보낸 메시지를 받음
+					break;
+				case Command.ALLOW_SIGN_UP:
+					JOptionPane.showMessageDialog(null, "회원가입을 성공했습니다.");
+					new MemberUI(this);
+					break;
+				case Command.DENY_SIGN_UP:
+					JOptionPane.showMessageDialog(null, "회원가입을 실패했습니다.");
 					break;
 				case Command.EXIT:
 					// 종료버튼 누를시 종료
@@ -129,9 +133,10 @@ public class ClientServiceImpl implements Runnable {
 	}
 
 	// 이름 번호 비번 이메일
+	// 회원가입을 위해서
 	public void requestSignUp(String name, String phone, String password, String email) {
 		buffer.setLength(0);
-		buffer.append(Command.SIGN_UP + "|" + name + "|" + phone + "|" + password + "|" + email);
+		buffer.append(Command.SIGN_UP + "|" + name + "`" + phone + "`" + password + "`" + email);
 		String temp = buffer.toString();
 		System.out.println(temp);
 		send(temp);

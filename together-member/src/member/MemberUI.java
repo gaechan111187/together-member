@@ -10,14 +10,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import client.ClientServiceImpl;
+
 public class MemberUI extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private JTextField fieldPhone, fieldPass;
 	private JButton b1, b2;
 	private JPanel panel;
-	public MemberUI() {
+	private ClientServiceImpl client;
+	public MemberUI(ClientServiceImpl client) {
 		super("로그인");
-		
+		this.client = client;
 		panel = new JPanel();
 		panel.setLayout(new GridLayout(3, 1));
 		b1 = new JButton("로그인");
@@ -34,26 +37,25 @@ public class MemberUI extends JFrame implements ActionListener{
 		panel.add(b1); //판넬에다 버튼1 붙임.
 		panel.add(b2); //판넬에다 버튼2 붙임.
 		add(panel); //프레임에다 판넬 붙임.
+		b1.addActionListener(this);
 		b2.addActionListener(this);
 		pack();
 		setLocation(700,350);
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
-
-	
-	public static void main(String[] args) {
-		MemberUI memberUI = new MemberUI();
-	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
-		case "회원가입":
+		case "로그인":
+			client.requestLogin(fieldPhone.getText(), fieldPass.getText());
 			this.dispose();
-			JoinUsUI ui = new JoinUsUI();
 			break;
-
+		case "회원가입":
+			new JoinUsUI(client);
+			this.dispose();
+			break;
 		default:
 			break;
 		}
