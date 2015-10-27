@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import global.Command;
 import global.Constants;
@@ -20,29 +21,38 @@ public class ServerDAO {
 	private Statement stmt; // Statement 무언가를 서술, getter의 느낌
 	private PreparedStatement pstmt;   //setter의 느낌
 	private ResultSet rs; // ResultSet return 받아서 DB로 던짐
-	private List<ServerVO> list = new ArrayList<ServerVO>();
-	private ServerVO member = new ServerVO();
-	
 	
 	public ServerDAO() {
 		con = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ORACLE_ID, Constants.ORACLE_PASSWORD).getConnection();
 	}
 	
-	public MemberVO confirmLogin(String email, String password) {
+	public List<MemberVO> confirmLogin(String phone, String password) {
+		List<MemberVO> vec = new Vector<MemberVO>();
 		MemberVO temp = null;
+		
 		try {
-			rs = con.createStatement().executeQuery("select * from member m inner join friend f on m.phone = F.UPHONE where email = " + makeQuery(email) + " and password = " + makeQuery(password));
-			while (rs.next()) { // 첫번째는 내정보 나머지는 친구정보
+			rs = con.createStatement().executeQuery("select * from member where phone in ( select fphone from friend where uphone = " + makeQuery(phone) + ")");
+			while (rs.next()) { // 친구정보
+				temp = new MemberVO(); 
+				temp.setEmail(rs.getString("email"));
+				temp.setName(rs.getString("name"));
+				temp.setPassword(rs.getString("password"));
+				temp.setPhone(rs.getString("phone"));
+				vec.add(temp); //친구정보 저장
+			}
+			rs = con.createStatement().executeQuery("select * from member where phone = " + makeQuery(phone) + " and password = " + makeQuery(password));
+			if (rs.next()) { // 첫번째는 내정보
 				temp = new MemberVO();
 				temp.setEmail(rs.getString("email"));
 				temp.setName(rs.getString("name"));
 				temp.setPassword(rs.getString("password"));
-				//temp.setPhone(rs.getString("phone"));
+				temp.setPhone(rs.getString("phone"));
+				vec.add(temp); // 내정보 저장
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return temp;
+		return vec;
 	}
 	
 	public String makeQuery(String str) {

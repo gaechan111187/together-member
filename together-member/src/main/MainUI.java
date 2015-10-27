@@ -21,14 +21,12 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
 
+import client.ClientServiceImpl;
+import member.MemberVO;
+
 public class MainUI extends JFrame implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
-	
-	public static void main(String[] args) {
-		MainUI mt = new MainUI();
-	}
-	
 	JButton btnAddFriend, btnSetUp, btnSearch, btnChat, btnExit;
 	//JPanel mainPanel;
 	JPanel menuPanel, uMenuPanel, dMenuPanel;	// 메뉴, 위, 아래
@@ -38,6 +36,7 @@ public class MainUI extends JFrame implements ActionListener{
 	JCheckBox ckFriend1, ckFriend2, ckFriend3, ckFriend4, ckFriend5;
 	JLabel fname1, fname2, fname3, fname4, fname5;
 	JLabel femail1, femail2, femail3, femail4, femail5;
+	ClientServiceImpl client;
 	
 	MainService service = MainServiceImpl.getService();
 	List<MainVO> list = service.getFriends();
@@ -45,10 +44,10 @@ public class MainUI extends JFrame implements ActionListener{
 	//ImageIcon icon;
 	//List<JButton> btns;
 	
-	public MainUI() {
-		
+	public MainUI(ClientServiceImpl client) {
+		this.client = client;
 		init();
-		 
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
 	private void init() {
@@ -225,11 +224,11 @@ public class MainUI extends JFrame implements ActionListener{
 		
 		southPanel.add(btnChat);
 		southPanel.add(btnExit);
-		
-		
-	//	List<MainVO> list = service.getFriends();
-		if (list.isEmpty()==false) {
-			for (MainVO mem : list) {
+		int size = client.getVec().size();
+		List<MemberVO> vec = client.getVec();
+		for (int i = 0; i < size; i++) { // 친구정보받아와서 실행
+		if (!client.getVec().isEmpty()) {
+			for (MemberVO mem : vec) {
 				JPanel fPanel = new JPanel(new GridLayout(1, 3));
 				fPanel.setPreferredSize(new Dimension(MAXIMIZED_HORIZ,50));
 				fPanel.setBorder(LineBorder.createBlackLineBorder());
@@ -267,7 +266,7 @@ public class MainUI extends JFrame implements ActionListener{
        // this.setResizable(false);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		}
+		}}
 		
 		/*
 		// 화면 중앙에 스윙 띄우기

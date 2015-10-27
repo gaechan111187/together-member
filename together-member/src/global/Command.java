@@ -3,7 +3,8 @@ package global;
 public class Command {
 	public static final int PORT = 2222;
 	public static final String COMMAND_DELIMITER = "|";
-	public static final String USER_DELIMETER = "'";
+	public static final String CONTENT_DELIMITER = "`";
+	public static final String USER_DELIMETER = ",";
 	public static final String REQUEST_LOGIN = "login";
 	public static final String CREATE_CHATROOM = "createRoom";
 	public static final String DENY_LOGIN = "deny";
