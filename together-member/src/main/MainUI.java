@@ -115,7 +115,7 @@ public class MainUI extends JFrame implements ActionListener{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AddFriend addFriend = new AddFriend();
+				//AddFriend addFriend = new AddFriend();
 				
 			}
 		});
@@ -227,7 +227,6 @@ public class MainUI extends JFrame implements ActionListener{
 		southPanel.add(btnExit);
 		
 		
-		for (int i = 0; i < 100; i++) {								// 친구정보받아와서 실행
 	//	List<MainVO> list = service.getFriends();
 		if (list.isEmpty()==false) {
 			for (MainVO mem : list) {
@@ -249,7 +248,6 @@ public class MainUI extends JFrame implements ActionListener{
 			friendsPanel.add(fPanel);
 		}
 
-		
 		/*
 		this.add(mainPanel);
 		mainPanel.add(menuPanel);
@@ -267,7 +265,10 @@ public class MainUI extends JFrame implements ActionListener{
 		this.add(southPanel,"South");
 		this.setBounds(1250, 0, 350, 700); // 300,400은 좌표값, 1200,300길이
        // this.setResizable(false);
-		this.setVisible(true);}}
+		this.setVisible(true);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		}
+		
 		/*
 		// 화면 중앙에 스윙 띄우기
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -291,6 +292,7 @@ public class MainUI extends JFrame implements ActionListener{
 			System.exit(0);
 			break;
 		case "채팅하기":
+			
 			break;
 		case "종료":
 			System.exit(0);
@@ -300,7 +302,7 @@ public class MainUI extends JFrame implements ActionListener{
 		}
 	}
 }
-
+/*
 class AddFriend extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	
@@ -338,14 +340,14 @@ class AddFriend extends JFrame implements ActionListener {
 		btnSearch.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				MainVO temp = service.searchFriend(Integer.parseInt(tfSearch.getText()));
+				int searchPhone = Integer.parseInt(tfSearch.getText());
+				System.out.println(searchPhone);
+				MainVO temp = service.searchFriend(searchPhone);
 				JPanel fPanel = new JPanel(new GridLayout(1, 3));
 				fPanel.setPreferredSize(new Dimension(MAXIMIZED_HORIZ,50));
 				fPanel.setBorder(LineBorder.createBlackLineBorder());
 				JLabel fname = new JLabel(temp.getName());
 				fPanel.add(fname);
-				JButton btnAddFriend = new JButton("추가");
-				fPanel.add(btnAddFriend, 2);
 				friendsPanel.add(fPanel);
 				friendsPanel.repaint();
 			}
@@ -359,8 +361,8 @@ class AddFriend extends JFrame implements ActionListener {
 		
 		// 조립단계 => 작은것부터 큰것 순으로
 		
+	//	btnSearch.addActionListener(this);
 		btnAddFriend.addActionListener(this);
-		btnSearch.addActionListener(this);
 		btnExit.addActionListener(this);
 		
 		menuPanel.add(lbphone);
@@ -369,43 +371,36 @@ class AddFriend extends JFrame implements ActionListener {
 		
 		menuPanel.add(btnAddFriend);
 		
+		southPanel.add(btnAddFriend);
 		southPanel.add(btnExit);
 		
 		this.add(menuPanel,"North");
 		this.add(friendsPanel,"Center");
 		this.add(southPanel,"South");
 		
-		this.setBounds(1250, 0, 350, 400); // 300,400은 좌표값, 1200,300길이
+		this.setBounds(1250, 0, 350, 350); // 300,400은 좌표값, 1200,300길이
 		this.setResizable(false);
 		this.setVisible(true);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
 		switch (command) {
 		case "search":
-			MainVO temp = service.searchFriend(Integer.parseInt(tfSearch.getText()));
-			JPanel fPanel = new JPanel(new GridLayout(1, 3));
-			fPanel.setPreferredSize(new Dimension(MAXIMIZED_HORIZ,50));
-			fPanel.setBorder(LineBorder.createBlackLineBorder());
-			JLabel fname = new JLabel(temp.getName());
-			fPanel.add(fname);
-			JButton btnAddFriend = new JButton("추가");
-			fPanel.add(btnAddFriend, 2);
-			friendsPanel.add(fPanel);
-			friendsPanel.repaint();
 			break;
 		case "추가":
 				
 			break;
 		case "나가기":
-			setDefaultCloseOperation(EXIT_ON_CLOSE);
+			
 			break;
 		default:
 			break;
 		}
 	}
 }
+*/
 /*
 class Test extends JFrame{
 	   public Test(){ 

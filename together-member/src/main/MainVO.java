@@ -56,12 +56,12 @@ public class MainVO{
 		return query;
 	}
 	
+	// 친구찾기
 	public String searchMyFriend(int searchPhone){					// 매개변수 전화번호
-		String query = "select name "
-				+ "from member where phone = "+searchPhone;		
+		String query = "select name from member where phone = "+make(searchPhone);		
 		return query;
 	}
-	
+
 	
 	
 	
