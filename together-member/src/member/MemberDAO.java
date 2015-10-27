@@ -33,7 +33,7 @@ public class MemberDAO {
 		try {
 			pstmt = con.prepareStatement(joinUsVO.joinUs());
 			pstmt.setString(1, joinUsVO.getName());
-			pstmt.setInt(2, joinUsVO.getPhone());
+			pstmt.setString(2, joinUsVO.getPhone());
 			pstmt.setString(3, joinUsVO.getPassword());
 			pstmt.setString(4, joinUsVO.getEmail());
 			result = pstmt.executeUpdate();
@@ -79,7 +79,7 @@ public class MemberDAO {
 				}
 				if (rs.getString("password").equals(password)) {
 					temp.setName(rs.getString("name"));
-					temp.setPhone(rs.getInt("phone"));
+					temp.setPhone(rs.getString("phone"));
 					temp.setPassword(rs.getString("password"));
 					temp.setEmail(email);
 					result = temp;
@@ -123,7 +123,7 @@ public class MemberDAO {
 			while (rs.next()) {
 				temp.setName(rs.getString("name"));
 				temp.setEmail(rs.getString("email"));
-				temp.setPhone(rs.getInt("phone"));
+				temp.setPhone(rs.getString("phone"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
