@@ -11,11 +11,7 @@ public class MemberVO implements Serializable{
 	private String password;
 	private String email;
 	private static final long serialVersionUID = 1L;
-	
-	
-	
-	
-	
+
 	public MemberVO(String name, String phone, String password, String email) {
 		this.name = name;
 		this.phone = phone;
@@ -27,10 +23,6 @@ public class MemberVO implements Serializable{
 	public MemberVO() {
 		
 	}
-
-	
-	
-	
 
 	public String getName() {
 		return name;
@@ -112,7 +104,6 @@ public class MemberVO implements Serializable{
 	
 	@Override
 	public String toString() {
-		return name+"|"+phone+"|"+password+"|"+email+"|";
-
+		return name+"`"+phone+"`"+password+"`"+email;
 	}
 }

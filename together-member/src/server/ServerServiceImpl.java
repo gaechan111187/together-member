@@ -8,6 +8,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import global.Command;
@@ -47,7 +48,10 @@ public class ServerServiceImpl implements Runnable {
 					System.out.println("로그인 요청이 들어왔습니다.");
 					String phone = token.nextToken();
 					String password = token.nextToken();
-					MemberVO temp = dao.confirmLogin(phone, password);
+					System.out.println("폰번 : " + phone + " 패스워드 " + password);
+					List<MemberVO> temp = dao.confirmLogin(phone, password);
+					System.out.println("템프수 : " + temp.size());
+					System.out.println(temp);
 					respondLogin(temp.toString());
 					break;
 				case Command.SEND_MESSAGE:
