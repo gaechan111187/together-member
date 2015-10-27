@@ -31,10 +31,13 @@ public class ServerDAO {
 	public MemberVO confirmLogin(String email, String password) {
 		MemberVO temp = null;
 		try {
-			rs = con.createStatement().executeQuery("select * from member where email = " + email + " and password = " + password);
-			if (rs.next()) {
+			rs = con.createStatement().executeQuery("select * from member m inner join friend f on m.phone = F.UPHONE where email = " + makeQuery(email) + " and password = " + makeQuery(password));
+			while (rs.next()) { // 첫번째는 내정보 나머지는 친구정보
 				temp = new MemberVO();
 				temp.setEmail(rs.getString("email"));
+				temp.setName(rs.getString("name"));
+				temp.setPassword(rs.getString("password"));
+				//temp.setPhone(rs.getString("phone"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

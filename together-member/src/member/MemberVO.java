@@ -1,30 +1,41 @@
 package member;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Vector;
 
 public class MemberVO implements Serializable{
 	
 	private String name;
-	private int phone;
+	private String phone;
 	private String password;
 	private String email;
-
 	private static final long serialVersionUID = 1L;
-	public MemberVO(String name, int phone, String password, String email) {
+	
+	
+	
+	
+	
+	public MemberVO(String name, String phone, String password, String email) {
 		this.name = name;
 		this.phone = phone;
 		this.password = password;
 		this.email = email;
 	}
 	
+	
 	public MemberVO() {
-		// TODO Auto-generated constructor stub
+		
 	}
+
+	
+	
+	
 
 	public String getName() {
 		return name;
 	}
-	public int getPhone() {
+	public String getPhone() {
 		return phone;
 	}
 	public String getPassword() {
@@ -36,7 +47,7 @@ public class MemberVO implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public void setPhone(int phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 	public void setPassword(String password) {
@@ -81,6 +92,10 @@ public class MemberVO implements Serializable{
 	}
 	
 	
+	// 유저들의 친구 불러오기
+	
+	
+	
 	// Update
 	
 	
@@ -94,8 +109,10 @@ public class MemberVO implements Serializable{
 	}
 	
 	
+	
 	@Override
 	public String toString() {
-		return "JoinUsVO [name=" + name + ", phone=" + phone + ", password=" + password + ", email=" + email + "]";
+		return name+"|"+phone+"|"+password+"|"+email+"|";
+
 	}
 }

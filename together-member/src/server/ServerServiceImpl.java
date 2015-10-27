@@ -45,17 +45,37 @@ public class ServerServiceImpl implements Runnable {
 				switch (token.nextToken()) {
 				case Command.REQUEST_LOGIN:
 					//System.out.println("로그인 요청이 들어왔습니다.");
-					String email = token.nextToken();
+					String phone = token.nextToken();
 					String password = token.nextToken();
-					MemberVO temp = dao.confirmLogin(email, password);
-					temp.toString();
+					MemberVO temp = dao.confirmLogin(phone, password);
+					respondLogin(temp.toString());
 					break;
-
+				case Command.SEND_MESSAGE:
+					String msg = token.nextToken();
+					
 				default:
 					break;
 				}
 				Thread.sleep(200);
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public String respondLogin(String str) {
+		if (str != null) {
+			buffer.setLength(0);
+			buffer.append(Command.ALLOW_LOGIN + "|" + str); // 로그인 허가
+			send(buffer.toString());
+		} else {
+			send(Command.DENY_LOGIN); // 로그인 거부 전송
+		}
+		return null;
+	}
+	public void send(String sendData) {
+		try {
+			out.writeUTF(sendData);
+			out.flush();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

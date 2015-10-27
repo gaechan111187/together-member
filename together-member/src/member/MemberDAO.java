@@ -13,17 +13,17 @@ import global.Vendor;
 
 
 public class MemberDAO {
-	private Connection con; // Connection DB와 연결
-	private Statement stmt; // Statement 무언가를 서술, getter의 느낌
-	private PreparedStatement pstmt;   //setter의 느낌
-	private ResultSet rs; // ResultSet return 받아서 DB로 던짐
+
+	private Connection con;
+	private Statement stmt;
+	private ResultSet rs;
 	MemberVO joinUsVO = new MemberVO();
+	private PreparedStatement pstmt;
 	public MemberDAO() {
-		con = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ORACLE_ID, Constants.ORACLE_PASSWORD).getConnection();
+		con = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ORACLE_ID, Constants.ORACLE_PASSWORD)
+				.getConnection();
 	}
 
-	
-	
 	
 	// 회원가입
 	public int insert(MemberVO joinUsVO){
@@ -31,7 +31,7 @@ public class MemberDAO {
 		try {
 			pstmt = con.prepareStatement(joinUsVO.joinUs());
 			pstmt.setString(1, joinUsVO.getName());
-			pstmt.setInt(2, joinUsVO.getPhone());
+			pstmt.setString(2, joinUsVO.getPhone());
 			pstmt.setString(3, joinUsVO.getPassword());
 			pstmt.setString(4, joinUsVO.getEmail());
 			result = pstmt.executeUpdate();
@@ -77,7 +77,7 @@ public class MemberDAO {
 				}
 				if (rs.getString("password").equals(password)) {
 					temp.setName(rs.getString("name"));
-					temp.setPhone(rs.getInt("phone"));
+					temp.setPhone(rs.getString("phone"));
 					temp.setPassword(rs.getString("password"));
 					temp.setEmail(email);
 					result = temp;
@@ -121,7 +121,7 @@ public class MemberDAO {
 			while (rs.next()) {
 				temp.setName(rs.getString("name"));
 				temp.setEmail(rs.getString("email"));
-				temp.setPhone(rs.getInt("phone"));
+				temp.setPhone(rs.getString("phone"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
