@@ -7,27 +7,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import global.Constants;
+import global.DatabaseFactory;
+import global.Vendor;
+
 
 public class MemberDAO {
-	public static final String ORACLE_DRIVER = "oracle.jdbc.driver.OracleDriver";
-	public static final String ORACLE_URL = "jdbc:oracle:thin:@localhost:1521:xe";
+
 	private Connection con;
 	private Statement stmt;
 	private ResultSet rs;
 	MemberVO joinUsVO = new MemberVO();
 	private PreparedStatement pstmt;
-	
-	
-	//커넥션 함수
-	
-	public Connection getConnection() {
-		try {
-			Class.forName(ORACLE_DRIVER);
-			con = DriverManager.getConnection(ORACLE_URL,"tog","tog"); // "tog"는 로그인 id, pass
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return con;
+	public MemberDAO() {
+		con = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ORACLE_ID, Constants.ORACLE_PASSWORD)
+				.getConnection();
 	}
 	
 	
