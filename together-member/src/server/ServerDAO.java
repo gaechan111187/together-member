@@ -60,7 +60,7 @@ public class ServerDAO {
 			}
 			rs = con.createStatement().executeQuery("select * from member where phone = " + makeQuery(phone)
 					+ " and password = " + makeQuery(password));
-			if (rs.next()) { // 첫번째는 내정보
+			if (rs.next()) { // 마지막은 내정보
 				temp = new MemberVO();
 				temp.setEmail(rs.getString("email"));
 				temp.setName(rs.getString("name"));

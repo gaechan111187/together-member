@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 
@@ -22,6 +23,8 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
 
+import chat.ChatServiceImpl;
+import chat.ChatUI;
 import client.ClientServiceImpl;
 import member.MemberVO;
 
@@ -275,7 +278,7 @@ public class MainUI extends JFrame implements ActionListener {
 			System.exit(0);
 			break;
 		case "채팅하기":
-
+				new ChatUI();
 			break;
 		case "종료":
 			System.exit(0);

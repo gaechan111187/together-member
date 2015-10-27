@@ -50,7 +50,6 @@ public class MemberUI extends JFrame implements ActionListener{
 		switch (e.getActionCommand()) {
 		case "로그인":
 			client.requestLogin(fieldPhone.getText(), fieldPass.getText());
-			this.dispose();
 			break;
 		case "회원가입":
 			new JoinUsUI(client);

@@ -61,7 +61,7 @@ public class ClientServiceImpl implements Runnable {
 
 	@Override
 	public void run() {
-		new MemberUI(this); // 최초에 로그인 UI를 부름
+		MemberUI ui =new MemberUI(this); // 최초에 로그인 UI를 부름
 		Thread currThread = Thread.currentThread();
 		while (currThread == thisThread) { // 현재 스레드가 나와 일치하면
 			try {
@@ -72,7 +72,6 @@ public class ClientServiceImpl implements Runnable {
 					break;
 				case Command.ALLOW_LOGIN: // 로그인 허가
 					String content = token.nextToken();
-					
 					content = content.replace("[", "");
 					content = content.replace("]", "");
 					System.out.println("콘텐트 " + content);
@@ -85,6 +84,7 @@ public class ClientServiceImpl implements Runnable {
 						temp.setPassword(contentToken.nextToken().trim());
 						temp.setEmail(contentToken.nextToken().trim());
 						vec.add(temp); // 벡터에 추가함
+						ui.dispose();
 					}
 					// 인석이형 UI실행
 					new MainUI(this);
