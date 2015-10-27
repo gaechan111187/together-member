@@ -112,7 +112,7 @@ public class MemberVO implements Serializable{
 	
 	@Override
 	public String toString() {
-		return name+"|"+phone+"|"+password+"|"+email+"|";
+		return name+"`"+phone+"`"+password+"`"+email;
 
 	}
 }
