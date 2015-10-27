@@ -65,7 +65,7 @@ public class MainUI extends JFrame implements ActionListener{
 		//scrollbar.setSize(15,100);
 		//scrollbar.setLocation(30, 30);
 		//friendsPanel.add(scrollbar);
-		
+    	
 		
 	//	friendsPanel.setAutoscrolls(true);						// 자동스크롤생성
 		f1Panel = new JPanel(new GridLayout(1, 3));
@@ -83,7 +83,7 @@ public class MainUI extends JFrame implements ActionListener{
 		f5Panel = new JPanel(new GridLayout(1, 3));
 		f5Panel.setPreferredSize(new Dimension(340,50));
 		f5Panel.setBorder(LineBorder.createBlackLineBorder());
-		
+
 		southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		southPanel.setBorder(LineBorder.createBlackLineBorder());
 		//southPanel.setSize(MAXIMIZED_HORIZ, 50);
@@ -181,7 +181,7 @@ public class MainUI extends JFrame implements ActionListener{
 				
 		}
 		
-		
+
 		
 		/*
 		this.add(mainPanel);
@@ -194,14 +194,14 @@ public class MainUI extends JFrame implements ActionListener{
 //		scrollPane.setPreferredSize(getPreferredSize());
 //		this.add(scrollPane);
 
-	
+
 		this.add(menuPanel,"North");
 		this.add(friendsPanel,"Center");
 		this.add(southPanel,"South");
 		this.setBounds(1250, 0, 350, 700); // 300,400은 좌표값, 1200,300길이
-		   // this.setResizable(false);
-			this.setVisible(true);
-			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+       // this.setResizable(false);
+		this.setVisible(true);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
 
