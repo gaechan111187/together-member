@@ -18,23 +18,21 @@ import javax.swing.JTextField;
 public class MemberUI extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	public MemberUI() {
-		
 		super("로그인");
 		
-		setLayout(new GridLayout(0, 1));
 		JPanel buttonPanel = new JPanel();
 		JTextField field = new JTextField(10);
+		buttonPanel.setLayout(new GridLayout(3, 1));
 		JButton b1 = new JButton("로그인");
 		JButton b2 = new JButton("회원가입");
-		buttonPanel.add(new JLabel("핸드폰 번호:     "));
+		buttonPanel.add(new JLabel("    핸드폰 번호:"));
 		buttonPanel.add(field);
 		JTextField field1 = new JTextField(10);
-		buttonPanel.add(new JLabel("패스워드:      "));
+		buttonPanel.add(new JLabel("    패스워드: "));
 		buttonPanel.add(field1);
 		
 		buttonPanel.add(b1);
 		buttonPanel.add(b2);
-		
 		add(buttonPanel);
 		pack();
 		setLocation(300,200);
