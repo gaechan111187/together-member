@@ -157,6 +157,7 @@ import javax.swing.JTextField;
 			jp12 = new JPanel();
 			jp13 = new JPanel();
 			lblServerIp = new JLabel("서버IP");
+			
 			lblServerSelect = new JLabel("서버주소선택");
 			txtName = new JTextField(50);
 			txtChange = new JTextField(10);
