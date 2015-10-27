@@ -43,6 +43,7 @@ public class MemberUI extends JFrame implements ActionListener{
 		pack();
 		setLocation(700,350);
 		setVisible(true);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
 	

@@ -47,6 +47,7 @@ public class JoinUsUI extends JFrame implements ActionListener {
 		setLocation(700,350);
 		this.setResizable(false);
 		setVisible(true);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
 	
