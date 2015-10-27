@@ -24,5 +24,23 @@ public class ClientDAO {
 		con = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ORACLE_ID, Constants.ORACLE_PASSWORD).getConnection();
 	}
 
+
+	public void requestQuitRoom() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public void requestSendWordTo(String data, String idTo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public void requestSendWord(String words) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 }
