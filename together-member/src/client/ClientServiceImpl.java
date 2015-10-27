@@ -122,6 +122,14 @@ public class ClientServiceImpl implements Runnable {
 		System.out.println(temp);
 		send(temp);
 	}
+	//이름 번호 비번 이메일
+	public void requestSignUp(String name, String phone, String password, String email) {
+		buffer.setLength(0);
+		buffer.append(Command.SIGN_UP + "|" + name + "|" + phone + "|" + password + "|" + email );
+		String temp = buffer.toString();
+		System.out.println(temp);
+		send(temp);
+	}
 
 	private void send(String sendData) {
 		try {

@@ -44,7 +44,7 @@ public class ServerServiceImpl implements Runnable {
 				StringTokenizer token = new StringTokenizer(command, Command.COMMAND_DELIMITER);
 				switch (token.nextToken()) {
 				case Command.REQUEST_LOGIN:
-					//System.out.println("로그인 요청이 들어왔습니다.");
+					System.out.println("로그인 요청이 들어왔습니다.");
 					String phone = token.nextToken();
 					String password = token.nextToken();
 					MemberVO temp = dao.confirmLogin(phone, password);
