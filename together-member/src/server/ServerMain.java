@@ -5,11 +5,12 @@ import java.net.Socket;
 
 import javax.swing.JOptionPane;
 
+import global.Command;
+
 public class ServerMain {
-	private static final int PORT = 2222;
 	public static void main(String[] args) {
 		try {
-			ServerSocket serverSocket = new ServerSocket(PORT);
+			ServerSocket serverSocket = new ServerSocket(Command.PORT);
 			System.out.println("서버 소켓을 생성했습니다.");
 			while (true) {
 				Socket clientSocket = serverSocket.accept(); // 클라이언트의 접속을 대기

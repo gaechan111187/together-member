@@ -8,10 +8,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import global.Command;
 import global.Constants;
 import global.DAO;
 import global.DatabaseFactory;
 import global.Vendor;
+import member.MemberVO;
 
 public class ServerDAO {
 	private Connection con; // Connection DB와 연결
@@ -25,6 +27,22 @@ public class ServerDAO {
 	public ServerDAO() {
 		con = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ORACLE_ID, Constants.ORACLE_PASSWORD).getConnection();
 	}
-
 	
+	public MemberVO confirmLogin(String email, String password) {
+		MemberVO temp = null;
+		try {
+			rs = con.createStatement().executeQuery("select * from member where email = " + email + " and password = " + password);
+			if (rs.next()) {
+				temp = new MemberVO();
+				temp.setEmail(rs.getString("email"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return temp;
+	}
+	
+	public String makeQuery(String str) {
+		return "'" + str + "'";
+	}
 }

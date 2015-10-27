@@ -6,20 +6,20 @@ create table Member(
 	email varchar2(50),
 	temp01 varchar2(30),
 	temp02 varchar2(30),
-	temp03 varchar2(30)
-	constraint member_pk primary key(phone);
+	temp03 varchar2(30),
+	constraint member_pk primary key(phone)
 ); 
 
 --Friend table 생성  
 
 create table Friend(
-	f_seq number;
-	uphone number;
-	fphone number;
+	f_seq number,
+	uphone number,
+	fphone number,
 	constraint friend_pk primary key (f_seq),
 	constraint score_member_fk foreign key (uphone) 
 		references Member(phone)
-)
+);
 
 --Member table 내에 column별 테스트용 parameter 입력
 insert into member values(

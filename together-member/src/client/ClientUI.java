@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class ClientUI extends JFrame implements ActionListener{
@@ -46,6 +47,9 @@ public class ClientUI extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
 		case "로그인":
+			String email = JOptionPane.showInputDialog("아이디");
+			String password = JOptionPane.showInputDialog("비밀번호");
+			user.requestLogin(email, password); // 로그인 요청
 			break;
 		case "친구추가":
 			break;
