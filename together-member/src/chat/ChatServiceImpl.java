@@ -60,6 +60,7 @@ import javax.swing.JTextField;
 		String time;
 		int hh,mm,ss,count,ran; // 시, 분, 초, 접속자수
 		OutputStream out;
+		
 		BufferedReader in;
 		// 서버는 소켓과 연관관계를 맺지 않지만
 		// 클라이언트는 반드시소켓과 한몸이어야 한다.(연관관계가 필요 클라이언트가 죽으면, 소켓도 죽음)
