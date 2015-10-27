@@ -8,7 +8,7 @@ create table Member(
 	temp02 varchar2(30),
 	temp03 varchar2(30),
 	constraint member_pk primary key(phone)
-); 
+);
 
 --Friend table 생성  
 
