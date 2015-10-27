@@ -10,7 +10,6 @@ public class MemberVO implements Serializable{
 	private String phone;
 	private String password;
 	private String email;
-	private List<String> friends; 
 	private static final long serialVersionUID = 1L;
 	
 	
@@ -22,7 +21,6 @@ public class MemberVO implements Serializable{
 		this.phone = phone;
 		this.password = password;
 		this.email = email;
-		friends = new Vector<String>();
 	}
 	
 	
@@ -33,13 +31,6 @@ public class MemberVO implements Serializable{
 	
 	
 	
-	public List<String> getFriends() {
-		return friends;
-	}
-
-	public void setFriends(String str) {
-		friends.add(str);
-	}
 
 	public String getName() {
 		return name;
@@ -121,7 +112,7 @@ public class MemberVO implements Serializable{
 	
 	@Override
 	public String toString() {
-		return name+"|"+phone+"|"+password+"|"+email+"|"+friends;
+		return name+"|"+phone+"|"+password+"|"+email+"|";
 
 	}
 }
