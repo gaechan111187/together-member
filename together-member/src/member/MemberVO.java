@@ -96,6 +96,6 @@ public class MemberVO implements Serializable{
 	
 	@Override
 	public String toString() {
-		return "JoinUsVO [name=" + name + ", phone=" + phone + ", password=" + password + ", email=" + email + "]";
+		return " [name=" + name + ", phone=" + phone + ", password=" + password + ", email=" + email + "]";
 	}
 }

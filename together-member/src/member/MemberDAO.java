@@ -13,13 +13,15 @@ import global.Vendor;
 
 
 public class MemberDAO {
-	private Connection con; // Connection DB와 연결
-	private Statement stmt; // Statement 무언가를 서술, getter의 느낌
-	private PreparedStatement pstmt;   //setter의 느낌
-	private ResultSet rs; // ResultSet return 받아서 DB로 던짐
+
+	private Connection con;
+	private Statement stmt;
+	private ResultSet rs;
 	MemberVO joinUsVO = new MemberVO();
+	private PreparedStatement pstmt;
 	public MemberDAO() {
-		con = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ORACLE_ID, Constants.ORACLE_PASSWORD).getConnection();
+		con = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ORACLE_ID, Constants.ORACLE_PASSWORD)
+				.getConnection();
 	}
 
 	

@@ -10,4 +10,5 @@ public class Command {
 	public static final String SIGN_UP = "signup";
 	public static final String EXIT = "exit";
 	public static final String ADD_FRIENDS = "add";
+	
 }
