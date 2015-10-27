@@ -17,25 +17,31 @@ import javax.swing.JTextField;
 
 public class MemberUI extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1L;
+	private JTextField fieldPhone, fieldPass;
+	private JButton b1, b2;
+	private JPanel panel;
 	public MemberUI() {
 		super("로그인");
 		
-		JPanel buttonPanel = new JPanel();
-		JTextField field = new JTextField(10);
-		buttonPanel.setLayout(new GridLayout(3, 1));
-		JButton b1 = new JButton("로그인");
-		JButton b2 = new JButton("회원가입");
-		buttonPanel.add(new JLabel("    핸드폰 번호:"));
-		buttonPanel.add(field);
-		JTextField field1 = new JTextField(10);
-		buttonPanel.add(new JLabel("    패스워드: "));
-		buttonPanel.add(field1);
+		panel = new JPanel();
+		panel.setLayout(new GridLayout(3, 1));
+		b1 = new JButton("로그인");
+		b2 = new JButton("회원가입");
 		
-		buttonPanel.add(b1);
-		buttonPanel.add(b2);
-		add(buttonPanel);
+		panel.add(new JLabel("    핸드폰 번호:")); //판넬에다 "핸드폰 번호" 라벨 in 
+		fieldPhone = new JTextField(10);
+		panel.add(fieldPhone);
+		
+		panel.add(new JLabel("    패스워드: ")); //판넬에다 "패스워드" 라벨 in
+		fieldPass = new JTextField(10);
+		panel.add(fieldPass);
+		
+		panel.add(b1); //판넬에다 버튼1 붙임.
+		panel.add(b2); //판넬에다 버튼2 붙임.
+		add(panel); //프레임에다 판넬 붙임.
+		b2.addActionListener(this);
 		pack();
-		setLocation(300,200);
+		setLocation(700,350);
 		setVisible(true);
 	}
 
@@ -46,7 +52,15 @@ public class MemberUI extends JFrame implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+		switch (e.getActionCommand()) {
+		case "회원가입":
+			this.dispose();
+			JoinUsUI ui = new JoinUsUI();
+			break;
+
+		default:
+			break;
+		}
 	}
 	
 }
