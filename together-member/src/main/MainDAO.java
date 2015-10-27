@@ -22,6 +22,7 @@ public class MainDAO {
 	private MainVO member = new MainVO();
 	
 	
+	
 	public MainDAO() {
 		con = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ORACLE_ID, Constants.ORACLE_PASSWORD).getConnection();
 	}

@@ -34,6 +34,7 @@ public class JoinUsUI extends JFrame implements ActionListener {
 		fieldPhone = new JTextField(10);
 		jPanel.add(fieldPhone);
 		
+		
 		jPanel.add(new JLabel("   비밀번호    "));
 		fieldPass = new JTextField(10);
 		jPanel.add(fieldPass);

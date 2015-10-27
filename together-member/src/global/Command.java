@@ -17,3 +17,4 @@ public class Command {
 	public static final String ALLOW_SIGN_UP = "allowsignup";
 	public static final String DENY_SIGN_UP = "denysignup";
 }
+

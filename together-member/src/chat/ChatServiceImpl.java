@@ -78,6 +78,7 @@ import javax.swing.JTextField;
 			this.setBounds(50, 100, 420, 540); // x, y, 가로, 세로
 			this.setVisible(true);
 		}
+		
 
 		private void assembly() {
 			jp1.add(txtName);

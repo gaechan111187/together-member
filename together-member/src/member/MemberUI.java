@@ -34,6 +34,7 @@ public class MemberUI extends JFrame implements ActionListener{
 		fieldPass = new JTextField(10);
 		panel.add(fieldPass);
 		
+		
 		panel.add(b1); //판넬에다 버튼1 붙임.
 		panel.add(b2); //판넬에다 버튼2 붙임.
 		add(panel); //프레임에다 판넬 붙임.

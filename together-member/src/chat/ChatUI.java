@@ -19,6 +19,7 @@ public class ChatUI extends JFrame implements ActionListener, KeyListener{
 	private JTextArea area;
 	private JTextField field;
 
+	
 	public ChatUI() {
 		super("테스트용 채팅");
 		// 부품준비

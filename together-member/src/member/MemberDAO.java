@@ -25,6 +25,7 @@ public class MemberDAO {
 	}
 
 	
+	
 	// 회원가입
 	public int insert(MemberVO joinUsVO){
 		int result = 0;

@@ -142,6 +142,7 @@ public class ClientServiceImpl implements Runnable {
 		send(temp);
 	}
 
+	
 	private void send(String sendData) {
 		try {
 			out.writeUTF(sendData);

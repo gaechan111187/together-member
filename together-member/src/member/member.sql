@@ -10,6 +10,7 @@ create table Member(
 	constraint member_pk primary key(phone)
 );
 
+
 --Friend table 생성  
 create sequence f_seq;
 create table Friend(

@@ -49,6 +49,7 @@ public class MainUI extends JFrame implements ActionListener {
 	// ImageIcon icon;
 	// List<JButton> btns;
 
+	
 	public MainUI(ClientServiceImpl client) {
 		vec = new Vector<MemberVO>();
 		this.client = client;

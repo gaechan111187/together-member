@@ -23,6 +23,7 @@ public class ClientUI extends JFrame implements ActionListener{
 		assembly();
 	}
 
+	
 	private void init() {
 		jpMain = new JPanel();
 		jbLogin = new JButton("로그인");
