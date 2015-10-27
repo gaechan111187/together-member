@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -16,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
 
 public class MainUI extends JFrame implements ActionListener{
@@ -23,7 +25,7 @@ public class MainUI extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1L;
 
 	public static void main(String[] args) {
-		MainUI mt = new MainUI();
+		MainUI mt = new MainUI();  
 	}
 	
 	JButton btnAddFriend, btnSetUp, btnSearch, btnChat, btnExit;
@@ -40,7 +42,9 @@ public class MainUI extends JFrame implements ActionListener{
 	//List<JButton> btns;
 	
 	public MainUI() {
+		
 		init();
+		 
 	}
 	
 	private void init() {
@@ -161,7 +165,8 @@ public class MainUI extends JFrame implements ActionListener{
 		southPanel.add(btnChat);
 		southPanel.add(btnExit);
 		
-		for (int i = 0; i < 4; i++) {								// 친구정보받아와서 실행
+		
+		for (int i = 0; i < 100; i++) {								// 친구정보받아와서 실행
 				JPanel fPanel = new JPanel(new GridLayout(1, 3));
 				fPanel.setPreferredSize(new Dimension(340,50));
 				fPanel.setBorder(LineBorder.createBlackLineBorder());
@@ -172,7 +177,8 @@ public class MainUI extends JFrame implements ActionListener{
 				fPanel.add(femail);
 				fPanel.add(ckFriend);
 				friendsPanel.add(fPanel);
-					
+				
+				
 		}
 		
 		
@@ -183,19 +189,20 @@ public class MainUI extends JFrame implements ActionListener{
 		mainPanel.add(friendsPanel);
 		mainPanel.add(southPanel);
 		*/
-/*
-		JScrollPane scrollPane = new JScrollPane(friendsPanel,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setPreferredSize(getPreferredSize());
-		this.add(scrollPane);
-*/
-		
+
+//		JScrollPane scrollPane = new JScrollPane(friendsPanel,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+//		scrollPane.setPreferredSize(getPreferredSize());
+//		this.add(scrollPane);
+
+	
 		this.add(menuPanel,"North");
 		this.add(friendsPanel,"Center");
 		this.add(southPanel,"South");
-		
 		this.setBounds(1250, 0, 350, 700); // 300,400은 좌표값, 1200,300길이
-		this.setResizable(false);
-		this.setVisible(true);
+		   // this.setResizable(false);
+			this.setVisible(true);
+			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 	}
 
 	@Override
