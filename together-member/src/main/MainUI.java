@@ -115,7 +115,7 @@ public class MainUI extends JFrame implements ActionListener{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-			//	AddFriend addFriend = new AddFriend();
+				AddFriend addFriend = new AddFriend();
 				
 			}
 		});
@@ -299,18 +299,17 @@ public class MainUI extends JFrame implements ActionListener{
 			break;
 		}
 	}
-}/*
-class AddFriend extends JFrame{
+}
+
+class AddFriend extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	
 	JButton btnAddFriend, btnSearch, btnExit;
 	JPanel menuPanel, uMenuPanel, dMenuPanel;	// 메뉴, 위, 아래
-	JPanel friendsPanel;	// 친구목록, 친구
+	JPanel friendsPanel;	
 	JPanel southPanel;
 	JTextField tfSearch;
-	JCheckBox ckFriend1, ckFriend2, ckFriend3, ckFriend4, ckFriend5;
-	JLabel fname1, fname2, fname3, fname4, fname5;
-	JLabel femail1, femail2, femail3, femail4, femail5;
+	JLabel lbphone;
 	
 	MainService service = MainServiceImpl.getService();
 	
@@ -318,129 +317,96 @@ class AddFriend extends JFrame{
 		init();
 	}
 	public void init(){
-		this.setTitle("Together");
+		this.setTitle("친구추가");
 		
-		menuPanel = new JPanel(new GridLayout(2, 1));
+		menuPanel = new JPanel();
 		menuPanel.setBorder(LineBorder.createBlackLineBorder());
-		uMenuPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		uMenuPanel.setBorder(LineBorder.createBlackLineBorder());
-		dMenuPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		dMenuPanel.setBorder(LineBorder.createBlackLineBorder());
-		
-		
-		friendsPanel = new JPanel(new GridLayout(10, 1));		// 친구수에 따라 행 바뀌어야 함
+				
+		friendsPanel = new JPanel(new GridLayout(5, 1));		// 친구수에 따라 행 바뀌어야 함
 		friendsPanel.setBorder(LineBorder.createBlackLineBorder());
 		JScrollPane scrollPane = new JScrollPane(friendsPanel,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		this.add(scrollPane,BorderLayout.EAST);
 	
 		southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		southPanel.setBorder(LineBorder.createBlackLineBorder());
-		//southPanel.setSize(MAXIMIZED_HORIZ, 50);
 		
-		ImageIcon addFriendIcon = new ImageIcon("src/images/addFriend.jpeg");
-		ImageIcon setupIcon = new ImageIcon("src/images/setup.jpeg");
 		ImageIcon searchIcon = new ImageIcon("src/images/search.jpeg");
 		
-		btnAddFriend = new JButton(addFriendIcon);
-		btnAddFriend.setName("addFrined");
-		btnAddFriend.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				AddFriend addFriend = new AddFriend();
-				
-			}
-		});
-		btnSetUp = new JButton(setupIcon);
-		btnSetUp.setName("setup");
-		btnSetUp.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
+		
 		btnSearch = new JButton(searchIcon);
 		btnSearch.setName("search");
 		btnSearch.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				friendsPanel.removeAll();
-				for (MainVO mem : list) {
-						if (mem.getName().equals(tfSearch.getText())) {
-							JPanel fPanel = new JPanel(new GridLayout(1, 3));
-							fPanel.setPreferredSize(new Dimension(MAXIMIZED_HORIZ,50));
-							fPanel.setBorder(LineBorder.createBlackLineBorder());
-							JLabel fname = new JLabel(mem.getName());
-							JLabel femail = new JLabel(mem.getEmail());
-							JCheckBox ckFriend = new JCheckBox(fname.getName());
-							fPanel.add(fname);
-							fPanel.add(femail);
-							fPanel.add(ckFriend);
-							friendsPanel.add(fPanel);
-						}
-				}
-				//getRootPane().add(friendsPanel, "Center");
-				//friendsPanel.setVisible(true);	
-				friendsPanel.repaint();
-				init();
-			}
-		});
-		btnChat = new JButton("채팅하기");
-		btnExit = new JButton("종료");
-		
-		tfSearch = new JTextField( 20);
-	
-		// 조립단계 => 작은것부터 큰것 순으로
-		
-		btnAddFriend.addActionListener(this);
-		btnSetUp.addActionListener(this);
-		btnSearch.addActionListener(this);
-		btnChat.addActionListener(this);
-		btnExit.addActionListener(this);
-		
-		uMenuPanel.add(btnAddFriend);
-		uMenuPanel.add(btnSetUp);
-		
-		dMenuPanel.add(tfSearch);
-		dMenuPanel.add(btnSearch);
-		
-		menuPanel.add(uMenuPanel);
-		menuPanel.add(dMenuPanel);
-
-		southPanel.add(btnChat);
-		southPanel.add(btnExit);
-		
-		if (list.isEmpty()==false) {
-			for (MainVO mem : list) {
+				MainVO temp = service.searchFriend(Integer.parseInt(tfSearch.getText()));
 				JPanel fPanel = new JPanel(new GridLayout(1, 3));
 				fPanel.setPreferredSize(new Dimension(MAXIMIZED_HORIZ,50));
 				fPanel.setBorder(LineBorder.createBlackLineBorder());
-				JLabel fname = new JLabel(mem.getName());
-				JLabel femail = new JLabel(mem.getEmail());
-				JCheckBox ckFriend = new JCheckBox(fname.getName());
+				JLabel fname = new JLabel(temp.getName());
 				fPanel.add(fname);
-				fPanel.add(femail);
-				fPanel.add(ckFriend);
+				JButton btnAddFriend = new JButton("추가");
+				fPanel.add(btnAddFriend, 2);
 				friendsPanel.add(fPanel);
+				friendsPanel.repaint();
 			}
-		} else {
-			JPanel fPanel = new JPanel();
-			JLabel no = new JLabel("친구를 등록해주세요.");
-			fPanel.add(no);
-			friendsPanel.add(fPanel);
-		}
+		});
+		btnAddFriend = new JButton("추가");
+		btnExit = new JButton("나가기");
+		
+		tfSearch = new JTextField(20);
+	
+		lbphone = new JLabel("Phone");
+		
+		// 조립단계 => 작은것부터 큰것 순으로
+		
+		btnAddFriend.addActionListener(this);
+		btnSearch.addActionListener(this);
+		btnExit.addActionListener(this);
+		
+		menuPanel.add(lbphone);
+		menuPanel.add(tfSearch);
+		menuPanel.add(btnSearch);
+		
+		menuPanel.add(btnAddFriend);
+		
+		southPanel.add(btnExit);
 		
 		this.add(menuPanel,"North");
 		this.add(friendsPanel,"Center");
 		this.add(southPanel,"South");
 		
-		this.setBounds(1250, 0, 350, 700); // 300,400은 좌표값, 1200,300길이
+		this.setBounds(1250, 0, 350, 400); // 300,400은 좌표값, 1200,300길이
 		this.setResizable(false);
 		this.setVisible(true);
 	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		String command = e.getActionCommand();
+		switch (command) {
+		case "search":
+			MainVO temp = service.searchFriend(Integer.parseInt(tfSearch.getText()));
+			JPanel fPanel = new JPanel(new GridLayout(1, 3));
+			fPanel.setPreferredSize(new Dimension(MAXIMIZED_HORIZ,50));
+			fPanel.setBorder(LineBorder.createBlackLineBorder());
+			JLabel fname = new JLabel(temp.getName());
+			fPanel.add(fname);
+			JButton btnAddFriend = new JButton("추가");
+			fPanel.add(btnAddFriend, 2);
+			friendsPanel.add(fPanel);
+			friendsPanel.repaint();
+			break;
+		case "추가":
+				
+			break;
+		case "나가기":
+			setDefaultCloseOperation(EXIT_ON_CLOSE);
+			break;
+		default:
+			break;
+		}
+	}
 }
-
+/*
 class Test extends JFrame{
 	   public Test(){ 
 	      setBounds(0,800,300,200); 
