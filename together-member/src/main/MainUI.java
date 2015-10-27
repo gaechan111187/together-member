@@ -227,7 +227,7 @@ public class MainUI extends JFrame implements ActionListener{
 		southPanel.add(btnExit);
 		
 		
-		for (int i = 0; i < 100; i++) {								// 친구정보받아와서 실행
+		for (int i = 0; i < 5; i++) {								// 친구정보받아와서 실행
 	//	List<MainVO> list = service.getFriends();
 		if (list.isEmpty()==false) {
 			for (MainVO mem : list) {
