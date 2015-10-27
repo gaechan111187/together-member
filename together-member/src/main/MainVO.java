@@ -56,7 +56,11 @@ public class MainVO{
 		return query;
 	}
 	
-//	public String addMyFriend
+	public String searchMyFriend(int searchPhone){					// 매개변수 전화번호
+		String query = "select name "
+				+ "from member where phone = "+searchPhone;		
+		return query;
+	}
 	
 	
 	

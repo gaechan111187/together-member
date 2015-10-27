@@ -9,4 +9,5 @@ import java.util.List;
  */
 public interface MainService {
 	public List<MainVO> getFriends();
+	public MainVO searchFriend(int searchPhone);
 }

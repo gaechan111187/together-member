@@ -43,7 +43,17 @@ public class MainDAO {
 		return list;
 	}
 	
-	
+	// 친구찾기
+		public MainVO searchMyFriend(int searchPhone) {
+			MainVO temp = new MainVO();
+			try {
+				rs = con.createStatement().executeQuery(member.searchMyFriend(searchPhone));
+				temp.setName(rs.getString("name"));
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return temp;
+		}
 	
 	
 	
