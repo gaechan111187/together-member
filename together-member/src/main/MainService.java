@@ -1,6 +1,8 @@
 package main;
 
 import java.util.List;
+
+import member.MemberVO;
 /**
  * @file_name : MemberService.java 
  * @author    : chanhok61@daum.net
@@ -9,6 +11,9 @@ import java.util.List;
  */
 public interface MainService {
 	public List<MainVO> getFriends();
-	public MainVO searchFriend(int searchPhone);
+	public MainVO searchFriend(String searchPhone);
+	public String addFriend(MemberVO userVO, MainVO friendVO);
+	
+	public String getSource(String resources);		// check박스 검사
 }
 
