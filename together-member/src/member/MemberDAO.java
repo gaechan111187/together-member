@@ -13,6 +13,7 @@ import global.Vendor;
 
 
 public class MemberDAO {
+	
 
 	private Connection con;
 	private Statement stmt;

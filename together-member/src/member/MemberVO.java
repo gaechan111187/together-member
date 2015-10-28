@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Vector;
 
 public class MemberVO implements Serializable{
-	
 	private String name;
 	private String phone;
 	private String password;

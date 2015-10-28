@@ -10,6 +10,7 @@ import java.sql.DriverManager;
  * @story     : 
  */
 public class DatabaseImpl implements Database {
+	
 	private String driver, url, userid, password;
 	private Connection connection;
 	

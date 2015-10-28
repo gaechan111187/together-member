@@ -3,6 +3,7 @@ package member;
 import java.util.List;
 
 public class MemberServiceImpl implements MemberService {
+	
 	MemberDAO dao = new MemberDAO();
 	
 	@Override

@@ -10,6 +10,7 @@ import member.MemberVO;
  * @story     :
  */
 public interface MainService {
+	
 	public List<MainVO> getFriends();
 	public MainVO searchFriend(String searchPhone);
 	public String addFriend(MemberVO userVO, MainVO friendVO);

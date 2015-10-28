@@ -10,4 +10,5 @@ public abstract class DAO {
 	public Object selectOneBy(String key){return null;}
 	public abstract int delete(String id);
 	public abstract int count();
+	
 }
