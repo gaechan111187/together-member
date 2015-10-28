@@ -58,20 +58,23 @@ public class MainVO{
 	}
 	
 	// 친구찾기
-	public String searchMyFriend(int searchPhone){					// 매개변수 전화번호
-		String query = "select name from member where phone = "+make(searchPhone);		
+	public String selectMyFriend(String searchPhone){					// 매개변수 전화번호
+		String query = "select name, phone, email from member where phone = "+make(searchPhone);		
 		return query;
 	}
-
 	
-	
-	
-	// 각회원에 대한 친구 생성.
-	public String addFriends(){
-		String query = "insert into friend (uphone, fphone) values (?,?)";
+	// 친구추가
+	public String insertFriend(){
+		String query = "insert into friend (f_seq, uphone, fphone) values (f_seq.nextval,?,?)";
 		return query;
 	}
 		
+	
+	
+	
+	
+	
+/*	
 	// read, 회원 전화번호로 검색
 	public String SearchByPhone(int phonenum){
 		String query = "select * from member where phone = "+this.make(phonenum);
@@ -84,10 +87,9 @@ public class MainVO{
 	}
 	
 	// Update
-	
-	
+		
 	// delete
-
+*/
 	public String make(Object any){
 		return "'"+any+"'";
 	}
