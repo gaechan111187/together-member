@@ -9,15 +9,14 @@ package client;
  */
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
+import chat.ChatUI;
 import global.Command;
 import main.MainUI;
 import member.MemberUI;
@@ -25,15 +24,16 @@ import member.MemberVO;
 
 public class ClientServiceImpl implements Runnable {
 	private String serverIP;
-	private ClientUI ui;
 	private Thread thisThread;
 	private Socket clientSocket;
 	private DataInputStream in;
 	private DataOutputStream out;
 	private StringBuffer buffer;
 	private String name;
-	private MemberVO mem;
 	private List<MemberVO> vec;
+	MemberUI memUI;
+	MainUI mainUI;
+	ChatUI chatUI;
 
 	public String getName() {
 		return name;
@@ -46,7 +46,6 @@ public class ClientServiceImpl implements Runnable {
 	public ClientServiceImpl() {
 		try {
 			vec = new Vector<MemberVO>();
-			mem = new MemberVO();
 			serverIP = JOptionPane.showInputDialog("서버IP 설정", "192.168.0.67");
 			clientSocket = new Socket(serverIP, Command.PORT);
 			in = new DataInputStream(clientSocket.getInputStream());
@@ -61,7 +60,7 @@ public class ClientServiceImpl implements Runnable {
 
 	@Override
 	public void run() {
-		MemberUI ui =new MemberUI(this); // 최초에 로그인 UI를 부름
+		memUI = new MemberUI(this); // 최초에 로그인 UI를 부름
 		Thread currThread = Thread.currentThread();
 		while (currThread == thisThread) { // 현재 스레드가 나와 일치하면
 			try {
@@ -76,27 +75,32 @@ public class ClientServiceImpl implements Runnable {
 					content = content.replace("]", "");
 					System.out.println("콘텐트 " + content);
 					StringTokenizer userToken = new StringTokenizer(content, Command.USER_DELIMETER);
-					for (int i = 0; i < userToken.countTokens(); i++) { // 토큰수만큼
+					int size = userToken.countTokens();
+					for (int i = 0; i < size; i++) { // 토큰수만큼
 						MemberVO temp = new MemberVO();
-						StringTokenizer contentToken = new StringTokenizer(userToken.nextToken(), Command.CONTENT_DELIMITER);
+						StringTokenizer contentToken = new StringTokenizer(userToken.nextToken(),
+								Command.CONTENT_DELIMITER);
 						temp.setName(contentToken.nextToken().trim());
 						temp.setPhone(contentToken.nextToken().trim());
 						temp.setPassword(contentToken.nextToken().trim());
 						temp.setEmail(contentToken.nextToken().trim());
 						vec.add(temp); // 벡터에 추가함
-						ui.dispose();
 					}
 					// 인석이형 UI실행
-					new MainUI(this);
+					memUI.dispose();
+					mainUI = new MainUI(this);
 					break;
 				case Command.DENY_LOGIN: // 로그인 거부
 					JOptionPane.showMessageDialog(null, "로그인이 실패하였습니다.");
 					break;
 				case Command.ADD_FRIENDS:
 					break;
-				case Command.CREATE_CHATROOM:
-					break;
 				case Command.RECEIVE_MESSAGE:
+					break;
+				case Command.DEFFUSION_CHATROOM: // 방을만들라는 명령이 오면
+					System.out.println("방만들라고 하십니다.");
+					int roomNum = Integer.parseInt(token.nextToken());
+					mainUI.setRooms(roomNum, new ChatUI(this,roomNum)); // 채팅창을 띄우고 수행함
 					break;
 				case Command.ALLOW_SIGN_UP:
 					JOptionPane.showMessageDialog(null, "회원가입을 성공했습니다.");
@@ -104,6 +108,10 @@ public class ClientServiceImpl implements Runnable {
 					break;
 				case Command.DENY_SIGN_UP:
 					JOptionPane.showMessageDialog(null, "회원가입을 실패했습니다.");
+					break;
+				case Command.DEFFUSION_MESSAGE: // 메시지를 받음 명령어|룸넘버|내용
+					System.out.println("여기까진들어옴");
+					mainUI.getRooms().get(Integer.parseInt(token.nextToken())).setArea(token.nextToken() + "\n");
 					break;
 				case Command.EXIT:
 					// 종료버튼 누를시 종료
@@ -118,9 +126,9 @@ public class ClientServiceImpl implements Runnable {
 		}
 	}
 
-	public void sendMessage(String msg) {
+	public void sendMessage(String msg, int roomNumber) {
 		buffer.setLength(0);
-		buffer.append(Command.SEND_MESSAGE + "|" + msg);
+		buffer.append(Command.SEND_MESSAGE + "|" + roomNumber + "|" + msg + "|" + mainUI.getFriends()); // 123은 유저아이디
 		send(buffer.toString());
 	}
 
@@ -142,7 +150,6 @@ public class ClientServiceImpl implements Runnable {
 		send(temp);
 	}
 
-	
 	private void send(String sendData) {
 		try {
 			out.writeUTF(sendData);
@@ -158,5 +165,12 @@ public class ClientServiceImpl implements Runnable {
 
 	public List<MemberVO> getVec() {
 		return vec;
+	}
+
+	public void creatChatRoom(String friends) {
+		// 서버로 채팅창 만들겠다고 전송함
+		buffer.setLength(0);
+		buffer.append(Command.CREATE_CHATROOM + "|" + friends); // 명령어와 친구목록을 전송해줌
+		send(buffer.toString());
 	}
 }

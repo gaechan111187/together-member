@@ -16,6 +16,7 @@ public class ServerMain {
 				Socket clientSocket = serverSocket.accept(); // 클라이언트의 접속을 대기
 				ServerServiceImpl service = new ServerServiceImpl(clientSocket); // 서버 서비스 생성
 				Thread server = new Thread(service);
+				service.setThisThread(server);
 				server.start();
 			}
 		} catch (Exception e) {

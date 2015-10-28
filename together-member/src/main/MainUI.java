@@ -35,14 +35,37 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 	JPanel friendsPanel; // 친구목록
 	JPanel southPanel;
 	JTextField tfSearch;
-
+	JCheckBox ckFriend1, ckFriend2, ckFriend3, ckFriend4, ckFriend5;
+	JLabel fname1, fname2, fname3, fname4, fname5;
+	JLabel femail1, femail2, femail3, femail4, femail5;
 	ClientServiceImpl client;
-	List<MemberVO> vec, chatList;
+	List<MemberVO> vec;
+	private StringBuffer friends;
+	public StringBuffer getFriends() {
+		return friends;
+	}
+
+	List<ChatUI> rooms;
+
+	public Vector<ChatUI> getRooms() {
+		return (Vector<ChatUI>) rooms;
+	}
+
+	public void setRooms(int index, ChatUI rooms) {
+		this.rooms.add(index, rooms); // 해당 인덱스에 채팅방을 생성함
+	}
+
+	List<MemberVO>  chatList;
 	int[] check;
 	MainService service = MainServiceImpl.getService();
 
+	// ImageIcon icon;
+	// List<JButton> btns;
+
 	public MainUI(ClientServiceImpl client) {
+		rooms = new Vector<ChatUI>();
 		vec = new Vector<MemberVO>();
+		friends = new StringBuffer();
 		this.client = client;
 		this.init();
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -158,6 +181,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		System.out.println("사이즈는 " + size);
 		if (size != 0) {
 			for (int i = 0; i < size; i++) { // 친구정보받아와서 실행
+//<<<<<<< HEAD
 				for (MemberVO mem : vec) {
 					JPanel fPanel = new JPanel(new GridLayout(1, 3));
 					fPanel.setPreferredSize(new Dimension(MAXIMIZED_HORIZ, 50));
@@ -171,7 +195,28 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 					fPanel.add(femail);
 					fPanel.add(ckFriend);
 					friendsPanel.add(fPanel);
+//=======
+//				MemberVO mem = vec.get(i);
+//				JPanel fPanel = new JPanel(new GridLayout(1, 3));
+//				fPanel.setPreferredSize(new Dimension(MAXIMIZED_HORIZ, 50));
+//				fPanel.setBorder(LineBorder.createBlackLineBorder());
+//				JLabel fname = new JLabel(mem.getName());
+//				JLabel femail = new JLabel(mem.getEmail());
+//				JCheckBox ckFriend = new JCheckBox(fname.getName());
+//				fPanel.add(fname);
+//				fPanel.add(femail);
+//				fPanel.add(ckFriend);
+//				friendsPanel.add(fPanel);
+//				if (i == 0) {
+//					friends.append(mem.getPhone());
+//				} else {
+//					friends.append("`" + mem.getPhone()); // 친구리스트를 생성함
+//>>>>>>> refs/remotes/origin/junekyu
 				}
+				if (i == size-1) {
+					friends.append("`" + vec.get(size).getPhone());
+				}
+				System.out.println(friends);
 			}
 		} else {
 			JPanel fPanel = new JPanel();
@@ -208,6 +253,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		String command = e.getActionCommand();
 		switch (command) {
 		case "채팅하기":
+//<<<<<<< HEAD
 			chatList = new ArrayList<MemberVO>();
 			for (int i = 0; i < check.length; i++) {
 				if (check[i] == 1) {
@@ -216,7 +262,15 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 			}
 			chatList.add(vec.get(vec.size()-1));
 			System.out.println(chatList);
-			new ChatUI();
+			client.creatChatRoom(chatList.toString());
+			int roomNum = 0;				// 임의 생성
+			new ChatUI(client, roomNum);	// 임의 생성
+//=======
+//			// 해당하는 방번호에 채팅창을 저장
+//			System.out.println("친구야 " + friends.toString());
+//			client.creatChatRoom(friends.toString());
+//			// new ChatUI(client);
+//>>>>>>> refs/remotes/origin/junekyu
 			break;
 		case "종료":
 			System.exit(0);
