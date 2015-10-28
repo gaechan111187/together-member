@@ -27,10 +27,11 @@ public class MainDAO {
 	}
 
 	// 친구목록불러오기
-	public List<MainVO> selectMyFriends() {
+	public List<MainVO> selectMyFriends(String phone) {
 		list = new ArrayList<MainVO>();
 		try {
-			rs = con.createStatement().executeQuery(member.selectMyFriends());
+			rs = con.createStatement().executeQuery(member.selectMyFriends(phone));
+			System.out.println(111111);
 			while (rs.next()) {
 				MainVO temp = new MainVO();
 				temp.setName(rs.getString("name"));

@@ -39,7 +39,8 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 	JLabel fname1, fname2, fname3, fname4, fname5;
 	JLabel femail1, femail2, femail3, femail4, femail5;
 	ClientServiceImpl client;
-	List<MemberVO> vec;
+	List<MemberVO> vec, chatList;
+	List<MainVO> friendsList;
 	private StringBuffer friends;
 	public StringBuffer getFriends() {
 		return friends;
@@ -55,12 +56,9 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		this.rooms.add(index, rooms); // 해당 인덱스에 채팅방을 생성함
 	}
 
-	List<MemberVO>  chatList;
+	
 	int[] check;
 	MainService service = MainServiceImpl.getService();
-
-	// ImageIcon icon;
-	// List<JButton> btns;
 
 	public MainUI(ClientServiceImpl client) {
 		rooms = new Vector<ChatUI>();
@@ -82,29 +80,19 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		dMenuPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		dMenuPanel.setBorder(LineBorder.createBlackLineBorder());
 
-		friendsPanel = new JPanel(new GridLayout(10, 1)); // 친구수에 따라 행 바뀌어야 함
-		// friendsPanel.setLayout(new BoxLayout(friendsPanel,BoxLayout.Y_AXIS));
+		friendsPanel = new JPanel(new GridLayout(10, 1)); // 친구수에 따라 행 바뀌어야 함	
 		friendsPanel.setBorder(LineBorder.createBlackLineBorder());
+		// friendsPanel.setLayout(new BoxLayout(friendsPanel,BoxLayout.Y_AXIS));
 		// friendsPanel.setPreferredSize(new Dimension(350,500));
-		// friendsPanel.
-		// friendsPanel.setAutoscrolls(true);
 
-		/*
-		 * Scrollbar scrollbar = new Scrollbar(Scrollbar.VERTICAL, 0,20,0,0);
-		 * scrollbar.setSize(15,500); scrollbar.setLocation(300, 30);
-		 * friendsPanel.add(scrollbar);
-		 */
 		JScrollPane scrollPane = new JScrollPane(friendsPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		// scrollPane.setPreferredSize(new Dimension(100, 100));
 		this.add(scrollPane, BorderLayout.EAST);
-		// friendsPanel.add(scrollPane);
 
 		friendsPanel.setAutoscrolls(true); // 자동스크롤생성
 
 		southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		southPanel.setBorder(LineBorder.createBlackLineBorder());
-		// southPanel.setSize(MAXIMIZED_HORIZ, 50);
 
 		ImageIcon addFriendIcon = new ImageIcon("src/images/addFriend.jpeg");
 		ImageIcon setupIcon = new ImageIcon("src/images/setup.jpeg");
@@ -115,7 +103,8 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		btnAddFriend.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AddFriend addFriend = new AddFriend(vec.get(vec.size()-1));
+				dispose();
+				AddFriend addFriend = new AddFriend(vec.get(vec.size()-1),client);
 			}
 		});
 		btnSetUp = new JButton(setupIcon);
@@ -123,7 +112,6 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		btnSetUp.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
 			}
 		});
 		btnSearch = new JButton(searchIcon);
@@ -176,47 +164,24 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		southPanel.add(btnExit);
 
 		vec = client.getVec(); // 친구목록 맨마지막은 나
+		friendsList = service.getFriends(vec.get(vec.size()-1).getPhone());
 		check = new int[vec.size()]; // 체크박스목록
 		int size = vec.size() - 1;
 		System.out.println("사이즈는 " + size);
 		if (size != 0) {
-			for (int i = 0; i < size; i++) { // 친구정보받아와서 실행
-//<<<<<<< HEAD
-				for (MemberVO mem : vec) {
-					JPanel fPanel = new JPanel(new GridLayout(1, 3));
-					fPanel.setPreferredSize(new Dimension(MAXIMIZED_HORIZ, 50));
-					fPanel.setBorder(LineBorder.createBlackLineBorder());
-					JLabel fname = new JLabel(mem.getName());
-					JLabel femail = new JLabel(mem.getEmail());
-					JCheckBox ckFriend = new JCheckBox();
-					ckFriend.setText(mem.getPhone());
-					ckFriend.addItemListener(this);
-					fPanel.add(fname);
-					fPanel.add(femail);
-					fPanel.add(ckFriend);
-					friendsPanel.add(fPanel);
-//=======
-//				MemberVO mem = vec.get(i);
-//				JPanel fPanel = new JPanel(new GridLayout(1, 3));
-//				fPanel.setPreferredSize(new Dimension(MAXIMIZED_HORIZ, 50));
-//				fPanel.setBorder(LineBorder.createBlackLineBorder());
-//				JLabel fname = new JLabel(mem.getName());
-//				JLabel femail = new JLabel(mem.getEmail());
-//				JCheckBox ckFriend = new JCheckBox(fname.getName());
-//				fPanel.add(fname);
-//				fPanel.add(femail);
-//				fPanel.add(ckFriend);
-//				friendsPanel.add(fPanel);
-//				if (i == 0) {
-//					friends.append(mem.getPhone());
-//				} else {
-//					friends.append("`" + mem.getPhone()); // 친구리스트를 생성함
-//>>>>>>> refs/remotes/origin/junekyu
-				}
-				if (i == size-1) {
-					friends.append("`" + vec.get(size).getPhone());
-				}
-				System.out.println(friends);
+			for (int i = 0; i < friendsList.size(); i++) {
+				JPanel fPanel = new JPanel(new GridLayout(1, 3));
+				fPanel.setPreferredSize(new Dimension(MAXIMIZED_HORIZ, 50));
+				fPanel.setBorder(LineBorder.createBlackLineBorder());
+				JLabel fname = new JLabel(friendsList.get(i).getName());
+				JLabel femail = new JLabel(friendsList.get(i).getEmail());
+				JCheckBox ckFriend = new JCheckBox();
+				ckFriend.setText(friendsList.get(i).getPhone());
+				ckFriend.addItemListener(this);
+				fPanel.add(fname);
+				fPanel.add(femail);
+				fPanel.add(ckFriend);
+				friendsPanel.add(fPanel);
 			}
 		} else {
 			JPanel fPanel = new JPanel();
@@ -225,15 +190,9 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 			friendsPanel.add(fPanel);
 		}
 
-		// JScrollPane scrollPane = new
-		// JScrollPane(friendsPanel,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		// scrollPane.setPreferredSize(getPreferredSize());
-		// this.add(scrollPane);
-
 		this.add(menuPanel, "North");
 		this.add(friendsPanel, "Center");
 		this.add(southPanel, "South");
-		// this.setSize(350, 700);
 		this.setBounds(1250, 0, 350, 700);
 
 		// 화면 중앙에 스윙 띄우기
@@ -253,7 +212,6 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		String command = e.getActionCommand();
 		switch (command) {
 		case "채팅하기":
-//<<<<<<< HEAD
 			chatList = new ArrayList<MemberVO>();
 			for (int i = 0; i < check.length; i++) {
 				if (check[i] == 1) {
@@ -265,12 +223,6 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 			client.creatChatRoom(chatList.toString());
 			int roomNum = 0;				// 임의 생성
 			new ChatUI(client, roomNum);	// 임의 생성
-//=======
-//			// 해당하는 방번호에 채팅창을 저장
-//			System.out.println("친구야 " + friends.toString());
-//			client.creatChatRoom(friends.toString());
-//			// new ChatUI(client);
-//>>>>>>> refs/remotes/origin/junekyu
 			break;
 		case "종료":
 			System.exit(0);
@@ -278,6 +230,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		default:
 			break;
 		}
+		
 	}
 
 	@Override
@@ -291,7 +244,31 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 			}
 		}
 	}
-
+	/*
+	public void createFPanel(List<MemberVO> flist){
+		if (flist.size() != 0) {
+			for (int i = 0; i < flist.size(); i++) {
+				JPanel fPanel = new JPanel(new GridLayout(1, 3));
+				fPanel.setPreferredSize(new Dimension(MAXIMIZED_HORIZ, 50));
+				fPanel.setBorder(LineBorder.createBlackLineBorder());
+				JLabel fname = new JLabel(flist.get(i).getName());
+				JLabel femail = new JLabel(flist.get(i).getEmail());
+				JCheckBox ckFriend = new JCheckBox();
+				ckFriend.setText(flist.get(i).getPhone());
+				ckFriend.addItemListener(this);
+				fPanel.add(fname);
+				fPanel.add(femail);
+				fPanel.add(ckFriend);
+				friendsPanel.add(fPanel);
+			}
+		} else {
+			JPanel fPanel = new JPanel();
+			JLabel no = new JLabel("친구를 등록해주세요.");
+			fPanel.add(no);
+			friendsPanel.add(fPanel);
+		}
+	}
+*/
 }
 
 class AddFriend extends JFrame implements ActionListener {			// 친구추가창
@@ -299,6 +276,7 @@ class AddFriend extends JFrame implements ActionListener {			// 친구추가창
 	MainService service = MainServiceImpl.getService();
 	MemberVO myVO;
 	MainVO tempAddFriend;
+	ClientServiceImpl client;
 
 	JButton btnAddFriend, btnSearch, btnExit;
 	JPanel menuPanel, uMenuPanel, dMenuPanel; // 메뉴, 위, 아래
@@ -307,8 +285,9 @@ class AddFriend extends JFrame implements ActionListener {			// 친구추가창
 	JTextField tfSearch;
 	JLabel lbPhone;
 
-	public AddFriend(MemberVO myVO) {
+	public AddFriend(MemberVO myVO, ClientServiceImpl client) {
 		this.myVO = myVO;
+		this.client = client;
 		init();
 	}
 
@@ -391,7 +370,7 @@ class AddFriend extends JFrame implements ActionListener {			// 친구추가창
 			break;
 		case "나가기":
 			this.dispose();
-			//MainUI.
+			MainUI mainUI = new MainUI(client);
 			break;
 		default:
 			break;

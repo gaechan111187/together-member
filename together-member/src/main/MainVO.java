@@ -48,12 +48,12 @@ public class MainVO{
 	 * CRUD
 	 */
 	// 친구목록 불러오기
-	public String selectMyFriends(){								//매개변수 String phone 
-		String query = "select name, email "
+	public String selectMyFriends(String phone){								//매개변수 String phone 
+		String query = "select name, phone, email "
 				+ "from member where phone "
 				+ "in (select fphone "
 				+ "from member m inner join friend f "
-				+ "on m.phone = f.uphone where m.phone = 012)";		//m.phone 변경
+				+ "on m.phone = f.uphone where m.phone = "+make(phone)+")";		//m.phone 변경
 		return query;
 	}
 	
