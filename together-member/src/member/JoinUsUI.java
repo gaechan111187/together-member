@@ -26,7 +26,6 @@ public class JoinUsUI extends JFrame implements ActionListener {
 		this.client = client;
 		jPanel = new JPanel();
 		jPanel.setLayout(new GridLayout(10, 1));
-		jPanel.setBackground(new Color(159, 197, 248)); //변경된 부분
 		
 		b1 = new JButton("회원가입");
 		
@@ -53,7 +52,7 @@ public class JoinUsUI extends JFrame implements ActionListener {
 		b1.addActionListener(this);
 		add(jPanel);
 		pack();
-		setLocation(700,350);
+		setBounds(700, 350, 350, 350);
 		this.setResizable(false);
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);

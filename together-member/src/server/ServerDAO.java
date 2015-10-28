@@ -26,7 +26,6 @@ public class ServerDAO {
 		con = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ORACLE_ID, Constants.ORACLE_PASSWORD)
 				.getConnection();
 	}
-	
 
 	public int confirmSignUp(String name, String phone, String password, String email) {
 		int result = 0;
@@ -77,5 +76,23 @@ public class ServerDAO {
 
 	public String makeQuery(String str) {
 		return "'" + str + "'";
+	}
+
+
+	public MemberVO searchFriend(String phone) { //찾은 친구 반환
+		MemberVO temp = null;
+		try {
+			rs = con.createStatement().executeQuery("select * from member where phone = " + makeQuery(phone));
+			if (rs.next()) {
+				temp = new MemberVO();
+				temp.setEmail(rs.getString("email"));
+				temp.setName(rs.getString("name"));
+				temp.setPassword(rs.getString("password"));
+				temp.setPhone(rs.getString("phone"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 }

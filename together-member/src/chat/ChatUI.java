@@ -1,5 +1,6 @@
 package chat;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -61,7 +62,6 @@ public class ChatUI extends JFrame implements ActionListener, KeyListener {
 	}
 
 	private void assembly() {
-		setLayout(new GridLayout(2, 1));
 		field.addKeyListener(this);
 		jbOk.addActionListener(this);
 		jbClear.addActionListener(this);
@@ -71,8 +71,11 @@ public class ChatUI extends JFrame implements ActionListener, KeyListener {
 		inputField.add(jbClear);
 		inputField.add(jbExit);
 		area.setEditable(false);
+		area.setBackground(new Color(234, 153, 153));
 		add(area, "Center");
+		inputField.setBackground(new Color(234, 153, 153));
 		add(inputField, "South");
+		
 		pack();
 		setBounds(100, 100, 550, 500);
 		setVisible(true);
