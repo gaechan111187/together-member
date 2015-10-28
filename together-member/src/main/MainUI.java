@@ -42,6 +42,21 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 	JLabel femail1, femail2, femail3, femail4, femail5;
 	ClientServiceImpl client;
 	List<MemberVO> vec;
+	MemberVO myInfo;
+	List<ChatUI> rooms;
+	
+	public void setMyInfo(MemberVO myInfo) {
+		this.myInfo = myInfo;
+	}
+	
+	public List<MemberVO> getVec() {
+		return vec;
+	}
+
+	public void setVec(MemberVO vec) {
+	//	this.vec.add(0, element);
+	}
+
 	private AddFriend  addFriend;
 	
 	public AddFriend getAddFriend() {
@@ -52,13 +67,13 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		this.addFriend = addFriend;
 	}
 
-	MemberVO myInfo;
+	
 	private StringBuffer friends;
 	public StringBuffer getFriends() {
 		return friends;
 	}
 
-	List<ChatUI> rooms;
+	
 
 	public Vector<ChatUI> getRooms() {
 		return (Vector<ChatUI>) rooms;
@@ -130,7 +145,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		btnAddFriend.addActionListener(new ActionListener() { // 친구추가 아이콘
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				addFriend = new AddFriend(vec.get(vec.size()-1), client);
+				addFriend = new AddFriend(myInfo, client);
 			}
 		});
 		btnSetUp = new JButton(setupIcon);
@@ -193,7 +208,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		vec = client.getVec(); // 친구목록 맨마지막은 나
 		// 디비정보 갱신
 		check = new int[vec.size()]; // 체크박스목록
-		int size = vec.size() - 1;
+		int size = vec.size();
 		System.out.println("사이즈는 " + size);
 		if (size != 0) {
 			for (int i = 0; i < size; i++) { // 친구정보받아와서 실행
@@ -217,7 +232,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 			fPanel.add(no);
 			friendsPanel.add(fPanel);
 		}
-		myInfo = vec.get(vec.size() - 1);
+		//myInfo = vec.get(vec.size() - 1);
 		// JScrollPane scrollPane = new
 		// JScrollPane(friendsPanel,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		// scrollPane.setPreferredSize(getPreferredSize());
