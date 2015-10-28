@@ -21,14 +21,15 @@ import global.Command;
 import member.MemberVO;
 
 public class ServerServiceImpl implements Runnable {
+	
 	private Socket client;
 	private DataInputStream in;
 	private DataOutputStream out;
 	private StringBuffer buffer;
 	private ServerDAO dao;
 	private Thread thisThread;
-	private int roomNumber;
-	private List<StringBuffer> rooms;
+	private static int roomNumber;
+	private static List<ChatRoomVO> rooms;
 	private StringBuffer room;
 	private String phone;
 	private static List<ServerServiceImpl> users = new Vector<ServerServiceImpl>();
@@ -42,7 +43,7 @@ public class ServerServiceImpl implements Runnable {
 
 	public ServerServiceImpl(Socket clientSocket) {
 		room = new StringBuffer();
-		rooms = new Vector<StringBuffer>();
+		rooms = new Vector<ChatRoomVO>();
 		roomNumber = 0;
 		dao = new ServerDAO();
 		client = clientSocket;
@@ -79,9 +80,12 @@ public class ServerServiceImpl implements Runnable {
 					}
 					break;
 				case Command.SEND_MESSAGE:
-					String roomNum = token.nextToken(); // 방번호
+					int roomNum = Integer.parseInt(token.nextToken()); // 방번호
 					String msg = token.nextToken(); // 메시지
-					StringTokenizer user = new StringTokenizer(token.nextToken(), Command.CONTENT_DELIMITER); // 친구목록
+					System.out.println("방번호가 뭐길래 " + roomNum);
+					String names = rooms.get(roomNum).getClients();
+					System.out.println("명단 " + names);
+					StringTokenizer user = new StringTokenizer(names, Command.CONTENT_DELIMITER); // 친구목록
 					int length = user.countTokens();
 					for (int i = 0; i < length; i++) {
 						String cli = user.nextToken();
@@ -91,6 +95,32 @@ public class ServerServiceImpl implements Runnable {
 								System.out.println(cli + " 같습니다.");
 								buffer.setLength(0);
 								buffer.append(Command.DEFFUSION_MESSAGE + "|" + roomNum + "|" + msg);
+								users.get(j).send(buffer.toString());
+							}
+						}
+					}
+					break;
+				case Command.SEND_SEVER:
+					int roomNums = Integer.parseInt(token.nextToken()); // 방번호
+					String msgs = token.nextToken(); // 메시지
+					StringTokenizer realmsg = new StringTokenizer(msgs, ">>");
+					int lengthkk = realmsg.countTokens();
+					for (int i = 0; i < lengthkk; i++) {
+						msgs = realmsg.nextToken();
+					}
+					System.out.println("방번호가 뭐길래 " + roomNums);
+					String namess = rooms.get(roomNums).getClients();
+					System.out.println("명단 " + namess);
+					StringTokenizer userss = new StringTokenizer(namess, Command.CONTENT_DELIMITER); // 친구목록
+					int lengths = userss.countTokens();
+					for (int i = 0; i < lengths; i++) {
+						String cli = userss.nextToken();
+						System.out.println("유저는 " + cli);
+						for (int j = 0; j < users.size(); j++) {
+							if (cli.equals(users.get(j).phone)) {
+								System.out.println(cli + " 같습니다.");
+								buffer.setLength(0);
+								buffer.append(Command.DEFFUSION_MESSAGE + "|" + roomNums + "|" + "<서버> " +msgs);
 								users.get(j).send(buffer.toString());
 							}
 						}
@@ -110,8 +140,22 @@ public class ServerServiceImpl implements Runnable {
 						buffer.append(Command.DENY_SIGN_UP);
 						send(buffer.toString());
 					}
+				case Command.ADD_FRIENDS: //친구추가 명령어 | 친구번호
+					MemberVO target = dao.searchFriend(token.nextToken());
+					System.out.println("디비찾아온친구 " + target.toString());
+					if(target != null) {
+						buffer.setLength(0);
+						buffer.append(Command.ALLOW_FRIENDS + "|" + target.toString());
+						send(buffer.toString());
+					} else {
+						buffer.setLength(0);
+						buffer.append(Command.DENY_FRIENDS);
+						send(buffer.toString());
+					}
+					break;
 				case Command.CREATE_CHATROOM: // 방을만들겠다고 클라이언트가 신청을하면
-					StringTokenizer numbers = new StringTokenizer(token.nextToken(), Command.CONTENT_DELIMITER);
+					String clients = token.nextToken(); // 사람들 목록
+					StringTokenizer numbers = new StringTokenizer(clients, Command.CONTENT_DELIMITER);
 					int size = numbers.countTokens();
 					for (int i = 0; i < size; i++) {
 						System.out.println("수행함");
@@ -127,7 +171,8 @@ public class ServerServiceImpl implements Runnable {
 							}
 						}
 					}
-					rooms.add(roomNumber, new StringBuffer()); // 방을만들면서 대화를 기록할 공간을 만듦
+					// 해당방의 정보를 가지고 있는 채트룸을 만듦
+					rooms.add(roomNumber, new ChatRoomVO(clients)); 
 					roomNumber++;
 					break;
 				default:

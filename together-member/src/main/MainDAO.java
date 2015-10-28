@@ -14,6 +14,7 @@ import global.Vendor;
 import member.MemberVO;
 
 public class MainDAO {
+	
 	private Connection con; // Connection DB와 연결
 	private Statement stmt; // Statement 무언가를 서술, getter의 느낌
 	private PreparedStatement pstmt; // setter의 느낌

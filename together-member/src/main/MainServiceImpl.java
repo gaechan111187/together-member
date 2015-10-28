@@ -6,8 +6,8 @@ import java.util.List;
 import member.MemberVO;
 
 
-
 public class MainServiceImpl implements MainService {
+	
 	private static MainService service = new MainServiceImpl();
 	
 	public static MainService getService() {

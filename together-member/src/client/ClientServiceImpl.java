@@ -15,6 +15,7 @@ import java.util.StringTokenizer;
 import java.util.Vector;
 
 import javax.swing.JOptionPane;
+import javax.swing.plaf.synth.SynthSeparatorUI;
 
 import chat.ChatUI;
 import global.Command;
@@ -93,14 +94,35 @@ public class ClientServiceImpl implements Runnable {
 				case Command.DENY_LOGIN: // 로그인 거부
 					JOptionPane.showMessageDialog(null, "로그인이 실패하였습니다.");
 					break;
-				case Command.ADD_FRIENDS:
+				case Command.ALLOW_FRIENDS: // 명령어 | 친구정보
+					String friendInfo = token.nextToken();
+					friendInfo = friendInfo.replace("[", "");
+					friendInfo = friendInfo.replace("]", "");
+					System.out.println("콘텐트 " + friendInfo);
+					StringTokenizer userTokens = new StringTokenizer(friendInfo, Command.USER_DELIMETER);
+					int sizes = userTokens.countTokens();
+					MemberVO temp = new MemberVO();
+					StringTokenizer contentToken = new StringTokenizer(userTokens.nextToken(),
+							Command.CONTENT_DELIMITER);
+					temp.setName(contentToken.nextToken().trim());
+					temp.setPhone(contentToken.nextToken().trim());
+					temp.setPassword(contentToken.nextToken().trim());
+					temp.setEmail(contentToken.nextToken().trim());
+					System.out.println("찾아온친구 " + temp);
+					mainUI.getAddFriend().setTarget(temp); // 해당 친구를 추가시킴
+					mainUI.getAddFriend().makeList();
+					break;
+				case Command.DENY_FRIENDS:
 					break;
 				case Command.RECEIVE_MESSAGE:
 					break;
 				case Command.DEFFUSION_CHATROOM: // 방을만들라는 명령이 오면
 					System.out.println("방만들라고 하십니다.");
 					int roomNum = Integer.parseInt(token.nextToken());
-					mainUI.setRooms(roomNum, new ChatUI(this,roomNum)); // 채팅창을 띄우고 수행함
+					mainUI.setRooms(roomNum, new ChatUI(this, roomNum)); // 채팅창을
+																			// 띄우고
+																			// 수행함
+					sendSeverMessage(mainUI.getMyInfo().getName() + "님이 입장하셨습니다.", roomNum);
 					break;
 				case Command.ALLOW_SIGN_UP:
 					JOptionPane.showMessageDialog(null, "회원가입을 성공했습니다.");
@@ -111,7 +133,11 @@ public class ClientServiceImpl implements Runnable {
 					break;
 				case Command.DEFFUSION_MESSAGE: // 메시지를 받음 명령어|룸넘버|내용
 					System.out.println("여기까진들어옴");
-					mainUI.getRooms().get(Integer.parseInt(token.nextToken())).setArea(token.nextToken() + "\n");
+					roomNum = Integer.parseInt(token.nextToken());
+					String dialog = token.nextToken();
+					System.out.println("방번호" + roomNum);
+					System.out.println("대화 " + dialog);
+					mainUI.getRooms().get(roomNum).setArea(dialog + "\n");
 					break;
 				case Command.EXIT:
 					// 종료버튼 누를시 종료
@@ -126,9 +152,18 @@ public class ClientServiceImpl implements Runnable {
 		}
 	}
 
+	//
 	public void sendMessage(String msg, int roomNumber) {
 		buffer.setLength(0);
-		buffer.append(Command.SEND_MESSAGE + "|" + roomNumber + "|" + msg + "|" + mainUI.getFriends()); // 123은 유저아이디
+		buffer.append(Command.SEND_MESSAGE + "|" + roomNumber + "|" + mainUI.getMyInfo().getName() + ">> " + msg); // 123은
+																													// 유저아이디
+		send(buffer.toString());
+	}
+
+	public void sendSeverMessage(String msg, int roomNumber) {
+		buffer.setLength(0);
+		buffer.append(Command.SEND_SEVER + "|" + roomNumber + "|" + mainUI.getMyInfo().getName() + ">> " + msg); // 123은
+																													// 유저아이디
 		send(buffer.toString());
 	}
 
@@ -170,7 +205,15 @@ public class ClientServiceImpl implements Runnable {
 	public void creatChatRoom(String friends) {
 		// 서버로 채팅창 만들겠다고 전송함
 		buffer.setLength(0);
-		buffer.append(Command.CREATE_CHATROOM + "|" + friends); // 명령어와 친구목록을 전송해줌
+		buffer.append(Command.CREATE_CHATROOM + "|" + friends); // 명령어와 친구목록을
+																// 전송해줌
 		send(buffer.toString());
+	}
+
+	public void addFriends(String phone) {
+		buffer.setLength(0);
+		buffer.append(Command.ADD_FRIENDS + "|" + phone); // 친구추가 명령어와 해당번호를 전송
+		send(buffer.toString());
+		
 	}
 }

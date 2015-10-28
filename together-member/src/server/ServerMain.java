@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import global.Command;
 
 public class ServerMain {
+	
 	public static void main(String[] args) {
 		try {
 			ServerSocket serverSocket = new ServerSocket(Command.PORT);
