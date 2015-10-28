@@ -22,6 +22,7 @@ import member.MemberVO;
 
 public class AddFriend extends JFrame implements ActionListener {			// 친구추가창
 	private static final long serialVersionUID = 1L;
+	
 	MainService service = MainServiceImpl.getService();
 	MemberVO myVO;
 	MainVO tempAddFriend;

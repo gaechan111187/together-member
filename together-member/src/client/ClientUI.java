@@ -68,6 +68,7 @@ public class ClientUI extends JFrame implements ActionListener{
 
 		default:
 			break;
+			
 		}
 	}
 }

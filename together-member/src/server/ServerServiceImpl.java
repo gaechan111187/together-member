@@ -21,6 +21,7 @@ import global.Command;
 import member.MemberVO;
 
 public class ServerServiceImpl implements Runnable {
+	
 	private Socket client;
 	private DataInputStream in;
 	private DataOutputStream out;

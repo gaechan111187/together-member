@@ -1,6 +1,7 @@
 package global;
 
 public class DatabaseFactory {
+	
 	public static Database getDatabase(Vendor vendor, String id, String pass){
 		String driver= "", url= "";
 			switch (vendor) {

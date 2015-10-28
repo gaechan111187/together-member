@@ -30,7 +30,6 @@ import client.ClientServiceImpl;
 import member.MemberVO;
 
 public class MainUI extends JFrame implements ActionListener, ItemListener {
-
 	private static final long serialVersionUID = 1L;
 	JButton btnAddFriend, btnSetUp, btnSearch, btnChat, btnExit;
 	JPanel menuPanel, uMenuPanel, dMenuPanel; // 메뉴, 위, 아래

@@ -16,6 +16,7 @@ import javax.swing.text.JTextComponent;
 import client.ClientServiceImpl;
 
 public class JoinUsUI extends JFrame implements ActionListener {
+	
 	private static final long serialVersionUID = 1L;
 	private JPanel jPanel;
 	private JButton b1;

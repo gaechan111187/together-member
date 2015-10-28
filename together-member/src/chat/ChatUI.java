@@ -113,7 +113,6 @@ public class ChatUI extends JFrame implements ActionListener, KeyListener {
 			break;
 		}
 	}
-
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub

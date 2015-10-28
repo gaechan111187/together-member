@@ -214,5 +214,6 @@ public class ClientServiceImpl implements Runnable {
 		buffer.setLength(0);
 		buffer.append(Command.ADD_FRIENDS + "|" + phone); // 친구추가 명령어와 해당번호를 전송
 		send(buffer.toString());
+		
 	}
 }

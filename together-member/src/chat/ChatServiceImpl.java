@@ -65,7 +65,6 @@ import javax.swing.JTextField;
 		// 서버는 소켓과 연관관계를 맺지 않지만
 		// 클라이언트는 반드시소켓과 한몸이어야 한다.(연관관계가 필요 클라이언트가 죽으면, 소켓도 죽음)
 		Socket socket;
-		
 
 		public ChatServiceImpl() throws IOException {
 			super("채팅프로그램");
