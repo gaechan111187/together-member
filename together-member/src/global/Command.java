@@ -16,5 +16,7 @@ public class Command {
 	public static final String RECEIVE_MESSAGE = "receive";
 	public static final String ALLOW_SIGN_UP = "allowsignup";
 	public static final String DENY_SIGN_UP = "denysignup";
+	public static final String DEFFUSION_MESSAGE = "deffusion";
+	public static final String DEFFUSION_CHATROOM = "chatroom";
 }
 

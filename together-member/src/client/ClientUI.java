@@ -9,6 +9,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class ClientUI extends JFrame implements ActionListener{
+	public static void main(String[] args) {
+		ClientUI ui = new ClientUI();
+	}
 	private static final long serialVersionUID = 1L;
 	private ClientServiceImpl user;
 	private JPanel jpMain;
@@ -22,7 +25,11 @@ public class ClientUI extends JFrame implements ActionListener{
 		// 조립
 		assembly();
 	}
-
+	public ClientUI(){
+		super("테트스용 버전");
+		init();
+		assembly();
+	}
 	
 	private void init() {
 		jpMain = new JPanel();
