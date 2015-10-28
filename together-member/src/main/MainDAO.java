@@ -16,15 +16,14 @@ import member.MemberVO;
 public class MainDAO {
 	private Connection con; // Connection DB와 연결
 	private Statement stmt; // Statement 무언가를 서술, getter의 느낌
-	private PreparedStatement pstmt;   //setter의 느낌
+	private PreparedStatement pstmt; // setter의 느낌
 	private ResultSet rs; // ResultSet return 받아서 DB로 던짐
 	private List<MainVO> list = new ArrayList<MainVO>();
 	private MainVO member = new MainVO();
-	
-	
-	
+
 	public MainDAO() {
-		con = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ORACLE_ID, Constants.ORACLE_PASSWORD).getConnection();
+		con = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ORACLE_ID, Constants.ORACLE_PASSWORD)
+				.getConnection();
 	}
 
 	// 친구목록불러오기
@@ -35,6 +34,7 @@ public class MainDAO {
 			while (rs.next()) {
 				MainVO temp = new MainVO();
 				temp.setName(rs.getString("name"));
+				temp.setPhone(rs.getString("phone"));
 				temp.setEmail(rs.getString("email"));
 				list.add(temp);
 			}
@@ -43,22 +43,43 @@ public class MainDAO {
 		}
 		return list;
 	}
-	
+
 	// 친구찾기
-		public MainVO searchMyFriend(int searchPhone) {
-			MainVO temp = new MainVO();
-			try {
-				rs = con.createStatement().executeQuery(member.searchMyFriend(searchPhone));
+	public MainVO selectMyFriend(String searchPhone) {
+		MainVO temp = new MainVO();
+		try {
+			rs = con.createStatement().executeQuery(member.selectMyFriend(searchPhone));
+			while (rs.next()) {
 				temp.setName(rs.getString("name"));
-			} catch (SQLException e) {
-				e.printStackTrace();
+				temp.setPhone(rs.getString("phone"));
+				temp.setEmail(rs.getString("email"));
 			}
-			return temp;
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
+		return temp;
+		
+		
+	}
+
+	// 친구추가
+	public int insertFriend(MemberVO userVO, MainVO friendVO) {
+		int result = 0;
+		try {
+			pstmt = con.prepareStatement(member.insertFriend());
+			pstmt.setString(1, userVO.getPhone());
+			pstmt.setString(2, friendVO.getPhone());
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
 	
-	
+/*	
 	// 회원가입
-	public int insert(MemberVO joinUsVO){
+	public int insert(MemberVO joinUsVO) {
 		int result = 0;
 		try {
 			pstmt = con.prepareStatement(joinUsVO.joinUs());
@@ -72,9 +93,9 @@ public class MainDAO {
 		}
 		return result;
 	}
-	
-	//로그인 프로그램 (이메일과 비밀번호로)
-	public Object login(String email, String password){
+
+	// 로그인 프로그램 (이메일과 비밀번호로)
+	public Object login(String email, String password) {
 		MemberVO temp = new MemberVO();
 		Object result = null;
 		try {
@@ -97,22 +118,13 @@ public class MainDAO {
 			e.printStackTrace();
 		}
 		return result;
-	}
-/*	
-	// 친구 검색 (핸드폰 넘버로 검색) 
-	public MemberVO searchByFriends(int phoneNum){
-		MemberVO temp = new MemberVO();
-		try {
-			rs = con.createStatement().executeQuery(joinUsVO.SearchByPhone(phoneNum));
-			while (rs.next()) {
-				temp.setName(rs.getString("name"));
-				temp.setEmail(rs.getString("email"));
-				temp.setPhone(rs.getInt("phone"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return temp;
-	}
-	*/
+	}*/
+	/*
+	 * // 친구 검색 (핸드폰 넘버로 검색) public MemberVO searchByFriends(int phoneNum){
+	 * MemberVO temp = new MemberVO(); try { rs =
+	 * con.createStatement().executeQuery(joinUsVO.SearchByPhone(phoneNum));
+	 * while (rs.next()) { temp.setName(rs.getString("name"));
+	 * temp.setEmail(rs.getString("email")); temp.setPhone(rs.getInt("phone"));
+	 * } } catch (SQLException e) { e.printStackTrace(); } return temp; }
+	 */
 }

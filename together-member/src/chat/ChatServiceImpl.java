@@ -117,7 +117,7 @@ import javax.swing.JTextField;
 			jp6.setBackground(Color.WHITE);
 			jp7.setBackground(Color.WHITE);
 			jp8.setBackground(Color.WHITE);
-			area.setBackground(Color.WHITE);
+			area.setBackground(Color.getHSBColor(108, 100, 85));
 			area.setFont(new Font("굴림체", Font.BOLD, 16)); // 글자크기 16 진하게
 			btnEnter.addActionListener(this);
 			btnSend.addActionListener(this);
