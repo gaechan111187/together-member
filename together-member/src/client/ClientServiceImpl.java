@@ -1,5 +1,6 @@
 package client;
 
+import java.awt.Color;
 /**
  * 클라이언트가 구동되면
  * 최초, 로그인 창이 로드된다. (확인, 회원가입)
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+import javax.swing.JColorChooser;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
