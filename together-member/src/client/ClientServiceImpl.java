@@ -96,7 +96,7 @@ public class ClientServiceImpl implements Runnable {
 					mainUI.setMyInfo(myInfo);
 					break;
 				case Command.DENY_LOGIN: // 로그인 거부
-					JOptionPane.showMessageDialog(null, "로그인이 실패하였습니다.");
+					JOptionPane.showMessageDialog(null, "해당 유저가 이미 접속중입니다.");
 					break;
 				case Command.ALLOW_SEARCH: // 명령어 | 친구정보
 					String friendInfo = token.nextToken();
@@ -114,7 +114,7 @@ public class ClientServiceImpl implements Runnable {
 					temp.setEmail(contentToken.nextToken().trim());
 					System.out.println("찾아온친구 " + temp);
 					mainUI.getAddFriend().setTarget(temp); // 해당 친구를 추가시킴
-					mainUI.getAddFriend().makeList();
+					mainUI.getAddFriend().makeList(temp);
 					break;
 				case Command.DENY_SEARCH:
 					JOptionPane.showMessageDialog(null, "해당 사용자가 존재하지 않습니다.");
@@ -226,6 +226,7 @@ public class ClientServiceImpl implements Runnable {
 
 	public void searchFriends(String phone) {
 		buffer.setLength(0);
+		System.out.println("찾을 친구번호 " + phone);
 		buffer.append(Command.SEARCH_FRIENDS + "|" + phone); // 친구추가 명령어와 해당번호를 전송
 		send(buffer.toString());
 	}
