@@ -84,7 +84,6 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 
 	
 	int[] check;
-	MainService service = MainServiceImpl.getService();
 
 	public MainUI(ClientServiceImpl client) {
 		flag = false;
@@ -249,16 +248,22 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 	public MemberVO getMyInfo() {
 		return myInfo;
 	}
-	
+
+
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		String source = e.paramString();
 		for (int i = 0; i < vec.size(); i++) {
-			if (vec.get(i).getPhone().equals(service.getSource(source)) && check[i] == 0) {
+			if (vec.get(i).getPhone().equals(getSource(source)) && check[i] == 0) {
 				check[i] = 1;
-			} else if (vec.get(i).getPhone().equals(service.getSource(source)) && check[i] == 1) {
+			} else if (vec.get(i).getPhone().equals(getSource(source)) && check[i] == 1){
 				check[i] = 0;
 			}
 		}
 	}
+	
+	public String getSource(String resources) {
+		return resources.substring(457).substring(resources.substring(457).indexOf("=")+1, resources.substring(457).indexOf("]"));
+	}
+	
 }
