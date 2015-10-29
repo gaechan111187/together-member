@@ -46,6 +46,7 @@ public class AddFriend extends JFrame implements ActionListener {			// 친구추
 		this.myVO = myVO;
 		this.client = client;
 		init();
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
 	
 	public void makeList(MemberVO temp) {

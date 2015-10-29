@@ -50,8 +50,9 @@ public class ChatUI extends JFrame implements ActionListener, KeyListener {
 		init();
 		// 조립
 		assembly();
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
-
+	
 	private void init() {
 		inputField = new JPanel();
 		jbOk = new JButton("확인");

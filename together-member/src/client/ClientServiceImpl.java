@@ -1,6 +1,6 @@
 package client;
 
-import java.awt.Color;
+import java.awt.image.BufferedImageFilter;
 /**
  * 클라이언트가 구동되면
  * 최초, 로그인 창이 로드된다. (확인, 회원가입)
@@ -10,6 +10,7 @@ import java.awt.Color;
  */
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -23,6 +24,7 @@ import global.Command;
 import main.MainUI;
 import member.MemberUI;
 import member.MemberVO;
+
 public class ClientServiceImpl implements Runnable {
 	private String serverIP;
 	private Thread thisThread;
@@ -90,12 +92,12 @@ public class ClientServiceImpl implements Runnable {
 						temp.setEmail(contentToken.nextToken().trim());
 						vec.add(temp); // 벡터에 추가함
 					}
-					MemberVO myInfo = vec.get(vec.size()-1);
-					vec.remove(vec.size()-1);
-					//System.out.println("내정보 " + myInfo);
+					MemberVO myInfo = vec.get(vec.size() - 1);
+					vec.remove(vec.size() - 1);
+					// System.out.println("내정보 " + myInfo);
 					// 인석이형 UI실행
 					memUI.dispose();
-					mainUI = new MainUI(this,myInfo);
+					mainUI = new MainUI(this, myInfo);
 					break;
 				case Command.DENY_LOGIN: // 로그인 거부
 					JOptionPane.showMessageDialog(null, "해당 유저가 이미 접속중입니다.");
@@ -138,8 +140,13 @@ public class ClientServiceImpl implements Runnable {
 					System.out.println("방만들라고 하십니다.");
 					int roomNum = Integer.parseInt(token.nextToken());
 					System.out.println("방번호는 !!! " + roomNum);
-					mainUI.setRooms(roomNum, new ChatUI(this, roomNum)); // 채팅창을 띄우고 수행함
+					mainUI.setRooms(roomNum, new ChatUI(this, roomNum)); // 채팅창을
+																			// 띄우고
+																			// 수행함
 					sendSeverMessage(mainUI.getMyInfo().getName() + "님이 입장하셨습니다.", roomNum);
+					break;
+				case Command.DENY_CHATROOM:
+					JOptionPane.showMessageDialog(null, "대화상대가 로그오프 상태입니다.");
 					break;
 				case Command.ALLOW_SIGN_UP:
 					JOptionPane.showMessageDialog(null, "회원가입을 성공했습니다.");
@@ -156,8 +163,10 @@ public class ClientServiceImpl implements Runnable {
 					System.out.println("대화 " + dialog);
 					mainUI.getRooms().get(roomNum).setArea(dialog + "\n");
 					break;
-				case Command.EXIT:
-					// 종료버튼 누를시 종료
+				case Command.LOGOUT:
+					System.out.println("로그아웃 신청");
+					release();
+					mainUI.dispose();
 					break;
 				default:
 					break;
@@ -169,7 +178,29 @@ public class ClientServiceImpl implements Runnable {
 		}
 	}
 
-	//
+	private void release() {
+		if (thisThread != null) {
+			thisThread = null;
+		}
+		try {
+			if (out != null) {
+				out.close();
+			}
+			if (in != null) {
+				in.close();
+			}
+			if (clientSocket != null) {
+				clientSocket.close();
+			}
+		} catch (Exception e) {
+		} finally {
+			out = null;
+			in = null;
+			clientSocket = null;
+		}
+		System.exit(0);
+	}
+
 	public void sendMessage(String msg, int roomNumber) { // 명령어|방번호|내이름>>메시지
 		buffer.setLength(0);
 		buffer.append(Command.SEND_MESSAGE + "|" + roomNumber + "|" + mainUI.getMyInfo().getName() + ">> " + msg); // 123은
@@ -230,7 +261,8 @@ public class ClientServiceImpl implements Runnable {
 	public void searchFriends(String phone) {
 		buffer.setLength(0);
 		System.out.println("찾을 친구번호 " + phone);
-		buffer.append(Command.SEARCH_FRIENDS + "|" + phone);	// 친구추가 명령어와 해당번호를 전송
+		buffer.append(Command.SEARCH_FRIENDS + "|" + phone); // 친구추가 명령어와 해당번호를
+																// 전송
 		send(buffer.toString());
 	}
 
@@ -238,13 +270,20 @@ public class ClientServiceImpl implements Runnable {
 		buffer.setLength(0);
 		buffer.append(Command.ADD_FRIENDS + "|" + myPhone + "|" + targetPhone);
 		send(buffer.toString());
-		
+
 	}
 
 	public void exitChatRoom(int myRoomNumber) {
 		mainUI.getRooms().remove(myRoomNumber);
 		buffer.setLength(0);
-		buffer.append(Command.EXIT_CHATROOM + "|" + myRoomNumber + "|" + mainUI.getMyInfo().getPhone() + "|" + mainUI.getMyInfo().getName());
+		buffer.append(Command.EXIT_CHATROOM + "|" + myRoomNumber + "|" + mainUI.getMyInfo().getPhone() + "|"
+				+ mainUI.getMyInfo().getName());
+		send(buffer.toString());
+	}
+
+	public void logOut() {
+		buffer.setLength(0);
+		buffer.append(Command.LOGOUT + "|" + mainUI.getMyInfo().getPhone());
 		send(buffer.toString());
 	}
 }
