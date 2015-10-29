@@ -70,8 +70,6 @@ public class ClientServiceImpl implements Runnable {
 				String command = in.readUTF(); // 명령을 읽어옴
 				StringTokenizer token = new StringTokenizer(command, Command.COMMAND_DELIMITER);
 				switch (token.nextToken()) {
-				case Command.SIGN_UP: // 회원가입
-					break;
 				case Command.ALLOW_LOGIN: // 로그인 허가
 					String content = token.nextToken();
 					content = content.replace("[", "");
@@ -115,7 +113,6 @@ public class ClientServiceImpl implements Runnable {
 					temp.setEmail(contentToken.nextToken().trim());
 					System.out.println("찾아온친구 " + temp);
 					mainUI.getAddFriend().setTarget(temp); // 해당 친구를 추가시킴
-					mainUI.getAddFriend().makeList(temp);
 					break;
 				case Command.DENY_SEARCH:
 					JOptionPane.showMessageDialog(null, "해당 사용자가 존재하지 않습니다.");
@@ -144,7 +141,6 @@ public class ClientServiceImpl implements Runnable {
 					break;
 				case Command.ALLOW_SIGN_UP:
 					JOptionPane.showMessageDialog(null, "회원가입을 성공했습니다.");
-					new MemberUI(this);
 					break;
 				case Command.DENY_SIGN_UP:
 					JOptionPane.showMessageDialog(null, "회원가입을 실패했습니다.");

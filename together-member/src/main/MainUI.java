@@ -105,7 +105,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
 
-	private void init() {
+	public void init() {
 
 		this.setTitle("Together");
 
