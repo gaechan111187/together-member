@@ -40,7 +40,6 @@ public class ServerDAO {
 		}
 		return result;
 	}
-
 	public List<MemberVO> confirmLogin(String phone, String password) {
 		List<MemberVO> vec = new Vector<MemberVO>();
 		MemberVO temp = null;

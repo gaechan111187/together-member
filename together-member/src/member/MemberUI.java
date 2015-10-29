@@ -82,7 +82,6 @@ public class MemberUI extends JFrame implements ActionListener, KeyListener{
 				case KeyEvent.VK_ENTER:
 					client.requestLogin(fieldPhone.getText(), fieldPass.getText());
 					break;
-
 				default:
 					break;
 				}

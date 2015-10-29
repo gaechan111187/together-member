@@ -26,7 +26,7 @@ public class ChatRoomVO implements Serializable{
 	public void setClients(String clients) {
 		this.clients.append("`" + clients);
 	}
-	
+
 	public void delClients(String clients) {
 		String temp = this.clients.toString().replace(clients, ""); //명단에서 지워버림
 		temp.replace("``", "`");

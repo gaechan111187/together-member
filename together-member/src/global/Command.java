@@ -30,6 +30,5 @@ public class Command {
 	public static final String DEL_FRIEND = "delfriend";
 	public static final String ALLOW_DEL = "allowdel";
 	public static final String DENY_DEL = "denydel";
-	
 }
 

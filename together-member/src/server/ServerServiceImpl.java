@@ -90,6 +90,7 @@ public class ServerServiceImpl implements Runnable {
 							send(buffer.toString());
 						}
 					}
+					
 					if (flag) {
 						users.add(this); // 해당 유저를 유저목록에 추가함
 						System.out.println("폰번 : " + phone + " 패스워드 " + password);

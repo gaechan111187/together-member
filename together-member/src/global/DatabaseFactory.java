@@ -23,6 +23,5 @@ public class DatabaseFactory {
 				break;
 			}
 	return new 	DatabaseImpl(driver, url, id, pass);
-	
 	}
 }

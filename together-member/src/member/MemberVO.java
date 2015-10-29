@@ -49,7 +49,6 @@ public class MemberVO implements Serializable{
 	 * CRUD 
 	 */
 	
-	
 	// 회원가입 생성.
 	public String joinUs(){
 		String query = "insert into member "

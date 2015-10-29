@@ -115,10 +115,8 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		uMenuPanel.setBorder(LineBorder.createBlackLineBorder());
 		dMenuPanel = new JPanel(new GridLayout(1, 3));
 		dMenuPanel.setBorder(LineBorder.createBlackLineBorder());
-
 		friendsPanel = new JPanel(new GridLayout(10, 1)); // 친구수에 따라 행 바뀌어야 함	
 		friendsPanel.setBorder(LineBorder.createBlackLineBorder());
-
 		uMenuPanel.setBackground(new Color(255, 255, 255)); // 타이틀 색상
 		dMenuPanel.setBackground(new Color(255, 255, 255)); //
 		friendsPanel.setBackground(new Color(255, 255, 255));
