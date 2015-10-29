@@ -140,9 +140,7 @@ public class ClientServiceImpl implements Runnable {
 					System.out.println("방만들라고 하십니다.");
 					int roomNum = Integer.parseInt(token.nextToken());
 					System.out.println("방번호는 !!! " + roomNum);
-					mainUI.setRooms(roomNum, new ChatUI(this, roomNum)); // 채팅창을
-																			// 띄우고
-																			// 수행함
+					mainUI.setRooms(roomNum, new ChatUI(this, roomNum)); // 채팅창을 띄우고 수행함
 					sendSeverMessage(mainUI.getMyInfo().getName() + "님이 입장하셨습니다.", roomNum);
 					break;
 				case Command.DENY_CHATROOM:
@@ -253,8 +251,7 @@ public class ClientServiceImpl implements Runnable {
 	public void creatChatRoom(String friends) {
 		// 서버로 채팅창 만들겠다고 전송함
 		buffer.setLength(0);
-		buffer.append(Command.CREATE_CHATROOM + "|" + friends); // 명령어와 친구목록을
-																// 전송해줌
+		buffer.append(Command.CREATE_CHATROOM + "|" + friends); // 명령어와 친구목록
 		send(buffer.toString());
 	}
 

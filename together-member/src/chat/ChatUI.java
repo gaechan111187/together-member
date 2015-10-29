@@ -73,7 +73,6 @@ public class ChatUI extends JFrame implements ActionListener, KeyListener {
 		area.setEditable(false);
 		area.setBackground(new Color(234, 153, 153));
 		add(area, "Center");
-		inputField.setBackground(new Color(234, 153, 153));
 		add(inputField, "South");
 		
 		pack();
