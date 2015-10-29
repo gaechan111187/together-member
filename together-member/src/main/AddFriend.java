@@ -49,12 +49,12 @@ public class AddFriend extends JFrame implements ActionListener {			// 친구추
 		init();
 	}
 	
-	public void makeList() {
+	public void makeList(MemberVO temp) {
 		JPanel fPanel = new JPanel(new GridLayout(1, 3));
 		fPanel.setPreferredSize(new Dimension(MAXIMIZED_HORIZ, 50));
 		fPanel.setBorder(LineBorder.createBlackLineBorder());
-		System.out.println("친구가 들어있어야 정상" + target.getName());
-		JLabel fname = new JLabel(target.getName());
+		System.out.println("친구가 들어있어야 정상" + temp.getName());
+		JLabel fname = new JLabel(temp.getName());
 		fPanel.add(fname);
 		friendsPanel.removeAll();
 		friendsPanel.add(fPanel);

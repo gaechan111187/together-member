@@ -33,6 +33,7 @@ public class ServerServiceImpl implements Runnable {
 	private StringBuffer room;
 	private String phone;
 	private static List<ServerServiceImpl> users = new Vector<ServerServiceImpl>();
+	private boolean flag;
 
 	public void setThisThread(Thread thisThread) {
 		this.thisThread = thisThread;
@@ -42,6 +43,7 @@ public class ServerServiceImpl implements Runnable {
 	}
 
 	public ServerServiceImpl(Socket clientSocket) {
+		flag = true;
 		room = new StringBuffer();
 		rooms = new Vector<ChatRoomVO>();
 		roomNumber = 0;
@@ -68,15 +70,26 @@ public class ServerServiceImpl implements Runnable {
 					System.out.println("로그인 요청이 들어왔습니다.");
 					phone = token.nextToken();
 					String password = token.nextToken();
-					users.add(this); // 해당 유저를 유저목록에 추가함
-					System.out.println("폰번 : " + phone + " 패스워드 " + password);
-					List<MemberVO> temp = dao.confirmLogin(phone, password);
-					System.out.println("템프수 : " + temp.size());
-					System.out.println(temp);
-					if (!temp.isEmpty()) {
-						respondLogin(temp.toString());
-					} else {
-						respondLogin(null);
+
+					for (int i = 0; i < users.size(); i++) {
+						if (users.get(i).phone.equals(phone)) { // 이미 로그인상태이면
+							flag = false;
+							buffer.setLength(0);
+							buffer.append(Command.DENY_LOGIN);
+							send(buffer.toString());
+						}
+					}
+					if (flag) {
+						users.add(this); // 해당 유저를 유저목록에 추가함
+						System.out.println("폰번 : " + phone + " 패스워드 " + password);
+						List<MemberVO> temp = dao.confirmLogin(phone, password);
+						System.out.println("템프수 : " + temp.size());
+						System.out.println(temp);
+						if (!temp.isEmpty()) {
+							respondLogin(temp.toString());
+						} else {
+							respondLogin(null);
+						}
 					}
 					break;
 				case Command.SEND_MESSAGE:
@@ -142,7 +155,7 @@ public class ServerServiceImpl implements Runnable {
 					}
 				case Command.SEARCH_FRIENDS: // 친구검색 명령어 | 친구번호
 					MemberVO target = dao.searchFriend(token.nextToken());
-					//System.out.println("디비찾아온친구 " + target.toString());
+					// System.out.println("디비찾아온친구 " + target.toString());
 					if (target != null) {
 						buffer.setLength(0);
 						buffer.append(Command.ALLOW_SEARCH + "|" + target.toString());
@@ -156,7 +169,7 @@ public class ServerServiceImpl implements Runnable {
 				case Command.ADD_FRIENDS:
 					// 내전화번호 , 친구전화번호
 					System.out.println("친구추가하고싶어 죽겄당!!!");
-					int resultNum =	dao.addFriend(token.nextToken().toString(), token.nextToken().toString());
+					int resultNum = dao.addFriend(token.nextToken().toString(), token.nextToken().toString());
 					if (resultNum != 0) {
 						buffer.setLength(0);
 						buffer.append(Command.ALLOW_FRIENDS);
