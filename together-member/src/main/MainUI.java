@@ -43,7 +43,6 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 	List<MemberVO> vec;
 	MemberVO myInfo;
 	List<ChatUI> rooms;
-	
 	public void setMyInfo(MemberVO myInfo) {
 		this.myInfo = myInfo;
 	}

@@ -14,7 +14,6 @@ import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 
 import client.ClientServiceImpl;
-
 public class JoinUsUI extends JFrame implements ActionListener {
 	
 	private static final long serialVersionUID = 1L;

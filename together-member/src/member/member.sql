@@ -4,7 +4,6 @@ create user tog identified by tog;
 -- 2. 테이블 작성 권한주기
 grant dba to tog;
 
-
 -- 3. tog 유저 로그인
 conn tog/tog;
 

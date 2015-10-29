@@ -34,7 +34,6 @@ public class AddFriend extends JFrame implements ActionListener {			// 친구추
 	public void setTarget(MemberVO target) {
 		this.target = target;
 	}
-
 	JButton btnAddFriend, btnSearch, btnExit;
 	JPanel menuPanel, uMenuPanel, dMenuPanel; // 메뉴, 위, 아래
 	JPanel friendsPanel;

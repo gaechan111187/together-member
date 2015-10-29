@@ -15,7 +15,6 @@ import global.DAO;
 import global.DatabaseFactory;
 import global.Vendor;
 import member.MemberVO;
-
 public class ServerDAO {
 	
 	private Connection con; // Connection DB와 연결

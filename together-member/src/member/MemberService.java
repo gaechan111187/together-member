@@ -8,7 +8,6 @@ import java.util.List;
  * @story     :
  */
 public interface MemberService {
-	
 	/**
 	 * DML ->pstmt.executeUpdate()
 	 */

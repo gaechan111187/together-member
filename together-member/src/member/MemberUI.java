@@ -17,7 +17,6 @@ import javax.swing.JTextField;
 import client.ClientServiceImpl;
 
 public class MemberUI extends JFrame implements ActionListener, KeyListener{
-	
 	private static final long serialVersionUID = 1L;
 	private JTextField fieldPhone, fieldPass;
 	private JButton b1, b2;

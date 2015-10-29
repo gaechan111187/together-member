@@ -25,5 +25,6 @@ public class Command {
 	public static final String DEFFUSION_CHATROOM = "chatroom";
 	public static final String SEND_SEVER = "sever";
 	
+	
 }
 

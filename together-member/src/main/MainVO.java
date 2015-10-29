@@ -13,7 +13,6 @@ public class MainVO{
 		this.email = email;
 	}
 	
-	
 	public MainVO() {
 		// TODO Auto-generated constructor stub
 	}

@@ -22,7 +22,6 @@ import global.Command;
 import main.MainUI;
 import member.MemberUI;
 import member.MemberVO;
-
 public class ClientServiceImpl implements Runnable {
 	private String serverIP;
 	private Thread thisThread;

@@ -33,7 +33,6 @@ public class ChatUI extends JFrame implements ActionListener, KeyListener {
 	public int getRoomNumber() {
 		return roomNumber;
 	}
-
 	public void setArea(String msg) {
 		area.append(msg);
 	}
