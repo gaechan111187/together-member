@@ -30,7 +30,7 @@ import member.MemberVO;
 
 public class MainUI extends JFrame implements ActionListener, ItemListener {
 	private static final long serialVersionUID = 1L;
-	JButton btnAddFriend, btnChat, btnExit;
+	JButton btnAddFriend, btnChat, btnDelFriend, btnExit;
 	JPanel menuPanel, uMenuPanel, dMenuPanel; // 메뉴, 위, 아래
 	JPanel friendsPanel; // 친구목록
 	JPanel southPanel;
@@ -144,6 +144,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 
 		
 		btnChat = new JButton("채팅하기");
+		btnDelFriend = new JButton("친구삭제");
 		btnExit = new JButton("종료");
 
 		me = new JLabel("  내 정보");
@@ -153,6 +154,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		// 조립단계 => 작은것부터 큰것 순으로
 
 		btnChat.addActionListener(this);
+		btnDelFriend.addActionListener(this);
 		btnExit.addActionListener(this);
 
 		uMenuPanel.add(btnAddFriend);
@@ -165,6 +167,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		menuPanel.add(dMenuPanel);
 
 		southPanel.add(btnChat);
+		southPanel.add(btnDelFriend);
 		southPanel.add(btnExit);
 
 		vec = client.getVec(); // 친구목록 맨마지막은 나
@@ -225,6 +228,8 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 
 			client.creatChatRoom(friends.toString());
 
+			break;
+		case "친구삭제":
 			break;
 		case "종료":
 			System.exit(0);

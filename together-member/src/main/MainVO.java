@@ -68,7 +68,11 @@ public class MainVO{
 		return query;
 	}
 		
-	
+	// 친구삭제
+		public String deleteFriend(){
+			String query = "delete from friend (f_seq, uphone, fphone) values (f_seq.nextval,?,?)";
+			return query;
+		}
 	
 	
 	
