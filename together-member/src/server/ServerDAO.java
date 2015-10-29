@@ -15,7 +15,6 @@ import global.DAO;
 import global.DatabaseFactory;
 import global.Vendor;
 import member.MemberVO;
-
 public class ServerDAO {
 	
 	private Connection con; // Connection DB와 연결
@@ -95,5 +94,18 @@ public class ServerDAO {
 			e.printStackTrace();
 		}
 		return temp;
+	}
+
+	public int addFriend(String myPhone, String targetPhone) {
+		int result = 0;
+		try {
+			pstmt = con.prepareStatement("insert into friend(f_seq, uphone, fphone) values(f_seq.nextval,?,?)");
+			pstmt.setString(1, myPhone);
+			pstmt.setString(2, targetPhone);
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 }

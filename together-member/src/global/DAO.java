@@ -1,7 +1,6 @@
 package global;
 
 import java.util.List;
-
 public abstract class DAO {
 	public int insert(Object o){return 0;}
 	public int update(Object o){return 0;}

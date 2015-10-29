@@ -7,7 +7,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
 public class ClientUI extends JFrame implements ActionListener{
 	public static void main(String[] args) {
 		ClientUI ui = new ClientUI();

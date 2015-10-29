@@ -2,7 +2,6 @@ package global;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-
 /**
  * @file_name : Database.java 
  * @author    : chanhok61@daum.net

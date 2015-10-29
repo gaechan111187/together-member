@@ -19,7 +19,6 @@ public class MainServiceImpl implements MainService {
 	public List<MainVO> getFriends(String phone) {
 		return dao.selectMyFriends(phone);
 	}
-
 	@Override
 	public MainVO searchFriend(String searchPhone) {
 		return dao.selectMyFriend(searchPhone);

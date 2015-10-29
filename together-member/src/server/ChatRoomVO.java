@@ -1,7 +1,6 @@
 package server;
 
 import java.io.Serializable;
-
 public class ChatRoomVO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;

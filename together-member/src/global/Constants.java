@@ -6,7 +6,6 @@ package global;
  * @story     : 
  */
 public class Constants {
-	
 	/**
 	 * 벤더(vendor : 공급업체) 가 제공하는 low level 의 접속값
 	 */

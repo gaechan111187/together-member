@@ -1,7 +1,6 @@
 package global;
 
 public interface SQL {
-	
 	/**
 	 * executeUpdate : DML 중 에 테이블의 데이터값이 변형됨
 	 */

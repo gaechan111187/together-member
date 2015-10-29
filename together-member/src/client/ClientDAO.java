@@ -12,7 +12,6 @@ import global.Constants;
 import global.DAO;
 import global.DatabaseFactory;
 import global.Vendor;
-
 public class ClientDAO {
 	private Connection con; // Connection DB와 연결
 	private Statement stmt; // Statement 무언가를 서술, getter의 느낌

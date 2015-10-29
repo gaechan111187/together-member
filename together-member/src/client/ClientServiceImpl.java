@@ -15,6 +15,7 @@ import java.util.StringTokenizer;
 import java.util.Vector;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.plaf.synth.SynthSeparatorUI;
 
 import chat.ChatUI;
@@ -22,7 +23,6 @@ import global.Command;
 import main.MainUI;
 import member.MemberUI;
 import member.MemberVO;
-
 public class ClientServiceImpl implements Runnable {
 	private String serverIP;
 	private Thread thisThread;
@@ -48,10 +48,12 @@ public class ClientServiceImpl implements Runnable {
 		try {
 			vec = new Vector<MemberVO>();
 			serverIP = JOptionPane.showInputDialog("서버IP 설정", "192.168.0.67");
-			clientSocket = new Socket(serverIP, Command.PORT);
-			in = new DataInputStream(clientSocket.getInputStream());
-			out = new DataOutputStream(clientSocket.getOutputStream());
-			buffer = new StringBuffer(4096); // 버퍼크기 지정
+			if (!serverIP.equals(null)) {
+				clientSocket = new Socket(serverIP, Command.PORT);
+				in = new DataInputStream(clientSocket.getInputStream());
+				out = new DataOutputStream(clientSocket.getOutputStream());
+				buffer = new StringBuffer(4096); // 버퍼크기 지정
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, "서버에 접속할 수 없습니다.");
@@ -87,14 +89,17 @@ public class ClientServiceImpl implements Runnable {
 						temp.setEmail(contentToken.nextToken().trim());
 						vec.add(temp); // 벡터에 추가함
 					}
+					MemberVO myInfo = vec.get(vec.size()-1);
+					vec.remove(vec.size()-1);
+					//System.out.println("내정보 " + myInfo);
 					// 인석이형 UI실행
 					memUI.dispose();
-					mainUI = new MainUI(this);
+					mainUI = new MainUI(this,myInfo);
 					break;
 				case Command.DENY_LOGIN: // 로그인 거부
-					JOptionPane.showMessageDialog(null, "로그인이 실패하였습니다.");
+					JOptionPane.showMessageDialog(null, "해당 유저가 이미 접속중입니다.");
 					break;
-				case Command.ALLOW_FRIENDS: // 명령어 | 친구정보
+				case Command.ALLOW_SEARCH: // 명령어 | 친구정보
 					String friendInfo = token.nextToken();
 					friendInfo = friendInfo.replace("[", "");
 					friendInfo = friendInfo.replace("]", "");
@@ -110,18 +115,28 @@ public class ClientServiceImpl implements Runnable {
 					temp.setEmail(contentToken.nextToken().trim());
 					System.out.println("찾아온친구 " + temp);
 					mainUI.getAddFriend().setTarget(temp); // 해당 친구를 추가시킴
-					mainUI.getAddFriend().makeList();
+					mainUI.getAddFriend().makeList(temp);
+					break;
+				case Command.DENY_SEARCH:
+					JOptionPane.showMessageDialog(null, "해당 사용자가 존재하지 않습니다.");
+					break;
+				case Command.ALLOW_FRIENDS:
+					System.out.println("친구추가를 성공해가는중!!!");
+					mainUI.getVec().add(mainUI.getAddFriend().getTarget());
+					MemberVO myIn = mainUI.getMyInfo();
+					mainUI.dispose();
+					mainUI = new MainUI(this);
+					mainUI.setMyInfo(myIn);
 					break;
 				case Command.DENY_FRIENDS:
+					JOptionPane.showMessageDialog(null, "친구추가를 실패했습니다.");
 					break;
 				case Command.RECEIVE_MESSAGE:
 					break;
 				case Command.DEFFUSION_CHATROOM: // 방을만들라는 명령이 오면
 					System.out.println("방만들라고 하십니다.");
 					int roomNum = Integer.parseInt(token.nextToken());
-					mainUI.setRooms(roomNum, new ChatUI(this, roomNum)); // 채팅창을
-																			// 띄우고
-																			// 수행함
+					mainUI.setRooms(roomNum, new ChatUI(this, roomNum)); // 채팅창을 띄우고 수행함
 					sendSeverMessage(mainUI.getMyInfo().getName() + "님이 입장하셨습니다.", roomNum);
 					break;
 				case Command.ALLOW_SIGN_UP:
@@ -210,9 +225,16 @@ public class ClientServiceImpl implements Runnable {
 		send(buffer.toString());
 	}
 
-	public void addFriends(String phone) {
+	public void searchFriends(String phone) {
 		buffer.setLength(0);
-		buffer.append(Command.ADD_FRIENDS + "|" + phone); // 친구추가 명령어와 해당번호를 전송
+		System.out.println("찾을 친구번호 " + phone);
+		buffer.append(Command.SEARCH_FRIENDS + "|" + phone);	// 친구추가 명령어와 해당번호를 전송
+		send(buffer.toString());
+	}
+
+	public void addFriends(String myPhone, String targetPhone) {
+		buffer.setLength(0);
+		buffer.append(Command.ADD_FRIENDS + "|" + myPhone + "|" + targetPhone);
 		send(buffer.toString());
 		
 	}
