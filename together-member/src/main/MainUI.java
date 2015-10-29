@@ -9,7 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
@@ -31,11 +34,13 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 	JPanel menuPanel, uMenuPanel, dMenuPanel; // 메뉴, 위, 아래
 	JPanel friendsPanel; // 친구목록
 	JPanel southPanel;
-	JLabel me, myName, myMail;
+	JLabel me, myName, myMail, logo;
 	ClientServiceImpl client;
 	List<MemberVO> vec;
 	MemberVO myInfo;
-	List<ChatUI> rooms;
+	private StringBuffer friends;
+	Map<Integer, ChatUI> rooms;
+	
 	public void setMyInfo(MemberVO myInfo) {
 		this.myInfo = myInfo;
 	}
@@ -59,17 +64,19 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 	}
 
 	
-	private StringBuffer friends;
+	
 	public StringBuffer getFriends() {
 		return friends;
 	}
 
-	public Vector<ChatUI> getRooms() {
-		return (Vector<ChatUI>) rooms;
+	
+
+	public HashMap<Integer, ChatUI> getRooms() {
+		return (HashMap<Integer, ChatUI>) rooms;
 	}
 
 	public void setRooms(int index, ChatUI rooms) {
-		this.rooms.add(index, rooms); // 해당 인덱스에 채팅방을 생성함
+		this.rooms.put(index, rooms); // 해당 인덱스에 채팅방을 생성함
 	}
 
 	
@@ -77,7 +84,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 	MainService service = MainServiceImpl.getService();
 
 	public MainUI(ClientServiceImpl client) {
-		rooms = new Vector<ChatUI>();
+		rooms = new HashMap<Integer, ChatUI>();
 		vec = new Vector<MemberVO>();
 		friends = new StringBuffer();
 		this.client = client;
@@ -85,7 +92,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	public MainUI(ClientServiceImpl client, MemberVO myInfo) {
-		rooms = new Vector<ChatUI>();
+		rooms = new HashMap<Integer, ChatUI>();
 		vec = new Vector<MemberVO>();
 		friends = new StringBuffer();
 		this.client = client;
@@ -121,8 +128,11 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		southPanel.setBorder(LineBorder.createBlackLineBorder());
 
-		ImageIcon addFriendIcon = new ImageIcon("src/images/addFriend.jpeg");
-
+		ImageIcon addFriendIcon = new ImageIcon("src/images/addFriend.png");
+		ImageIcon addLogoIcon = new ImageIcon("src/images/logo.png");
+		logo = new JLabel(addLogoIcon); //로고 라벨 제작
+		
+		
 		btnAddFriend = new JButton(addFriendIcon);
 		btnAddFriend.setName("addFrined");
 		btnAddFriend.addActionListener(new ActionListener() { // 친구추가 아이콘
@@ -131,7 +141,8 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 				addFriend = new AddFriend(myInfo, client);
 			}
 		});
-				
+
+		
 		btnChat = new JButton("채팅하기");
 		btnExit = new JButton("종료");
 
@@ -145,7 +156,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		btnExit.addActionListener(this);
 
 		uMenuPanel.add(btnAddFriend);
-
+		uMenuPanel.add(logo); //로고 메뉴 판넬에 붙임.
 		dMenuPanel.add(me);
 		dMenuPanel.add(myName);
 		dMenuPanel.add(myMail);
@@ -200,7 +211,9 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		String command = e.getActionCommand();
 		switch (command) {
 		case "채팅하기":
-
+//<<<<<<< HEAD
+			//chatList = new ArrayList<MemberVO>();
+			friends.setLength(0);
 			for (int i = 0; i < check.length; i++) {
 				if (check[i] == 1) {
 					friends.append(vec.get(i).getPhone() + "`");
@@ -225,7 +238,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 	public MemberVO getMyInfo() {
 		return myInfo;
 	}
-
+	
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		String source = e.paramString();

@@ -1,5 +1,6 @@
 package client;
 
+import java.awt.Color;
 /**
  * 클라이언트가 구동되면
  * 최초, 로그인 창이 로드된다. (확인, 회원가입)
@@ -13,7 +14,6 @@ import java.net.Socket;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Vector;
-
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.plaf.synth.SynthSeparatorUI;
@@ -36,6 +36,7 @@ public class ClientServiceImpl implements Runnable {
 	MainUI mainUI;
 	ChatUI chatUI;
 
+	
 	public String getName() {
 		return name;
 	}
@@ -136,6 +137,7 @@ public class ClientServiceImpl implements Runnable {
 				case Command.DEFFUSION_CHATROOM: // 방을만들라는 명령이 오면
 					System.out.println("방만들라고 하십니다.");
 					int roomNum = Integer.parseInt(token.nextToken());
+					System.out.println("방번호는 !!! " + roomNum);
 					mainUI.setRooms(roomNum, new ChatUI(this, roomNum)); // 채팅창을 띄우고 수행함
 					sendSeverMessage(mainUI.getMyInfo().getName() + "님이 입장하셨습니다.", roomNum);
 					break;
@@ -168,14 +170,14 @@ public class ClientServiceImpl implements Runnable {
 	}
 
 	//
-	public void sendMessage(String msg, int roomNumber) {
+	public void sendMessage(String msg, int roomNumber) { // 명령어|방번호|내이름>>메시지
 		buffer.setLength(0);
 		buffer.append(Command.SEND_MESSAGE + "|" + roomNumber + "|" + mainUI.getMyInfo().getName() + ">> " + msg); // 123은
 																													// 유저아이디
 		send(buffer.toString());
 	}
 
-	public void sendSeverMessage(String msg, int roomNumber) {
+	public void sendSeverMessage(String msg, int roomNumber) { // 명령어|방번호|내이름>>메시지
 		buffer.setLength(0);
 		buffer.append(Command.SEND_SEVER + "|" + roomNumber + "|" + mainUI.getMyInfo().getName() + ">> " + msg); // 123은
 																													// 유저아이디
@@ -237,5 +239,12 @@ public class ClientServiceImpl implements Runnable {
 		buffer.append(Command.ADD_FRIENDS + "|" + myPhone + "|" + targetPhone);
 		send(buffer.toString());
 		
+	}
+
+	public void exitChatRoom(int myRoomNumber) {
+		mainUI.getRooms().remove(myRoomNumber);
+		buffer.setLength(0);
+		buffer.append(Command.EXIT_CHATROOM + "|" + myRoomNumber + "|" + mainUI.getMyInfo().getPhone() + "|" + mainUI.getMyInfo().getName());
+		send(buffer.toString());
 	}
 }

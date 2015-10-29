@@ -15,6 +15,7 @@ public class MainServiceImpl implements MainService {
 	}
 	MainDAO dao = new MainDAO();
 	
+	
 	@Override
 	public List<MainVO> getFriends(String phone) {
 		return dao.selectMyFriends(phone);
