@@ -61,18 +61,18 @@ public class ChatUI extends JFrame implements ActionListener, KeyListener {
 	}
 
 	private void assembly() {
-		field.addKeyListener(this);
+		field.addKeyListener(this); //텍스트 필드 (아래부분)
 		jbOk.addActionListener(this);
 		jbClear.addActionListener(this);
 		jbExit.addActionListener(this);
-		inputField.add(field);
+		inputField.add(field); //패널
 		inputField.add(jbOk);
 		inputField.add(jbClear);
 		inputField.add(jbExit);
 		area.setEditable(false);
 		area.setBackground(new Color(234, 153, 153));
 		add(area, "Center");
-		inputField.setBackground(new Color(234, 153, 153));
+//		inputField.setBackground(new Color(234, 153, 153)); // 삭제 더이쁨
 		add(inputField, "South");
 		
 		pack();

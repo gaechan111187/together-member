@@ -47,7 +47,7 @@ public class ClientServiceImpl implements Runnable {
 	public ClientServiceImpl() {
 		try {
 			vec = new Vector<MemberVO>();
-			serverIP = JOptionPane.showInputDialog("서버IP 설정", "192.168.0.67");
+			serverIP = JOptionPane.showInputDialog("서버IP 설정", "192.168.0.81");
 			if (!serverIP.equals(null)) {
 				clientSocket = new Socket(serverIP, Command.PORT);
 				in = new DataInputStream(clientSocket.getInputStream());
@@ -179,7 +179,6 @@ public class ClientServiceImpl implements Runnable {
 	public void sendSeverMessage(String msg, int roomNumber) { // 명령어|방번호|내이름>>메시지
 		buffer.setLength(0);
 		buffer.append(Command.SEND_SEVER + "|" + roomNumber + "|" + mainUI.getMyInfo().getName() + ">> " + msg); // 123은
-																													// 유저아이디
 		send(buffer.toString());
 	}
 
