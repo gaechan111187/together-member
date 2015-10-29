@@ -22,7 +22,6 @@ public class ChatUI extends JFrame implements ActionListener, KeyListener {
 //	public static void main(String[] args) {
 //		ChatUI ui = new ChatUI();
 //	}
-	
 	private static final long serialVersionUID = 1L;
 	private ClientServiceImpl client;
 	private JPanel inputField;

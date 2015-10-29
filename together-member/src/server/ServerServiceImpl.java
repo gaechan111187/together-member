@@ -41,7 +41,6 @@ public class ServerServiceImpl implements Runnable {
 	private String user;
 	private int length;
 	private StringTokenizer secondToken;
-
 	public void setThisThread(Thread thisThread) {
 		this.thisThread = thisThread;
 		

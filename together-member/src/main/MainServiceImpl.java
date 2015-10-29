@@ -25,6 +25,7 @@ public class MainServiceImpl implements MainService {
 		return dao.selectMyFriend(searchPhone);
 	}
 	
+	
 	@Override
 	public String addFriend(MemberVO userVO, MainVO friendVO) {
 		String result;

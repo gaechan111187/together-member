@@ -47,6 +47,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		this.myInfo = myInfo;
 	}
 	
+	
 	public List<MemberVO> getVec() {
 		return vec;
 	}

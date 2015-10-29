@@ -43,7 +43,6 @@ import javax.swing.JTextField;
 				e.printStackTrace();
 			}
 		}
-		
 		private static final long serialVersionUID = 1L;
 		JList list;
 		Canvas canvas;

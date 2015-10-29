@@ -39,6 +39,7 @@ public class ServerDAO {
 			e.printStackTrace();
 		}
 		return result;
+		
 	}
 
 	public List<MemberVO> confirmLogin(String phone, String password) {

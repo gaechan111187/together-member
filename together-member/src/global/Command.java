@@ -27,5 +27,6 @@ public class Command {
 	public static final String EXIT_CHATROOM = "exitchatroom";
 	public static final String LOGOUT = "logout";
 	public static final String DENY_CHATROOM = "denychatroom";
+	
 }
 

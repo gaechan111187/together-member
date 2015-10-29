@@ -27,6 +27,7 @@ public class MainDAO {
 				.getConnection();
 	}
 	
+	
 	// 친구목록불러오기
 	public List<MainVO> selectMyFriends(String phone) {
 		list = new ArrayList<MainVO>();

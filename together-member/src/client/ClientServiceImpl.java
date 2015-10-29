@@ -38,7 +38,6 @@ public class ClientServiceImpl implements Runnable {
 	MainUI mainUI;
 	ChatUI chatUI;
 
-	
 	public String getName() {
 		return name;
 	}

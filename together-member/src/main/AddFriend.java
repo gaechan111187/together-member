@@ -30,6 +30,7 @@ public class AddFriend extends JFrame implements ActionListener {			// 친구추
 	public MemberVO getTarget() {
 		return target;
 	}
+	
 
 	public void setTarget(MemberVO target) {
 		this.target = target;

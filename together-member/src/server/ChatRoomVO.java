@@ -11,7 +11,6 @@ public class ChatRoomVO implements Serializable{
 	public int getNumOfUser() {
 		return numOfUser;
 	}
-
 	public void setNumOfUser(int numOfUser) {
 		this.numOfUser = numOfUser;
 	}

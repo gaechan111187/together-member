@@ -24,3 +24,4 @@ public interface MemberService {
 	public MemberVO selectByPhone(int phoneNum);
 }
 
+

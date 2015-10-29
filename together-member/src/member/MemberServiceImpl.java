@@ -22,10 +22,6 @@ public class MemberServiceImpl implements MemberService {
 		return dao.login(email, password);
 	}
 	
-
-	
-	
-	
 	@Override
 	public MemberVO selectByPhone(int phoneNum) {
 		return dao.searchByFriends(phoneNum);

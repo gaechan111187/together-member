@@ -16,7 +16,6 @@ public class ClientUI extends JFrame implements ActionListener{
 	private JPanel jpMain;
 	private JButton jbLogin, jbAdd, jbExit;
 	
-	
 	public ClientUI(ClientServiceImpl service) {
 		super("클라이언트 데모");
 		user = service;

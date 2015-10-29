@@ -23,6 +23,5 @@ public class ChatDAO {
 	public ChatDAO() {
 		con = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ORACLE_ID, Constants.ORACLE_PASSWORD).getConnection();
 	}
-
 	
 }

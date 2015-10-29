@@ -20,4 +20,5 @@ public interface SQL {
 	public String make(String s); //SQL타입의 파라미터로 변환
 	
 	
+	
 }

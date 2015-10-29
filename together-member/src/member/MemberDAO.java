@@ -23,7 +23,6 @@ public class MemberDAO {
 		con = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ORACLE_ID, Constants.ORACLE_PASSWORD)
 				.getConnection();
 	}
-
 	
 	
 	// 회원가입
