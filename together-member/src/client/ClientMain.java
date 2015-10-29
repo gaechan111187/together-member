@@ -9,5 +9,6 @@ public class ClientMain {
 		client.setThisThread(user);
 		user.start();
 		
+		
 	}
 }

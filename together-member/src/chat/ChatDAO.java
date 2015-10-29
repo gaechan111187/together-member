@@ -19,7 +19,6 @@ public class ChatDAO {
 	private PreparedStatement pstmt;   //setter의 느낌
 	private ResultSet rs; // ResultSet return 받아서 DB로 던짐
 	
-	
 	public ChatDAO() {
 		con = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ORACLE_ID, Constants.ORACLE_PASSWORD).getConnection();
 	}
