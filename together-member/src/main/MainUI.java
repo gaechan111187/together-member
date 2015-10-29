@@ -239,7 +239,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 	public MemberVO getMyInfo() {
 		return myInfo;
 	}
-
+	
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		String source = e.paramString();

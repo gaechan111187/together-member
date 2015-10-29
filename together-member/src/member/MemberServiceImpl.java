@@ -16,8 +16,6 @@ public class MemberServiceImpl implements MemberService {
 		return result;
 	}
 		
-		
-	
 	
 	@Override
 	public Object login(String email, String password) {

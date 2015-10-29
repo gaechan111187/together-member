@@ -22,6 +22,5 @@ public interface MemberService {
 	
 	//친구 검색
 	public MemberVO selectByPhone(int phoneNum);
-		
 }
 

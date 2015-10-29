@@ -43,6 +43,7 @@ public class ServerServiceImpl implements Runnable {
 	private StringTokenizer secondToken;
 	public void setThisThread(Thread thisThread) {
 		this.thisThread = thisThread;
+		
 	}
 
 	public ServerServiceImpl() {

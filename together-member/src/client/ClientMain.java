@@ -10,5 +10,4 @@ public class ClientMain {
 		user.start();
 	
 	}
-
 }

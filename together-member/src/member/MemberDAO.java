@@ -43,8 +43,6 @@ public class MemberDAO {
 	}
 	
 	
-	
-	
 /*	// email로 검색 - 로그인에 사용
 	public JoinUsVO selectOneBy(String email) {
 		JoinUsVO temp = new JoinUsVO();

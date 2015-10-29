@@ -18,7 +18,6 @@ public class MemberVO implements Serializable{
 	}
 	
 	
-	
 	public MemberVO() {
 		
 	}

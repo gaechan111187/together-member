@@ -21,7 +21,6 @@ public class ChatRoomVO implements Serializable{
 		this.clients = new StringBuffer();
 		this.clients.append(clients);
 	}
-
 	public String getClients() {
 		return clients.toString();
 	}

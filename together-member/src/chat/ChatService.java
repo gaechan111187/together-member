@@ -8,4 +8,5 @@ import java.util.List;
  * @story     :
  */
 public interface ChatService {
+	
 }

@@ -27,6 +27,7 @@ public class JoinUsUI extends JFrame implements ActionListener {
 		jPanel = new JPanel();
 		jPanel.setLayout(new GridLayout(10, 1));
 		
+		
 		b1 = new JButton("회원가입");
 		
 		jPanel.add(new JLabel("  이름     ")); //이름 라벨 붙임.
