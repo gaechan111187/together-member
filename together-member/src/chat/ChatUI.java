@@ -94,7 +94,7 @@ public class ChatUI extends JFrame implements ActionListener, KeyListener {
 			break;
 		case "종료":
 			//종료신호를 서버로 보내고
-			client.sendMessage("님이 퇴장하셨습니다.", myRoomNumber);
+			client.exitChatRoom(myRoomNumber);
 			dispose();
 			break;
 		default:
