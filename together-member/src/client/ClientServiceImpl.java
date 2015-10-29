@@ -10,14 +10,11 @@ import java.awt.image.BufferedImageFilter;
  */
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.plaf.synth.SynthSeparatorUI;
 
 import chat.ChatUI;
 import global.Command;
@@ -127,8 +124,7 @@ public class ClientServiceImpl implements Runnable {
 					mainUI.getVec().add(mainUI.getAddFriend().getTarget());
 					MemberVO myIn = mainUI.getMyInfo();
 					mainUI.dispose();
-					mainUI = new MainUI(this);
-					mainUI.setMyInfo(myIn);
+					mainUI = new MainUI(this, myIn);
 					break;
 				case Command.DENY_FRIENDS:
 					JOptionPane.showMessageDialog(null, "친구추가를 실패했습니다.");
