@@ -233,7 +233,6 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 			} else {
 				JOptionPane.showMessageDialog(null, "대화상대를 선택해주세요.");
 			}
-		
 			break;
 		case "친구삭제":
 			break;

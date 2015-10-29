@@ -196,8 +196,7 @@ public class ServerServiceImpl implements Runnable {
 						send(buffer.toString());
 					}
 					break;
-				case Command.CREATE_CHATROOM: // 방을만들겠다고 클라이언트가 신청을하면
-
+				case Command.CREATE_CHATROOM: // 명령어|사람목록
 					names = token.nextToken(); // 사람들 목록
 					secondToken = new StringTokenizer(names, Command.CONTENT_DELIMITER);
 					length = secondToken.countTokens();
@@ -206,13 +205,23 @@ public class ServerServiceImpl implements Runnable {
 						System.out.println("수행함");
 						user = secondToken.nextToken();
 						System.out.println("방을만들 이름은 " + user); // 친구 스레드명
-						length = users.size();
-						for (int j = 0; j < length; j++) {
+						for (int j = 0; j < users.size(); j++) {
 							if (user.equals(users.get(j).phone)) {
 								count++;
 							}
 						}
-						if (count >= 2) {
+					}
+					secondToken = new StringTokenizer(names, Command.CONTENT_DELIMITER);
+					length = secondToken.countTokens();
+					if (count < 2) {
+						buffer.setLength(0);
+						buffer.append(Command.DENY_CHATROOM + "|");
+						send(buffer.toString());
+					} else {
+						for (int i = 0; i < length; i++) {
+							user = secondToken.nextToken();
+							System.out.println("카운트수 " + count);
+							System.out.println("유저수는 : " + users.size());
 							for (int j = 0; j < users.size(); j++) { // 유저목록에서
 								System.out.println("유저 " + users.get(j).phone);
 								if (user.equals(users.get(j).phone)) {
@@ -220,19 +229,13 @@ public class ServerServiceImpl implements Runnable {
 									buffer.setLength(0);
 									buffer.append(Command.DEFFUSION_CHATROOM + "|" + roomNumber); // 방번호를
 									users.get(j).send(buffer.toString());
+									break;
 								}
 							}
 						}
-					}
-					if (count < 2) {
-						buffer.setLength(0);
-						buffer.append(Command.DENY_CHATROOM + "|");
-						send(buffer.toString());
-					} else {
 						rooms.put(roomNumber, new ChatRoomVO(names, length)); // 방을
 						roomNumber++;
 					}
-
 					// 해당방의 정보를 가지고 있는 채트룸을 만듦
 					break;
 				case Command.EXIT_CHATROOM: // 명령어 | 방번호 | 폰번 | 내이름
