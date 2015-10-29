@@ -134,7 +134,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		southPanel.setBorder(LineBorder.createBlackLineBorder());
 		// southPanel.setSize(MAXIMIZED_HORIZ, 50);
 
-		ImageIcon addFriendIcon = new ImageIcon("src/images/addFriend.jpeg");
+		ImageIcon addFriendIcon = new ImageIcon("src/images/addFriend.png");
 		ImageIcon setupIcon = new ImageIcon("src/images/setup.jpeg");
 		ImageIcon searchIcon = new ImageIcon("src/images/search.jpeg");
 

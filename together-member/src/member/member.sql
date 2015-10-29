@@ -43,7 +43,6 @@ insert into member values(
 '3',
 '4');
 
-
 insert into member values(
 '순환형',
 '01012341234',
@@ -61,7 +60,6 @@ insert into member values(
 '2',
 '3',
 '4');
-
 
 insert into member values(
 '인석형',
@@ -167,7 +165,7 @@ f_seq.nextval,
 
 
 --Friend table과 Member table을 join시켜서 사용자의 친구로 등록된 사람의 폰번호를 가져와서 
---Member table에서 그 폰번호에 해당하는 이름과 이메일을 가져오는 쿼리문 //친구추가 쿼리문
+--Member table에서 그 폰번호에 해당하는 이름과 이메일을 가져오는 쿼리문 //친구추가 쿼리문(확인용)
 select name, email from member 
 where phone in  (
 select fphone from member m inner join friend f
