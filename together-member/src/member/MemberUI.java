@@ -121,7 +121,6 @@ public class MemberUI extends JFrame implements ActionListener, KeyListener{
 			break;
 		case "회원가입":
 			new JoinUsUI(client);
-			this.dispose();
 			break;
 		default:
 			break;

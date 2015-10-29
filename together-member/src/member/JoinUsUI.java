@@ -62,8 +62,8 @@ public class JoinUsUI extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
 		case "회원가입":
-			client.requestSignUp(fieldName.getText(), fieldPhone.getText(), fieldPass.getText(), fieldEmail.getText());
 			dispose();
+			client.requestSignUp(fieldName.getText(), fieldPhone.getText(), fieldPass.getText(), fieldEmail.getText());
 			break;
 
 		default:
