@@ -152,6 +152,15 @@ public class ClientServiceImpl implements Runnable {
 					System.out.println("대화 " + dialog);
 					mainUI.getRooms().get(roomNum).setArea(dialog + "\n");
 					break;
+				case Command.ALLOW_DEL:
+					JOptionPane.showMessageDialog(null, "친구삭제 성공");
+					MemberVO myInformation = mainUI.getMyInfo();
+					mainUI.dispose();
+					mainUI = new MainUI(this, myInformation);
+					break;
+				case Command.DENY_DEL:
+					JOptionPane.showMessageDialog(null, "친구삭제 실패");
+					break;
 				case Command.LOGOUT:
 					System.out.println("로그아웃 신청");
 					release();
@@ -272,6 +281,12 @@ public class ClientServiceImpl implements Runnable {
 	public void logOut() {
 		buffer.setLength(0);
 		buffer.append(Command.LOGOUT + "|" + mainUI.getMyInfo().getPhone());
+		send(buffer.toString());
+	}
+
+	public void deleteFriend(String targetPhone) {
+		buffer.setLength(0);
+		buffer.append(Command.DEL_FRIEND + "|" + mainUI.getMyInfo().getPhone() + "|" + targetPhone);
 		send(buffer.toString());
 	}
 }

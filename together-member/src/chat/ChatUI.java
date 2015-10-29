@@ -42,7 +42,7 @@ public class ChatUI extends JFrame implements ActionListener, KeyListener {
 	}
 
 	public ChatUI(ClientServiceImpl client, int roomNum) {
-		super("테스트용 채팅");
+		super("Talk-Together");
 		myRoomNumber = roomNum;
 		this.client = client;
 		// 부품준비

@@ -107,7 +107,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 
 	public void init() {
 
-		this.setTitle("Together");
+		this.setTitle("Talk-Together");
 
 		menuPanel = new JPanel(new GridLayout(2, 1));
 		menuPanel.setBorder(LineBorder.createBlackLineBorder());
@@ -219,7 +219,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		switch (command) {
 		case "채팅하기":
 			friends.setLength(0);
-			for (int i = 0; i < check.length; i++) {
+			for (int i = 0; i < vec.size(); i++) {
 				if (check[i] == 1) {
 					friends.append(vec.get(i).getPhone() + "`");
 					flag = true;
@@ -235,6 +235,14 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 			}
 			break;
 		case "친구삭제":
+			friends.setLength(0);
+			for (int i = 0; i < vec.size(); i++) {
+				if (check[i] == 1) {
+					friends.append(vec.get(i).getPhone() + "`");
+					vec.remove(i);
+				}
+			}
+			client.deleteFriend(friends.toString());
 			break;
 		case "종료":
 			client.logOut();
