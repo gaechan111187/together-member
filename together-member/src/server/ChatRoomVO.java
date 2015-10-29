@@ -14,7 +14,6 @@ public class ChatRoomVO implements Serializable{
 	public void setNumOfUser(int numOfUser) {
 		this.numOfUser = numOfUser;
 	}
-
 	public ChatRoomVO(String clients, int length) {
 		numOfUser = length;
 		this.clients = new StringBuffer();

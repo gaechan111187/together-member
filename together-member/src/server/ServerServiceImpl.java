@@ -44,7 +44,6 @@ public class ServerServiceImpl implements Runnable {
 		this.thisThread = thisThread;
 		
 	}
-
 	public ServerServiceImpl() {
 	}
 
