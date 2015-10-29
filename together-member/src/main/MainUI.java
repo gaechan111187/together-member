@@ -20,6 +20,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -39,6 +40,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 	ClientServiceImpl client;
 	List<MemberVO> vec;
 	MemberVO myInfo;
+	boolean flag;
 	private StringBuffer friends;
 	Map<Integer, ChatUI> rooms;
 	
@@ -85,21 +87,23 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 	MainService service = MainServiceImpl.getService();
 
 	public MainUI(ClientServiceImpl client) {
+		flag = false;
 		rooms = new HashMap<Integer, ChatUI>();
 		vec = new Vector<MemberVO>();
 		friends = new StringBuffer();
 		this.client = client;
 		this.init();
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
 	public MainUI(ClientServiceImpl client, MemberVO myInfo) {
+		flag = false;
 		rooms = new HashMap<Integer, ChatUI>();
 		vec = new Vector<MemberVO>();
 		friends = new StringBuffer();
 		this.client = client;
 		this.setMyInfo(myInfo);
 		this.init();
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
 
 	private void init() {
@@ -208,23 +212,25 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		String command = e.getActionCommand();
 		switch (command) {
 		case "채팅하기":
-//<<<<<<< HEAD
-			//chatList = new ArrayList<MemberVO>();
 			friends.setLength(0);
 			for (int i = 0; i < check.length; i++) {
 				if (check[i] == 1) {
 					friends.append(vec.get(i).getPhone() + "`");
+					flag = true;
 				}
 			}
-
-			friends.append(myInfo.getPhone());
-			System.out.println("친구친구 " + friends);
-
-			client.creatChatRoom(friends.toString());
-
+			if (flag) {
+				friends.append(myInfo.getPhone());
+				System.out.println("친구친구 " + friends);
+				client.creatChatRoom(friends.toString());
+				flag = false;
+			} else {
+				JOptionPane.showMessageDialog(null, "대화상대를 선택해주세요.");
+			}
+		
 			break;
 		case "종료":
-			System.exit(0);
+			client.logOut();
 			break;
 		default:
 			break;
