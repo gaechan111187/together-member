@@ -107,4 +107,15 @@ public class ServerDAO {
 		}
 		return result;
 	}
+	public int deleteFriend(String myPhone, String fPhone) {
+		int temp =0;
+		try {
+			pstmt = con.prepareStatement("delete from friend where uphone = " + makeQuery(myPhone) + " and fphone = " + makeQuery(fPhone));
+			temp = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return temp;
+	}
 }

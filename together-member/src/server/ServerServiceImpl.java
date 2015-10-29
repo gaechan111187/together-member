@@ -40,9 +40,10 @@ public class ServerServiceImpl implements Runnable {
 	private String user;
 	private int length;
 	private StringTokenizer secondToken;
+
 	public void setThisThread(Thread thisThread) {
 		this.thisThread = thisThread;
-		
+
 	}
 	public ServerServiceImpl() {
 	}
@@ -148,6 +149,24 @@ public class ServerServiceImpl implements Runnable {
 								users.get(j).send(buffer.toString());
 							}
 						}
+					}
+					break;
+				case Command.DEL_FRIEND: //명령어|내폰|친구폰들
+					String myPhone = token.nextToken();
+					secondToken = new StringTokenizer(token.nextToken(), Command.CONTENT_DELIMITER);
+					length = secondToken.countTokens();
+					int temp = 0;
+					for (int i = 0; i < length; i++) {
+						 temp = dao.deleteFriend(myPhone, secondToken.nextToken());
+					}
+					if (temp != 0) {
+						buffer.setLength(0);
+						buffer.append(Command.ALLOW_DEL);
+						send(buffer.toString());
+					} else {
+						buffer.setLength(0);
+						buffer.append(Command.DENY_DEL);
+						send(buffer.toString());
 					}
 					break;
 				case Command.SIGN_UP:
@@ -291,6 +310,11 @@ public class ServerServiceImpl implements Runnable {
 		} finally {
 			return;
 		}
+	}
+
+	private StringTokenizer StringTokenizer(String nextToken, String contentDelimiter) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	public void respondLogin(String str) {
