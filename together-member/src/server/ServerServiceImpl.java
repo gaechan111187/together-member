@@ -18,7 +18,6 @@ import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
-import chat.ChatVO;
 import global.Command;
 import member.MemberVO;
 
