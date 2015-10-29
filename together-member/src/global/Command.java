@@ -12,6 +12,9 @@ public class Command {
 	public static final String SIGN_UP = "signup";
 	public static final String EXIT = "exit";
 	public static final String ADD_FRIENDS = "addfriends";
+	public static final String SEARCH_FRIENDS = "searchfriends";
+	public static final String ALLOW_SEARCH = "allowsearch";
+	public static final String DENY_SEARCH = "denysearch";
 	public static final String ALLOW_FRIENDS = "allowfriends";
 	public static final String DENY_FRIENDS = "denyfriends";
 	public static final String SEND_MESSAGE = "send";
@@ -21,6 +24,7 @@ public class Command {
 	public static final String DEFFUSION_MESSAGE = "deffusion";
 	public static final String DEFFUSION_CHATROOM = "chatroom";
 	public static final String SEND_SEVER = "sever";
+	
 	
 }
 

@@ -25,7 +25,6 @@ public class AddFriend extends JFrame implements ActionListener {			// 친구추
 	
 	MainService service = MainServiceImpl.getService();
 	MemberVO myVO;
-	MainVO tempAddFriend;
 	MemberVO target;
 	
 	public MemberVO getTarget() {
@@ -35,7 +34,6 @@ public class AddFriend extends JFrame implements ActionListener {			// 친구추
 	public void setTarget(MemberVO target) {
 		this.target = target;
 	}
-
 	JButton btnAddFriend, btnSearch, btnExit;
 	JPanel menuPanel, uMenuPanel, dMenuPanel; // 메뉴, 위, 아래
 	JPanel friendsPanel;
@@ -50,12 +48,12 @@ public class AddFriend extends JFrame implements ActionListener {			// 친구추
 		init();
 	}
 	
-	public void makeList() {
+	public void makeList(MemberVO temp) {
 		JPanel fPanel = new JPanel(new GridLayout(1, 3));
 		fPanel.setPreferredSize(new Dimension(MAXIMIZED_HORIZ, 50));
 		fPanel.setBorder(LineBorder.createBlackLineBorder());
-		System.out.println("친구가 들어있어야 정상" + target.getName());
-		JLabel fname = new JLabel(target.getName());
+		System.out.println("친구가 들어있어야 정상" + temp.getName());
+		JLabel fname = new JLabel(temp.getName());
 		fPanel.add(fname);
 		friendsPanel.removeAll();
 		friendsPanel.add(fPanel);
@@ -79,6 +77,7 @@ public class AddFriend extends JFrame implements ActionListener {			// 친구추
 
 		ImageIcon searchIcon = new ImageIcon("src/images/search.jpeg");
 
+		///////////////////////////////////////////////////////////////////////////////////////
 		btnSearch = new JButton(searchIcon);
 		btnSearch.setName("search"); // 친구이름을 넣고 검색하면
 		btnSearch.addActionListener(new ActionListener() {
@@ -86,9 +85,9 @@ public class AddFriend extends JFrame implements ActionListener {			// 친구추
 			public void actionPerformed(ActionEvent e) {
 				String searchPhone = tfSearch.getText(); // 입력값
 				 // 검색한 폰을 입력 검색해오라고
-				client.addFriends(searchPhone); // 더할 친구를 찾아서 친구를 추가한다.
+				client.searchFriends(searchPhone); // 더할 친구를 찾아서 친구를 추가한다.
 				System.out.println("타겟은 " + target);
-//				
+				tfSearch.setText("");
 			}
 		});
 		
@@ -131,15 +130,17 @@ public class AddFriend extends JFrame implements ActionListener {			// 친구추
 		case "search":
 			break;
 		case "추가":
+			System.out.println("이건 되냐 " + target);
+			System.out.println("내껀 정상 " + myVO);
+			client.addFriends(myVO.getPhone(), target.getPhone()); // 찾아온 타겟의 폰번호
 			JOptionPane.showMessageDialog(null, "친구추가 성공");
 			//JDialog dialog = new JDialog(this, service.addFriend(myVO, tempAddFriend));
-			//this.dispose();
+			this.dispose();
 		
 			//dialog.setSize(250, 200);
 			//dialog.setVisible(true);
 			break;
 		case "나가기":
-			MainUI mainUI = new MainUI(client);
 			this.dispose();
 			//MainUI.
 			break;
