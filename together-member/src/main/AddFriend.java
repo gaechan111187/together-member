@@ -84,10 +84,14 @@ public class AddFriend extends JFrame implements ActionListener {			// 친구추
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String searchPhone = tfSearch.getText(); // 입력값
-				 // 검색한 폰을 입력 검색해오라고
-				client.searchFriends(searchPhone); // 더할 친구를 찾아서 친구를 추가한다.
-				System.out.println("타겟은 " + target);
-				tfSearch.setText("");
+				if (searchPhone.equals("")) {
+					JOptionPane.showMessageDialog(null, "친구를 먼저 입력해주세요.");
+				} else {
+					 // 검색한 폰을 입력 검색해오라고
+					client.searchFriends(searchPhone); // 더할 친구를 찾아서 친구를 추가한다.
+					System.out.println("타겟은 " + target);
+					tfSearch.setText("");
+				}
 			}
 		});
 		

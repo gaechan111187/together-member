@@ -12,7 +12,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -27,13 +29,18 @@ public class ServerServiceImpl implements Runnable {
 	private StringBuffer buffer;
 	private ServerDAO dao;
 	private Thread thisThread;
-	private static int roomNumber;
-	private static List<ChatRoomVO> rooms;
+	private static int roomNumber = 0;
+	private static Map<Integer, ChatRoomVO> rooms;
 	private StringBuffer room;
 	private String phone;
 	private static List<ServerServiceImpl> users = new Vector<ServerServiceImpl>();
 	private boolean flag;
-
+	private int tempNum;
+	private String msg;
+	private String names;
+	private String user;
+	private int length;
+	private StringTokenizer secondToken;
 	public void setThisThread(Thread thisThread) {
 		this.thisThread = thisThread;
 	}
@@ -43,9 +50,13 @@ public class ServerServiceImpl implements Runnable {
 
 	public ServerServiceImpl(Socket clientSocket) {
 		flag = true;
+		tempNum = 0;
+		user = "";
+		secondToken = null;
+		length = 0;
+		msg = "";
 		room = new StringBuffer();
-		rooms = new Vector<ChatRoomVO>();
-		roomNumber = 0;
+		rooms = new HashMap<Integer, ChatRoomVO>();
 		dao = new ServerDAO();
 		client = clientSocket;
 		try {
@@ -69,7 +80,6 @@ public class ServerServiceImpl implements Runnable {
 					System.out.println("로그인 요청이 들어왔습니다.");
 					phone = token.nextToken();
 					String password = token.nextToken();
-
 					for (int i = 0; i < users.size(); i++) {
 						if (users.get(i).phone.equals(phone)) { // 이미 로그인상태이면
 							flag = false;
@@ -90,59 +100,60 @@ public class ServerServiceImpl implements Runnable {
 							respondLogin(null);
 						}
 					}
+					flag = true;
 					break;
-				case Command.SEND_MESSAGE:
-					int roomNum = Integer.parseInt(token.nextToken()); // 방번호
-					String msg = token.nextToken(); // 메시지
-					System.out.println("방번호가 뭐길래 " + roomNum);
-					String names = rooms.get(roomNum).getClients();
+				case Command.SEND_MESSAGE: // 명령어|방번호|내이름>>메시지
+					tempNum = Integer.parseInt(token.nextToken()); // 방번호
+					msg = token.nextToken(); // 메시지
+					System.out.println("방번호가 뭐길래 " + tempNum);
+					names = rooms.get(tempNum).getClients();
 					System.out.println("명단 " + names);
-					StringTokenizer user = new StringTokenizer(names, Command.CONTENT_DELIMITER); // 친구목록
-					int length = user.countTokens();
+					secondToken = new StringTokenizer(names, Command.CONTENT_DELIMITER); // 친구목록
+					length = secondToken.countTokens();
 					for (int i = 0; i < length; i++) {
-						String cli = user.nextToken();
-						System.out.println("유저는 " + cli);
+						user = secondToken.nextToken();
+						System.out.println("유저는 " + user);
 						for (int j = 0; j < users.size(); j++) {
-							if (cli.equals(users.get(j).phone)) {
-								System.out.println(cli + " 같습니다.");
+							if (user.equals(users.get(j).phone)) {
+								System.out.println(user + " 같습니다.");
 								buffer.setLength(0);
-								buffer.append(Command.DEFFUSION_MESSAGE + "|" + roomNum + "|" + msg);
+								buffer.append(Command.DEFFUSION_MESSAGE + "|" + tempNum + "|" + msg);
 								users.get(j).send(buffer.toString());
 							}
 						}
 					}
 					break;
-				case Command.SEND_SEVER:
-					int roomNums = Integer.parseInt(token.nextToken()); // 방번호
-					String msgs = token.nextToken(); // 메시지
-					StringTokenizer realmsg = new StringTokenizer(msgs, ">>");
-					int lengthkk = realmsg.countTokens();
-					for (int i = 0; i < lengthkk; i++) {
-						msgs = realmsg.nextToken();
+				case Command.SEND_SEVER: // 명령어|방번호|내이름>>메시지
+					tempNum = Integer.parseInt(token.nextToken()); // 방번호
+					msg = token.nextToken(); // 메시지
+					StringTokenizer realmsg = new StringTokenizer(msg, ">>");
+					length = realmsg.countTokens();
+					for (int i = 0; i < length; i++) {
+						msg = realmsg.nextToken();
 					}
-					System.out.println("방번호가 뭐길래 " + roomNums);
-					String namess = rooms.get(roomNums).getClients();
-					System.out.println("명단 " + namess);
-					StringTokenizer userss = new StringTokenizer(namess, Command.CONTENT_DELIMITER); // 친구목록
-					int lengths = userss.countTokens();
-					for (int i = 0; i < lengths; i++) {
-						String cli = userss.nextToken();
-						System.out.println("유저는 " + cli);
+					System.out.println("방번호가 뭐길래 " + tempNum);
+					names = rooms.get(tempNum).getClients();
+					System.out.println("명단 " + names);
+					secondToken = new StringTokenizer(names, Command.CONTENT_DELIMITER); // 친구목록
+					length = secondToken.countTokens();
+					for (int i = 0; i < length; i++) {
+						user = secondToken.nextToken();
+						System.out.println("유저는 " + user);
 						for (int j = 0; j < users.size(); j++) {
-							if (cli.equals(users.get(j).phone)) {
-								System.out.println(cli + " 같습니다.");
+							if (user.equals(users.get(j).phone)) {
+								System.out.println(user + " 같습니다.");
 								buffer.setLength(0);
-								buffer.append(Command.DEFFUSION_MESSAGE + "|" + roomNums + "|" + "<서버> " + msgs);
+								buffer.append(Command.DEFFUSION_MESSAGE + "|" + tempNum + "|" + "<서버> " + msg);
 								users.get(j).send(buffer.toString());
 							}
 						}
 					}
 					break;
 				case Command.SIGN_UP:
-					StringTokenizer content = new StringTokenizer(token.nextToken(), Command.CONTENT_DELIMITER);
-					System.out.println(content);
-					int result = dao.confirmSignUp(content.nextToken(), content.nextToken(), content.nextToken(),
-							content.nextToken());
+					secondToken = new StringTokenizer(token.nextToken(), Command.CONTENT_DELIMITER);
+					System.out.println(secondToken);
+					int result = dao.confirmSignUp(secondToken.nextToken(), secondToken.nextToken(), secondToken.nextToken(),
+							secondToken.nextToken());
 					if (result != 0) {
 						buffer.setLength(0);
 						buffer.append(Command.ALLOW_SIGN_UP);
@@ -152,6 +163,8 @@ public class ServerServiceImpl implements Runnable {
 						buffer.append(Command.DENY_SIGN_UP);
 						send(buffer.toString());
 					}
+					secondToken = null;
+					break;
 				case Command.SEARCH_FRIENDS: // 친구검색 명령어 | 친구번호
 					MemberVO target = dao.searchFriend(token.nextToken());
 					// System.out.println("디비찾아온친구 " + target.toString());
@@ -168,8 +181,8 @@ public class ServerServiceImpl implements Runnable {
 				case Command.ADD_FRIENDS:
 					// 내전화번호 , 친구전화번호
 					System.out.println("친구추가하고싶어 죽겄당!!!");
-					int resultNum = dao.addFriend(token.nextToken().toString(), token.nextToken().toString());
-					if (resultNum != 0) {
+					tempNum = dao.addFriend(token.nextToken().toString(), token.nextToken().toString());
+					if (tempNum != 0) {
 						buffer.setLength(0);
 						buffer.append(Command.ALLOW_FRIENDS);
 						send(buffer.toString());
@@ -180,16 +193,17 @@ public class ServerServiceImpl implements Runnable {
 					}
 					break;
 				case Command.CREATE_CHATROOM: // 방을만들겠다고 클라이언트가 신청을하면
-					String clients = token.nextToken(); // 사람들 목록
-					StringTokenizer numbers = new StringTokenizer(clients, Command.CONTENT_DELIMITER);
-					int size = numbers.countTokens();
-					for (int i = 0; i < size; i++) {
+					
+					names = token.nextToken(); // 사람들 목록
+					secondToken = new StringTokenizer(names, Command.CONTENT_DELIMITER);
+					length = secondToken.countTokens();
+					for (int i = 0; i < length; i++) {
 						System.out.println("수행함");
-						String num = numbers.nextToken();
-						System.out.println("방을만들 이름은 " + num); // 친구 스레드명
+						user = secondToken.nextToken();
+						System.out.println("방을만들 이름은 " + user); // 친구 스레드명
 						for (int j = 0; j < users.size(); j++) { // 유저목록에서
 							System.out.println("유저 " + users.get(j).phone);
-							if (num.equals(users.get(j).phone)) {
+							if (user.equals(users.get(j).phone)) {
 								System.out.println("같아서 수행 " + users.get(j).phone);
 								buffer.setLength(0);
 								buffer.append(Command.DEFFUSION_CHATROOM + "|" + roomNumber); // 방번호를
@@ -198,10 +212,38 @@ public class ServerServiceImpl implements Runnable {
 							}
 						}
 					}
-					// 해당방의 정보를 가지고 있는 채트룸을 만듦
-					rooms.add(roomNumber, new ChatRoomVO(clients));
+					rooms.put(roomNumber, new ChatRoomVO(names, length)); //방을 만들고
 					roomNumber++;
+					// 해당방의 정보를 가지고 있는 채트룸을 만듦
 					break;
+				case Command.EXIT_CHATROOM: // 명령어 | 방번호 | 폰번 | 내이름 
+					
+					tempNum = Integer.parseInt(token.nextToken()); // 방번호
+					phone = token.nextToken(); // 폰번호
+					String myName = token.nextToken(); // 이름
+					rooms.get(tempNum).delClients(phone); // 방번호의 명단에서 해당폰번호 삭제
+					if (rooms.get(tempNum).getNumOfUser() == 0) {
+						rooms.remove(tempNum);
+						System.out.println("방이 폭파되었습니다.");
+					} else {
+						System.out.println("방번호가 뭐길래 " + tempNum);
+						names = rooms.get(tempNum).getClients(); // 방번호의 명단을 가져옴
+						System.out.println("명단 " + names);
+						secondToken = new StringTokenizer(names, Command.CONTENT_DELIMITER); // 친구목록
+						length = secondToken.countTokens();
+						for (int i = 0; i < length; i++) {
+							user = secondToken.nextToken();
+							System.out.println("유저는 " + user);
+							for (int j = 0; j < users.size(); j++) {
+								if (user.equals(users.get(j).phone)) {
+									System.out.println(user + " 같습니다.");
+									buffer.setLength(0);
+									buffer.append(Command.DEFFUSION_MESSAGE + "|" + tempNum + "|" + "<서버> " + myName +"님이 퇴실하셨습니다.");
+									users.get(j).send(buffer.toString());
+								}
+							}
+						}
+					}
 				default:
 					break;
 				}

@@ -10,7 +10,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
@@ -43,7 +45,8 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 	ClientServiceImpl client;
 	List<MemberVO> vec;
 	MemberVO myInfo;
-	List<ChatUI> rooms;
+	private StringBuffer friends;
+	Map<Integer, ChatUI> rooms;
 	
 	public void setMyInfo(MemberVO myInfo) {
 		this.myInfo = myInfo;
@@ -68,19 +71,19 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 	}
 
 	
-	private StringBuffer friends;
+	
 	public StringBuffer getFriends() {
 		return friends;
 	}
 
 	
 
-	public Vector<ChatUI> getRooms() {
-		return (Vector<ChatUI>) rooms;
+	public HashMap<Integer, ChatUI> getRooms() {
+		return (HashMap<Integer, ChatUI>) rooms;
 	}
 
 	public void setRooms(int index, ChatUI rooms) {
-		this.rooms.add(index, rooms); // 해당 인덱스에 채팅방을 생성함
+		this.rooms.put(index, rooms); // 해당 인덱스에 채팅방을 생성함
 	}
 
 	List<MemberVO>  chatList;
@@ -91,7 +94,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 	// List<JButton> btns;
 
 	public MainUI(ClientServiceImpl client) {
-		rooms = new Vector<ChatUI>();
+		rooms = new HashMap<Integer, ChatUI>();
 		vec = new Vector<MemberVO>();
 		friends = new StringBuffer();
 		this.client = client;
@@ -263,6 +266,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		case "채팅하기":
 //<<<<<<< HEAD
 			//chatList = new ArrayList<MemberVO>();
+			friends.setLength(0);
 			for (int i = 0; i < check.length; i++) {
 				if (check[i] == 1) {
 				//	chatList.add(vec.get(i));
