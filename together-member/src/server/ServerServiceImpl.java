@@ -120,7 +120,7 @@ public class ServerServiceImpl implements Runnable {
 							if (cli.equals(users.get(j).phone)) {
 								System.out.println(cli + " 같습니다.");
 								buffer.setLength(0);
-								buffer.append(Command.DEFFUSION_MESSAGE + "|" + roomNums + "|" + "<서버> " +msgs);
+								buffer.append(Command.DEFFUSION_MESSAGE + "|" + roomNums + "|" + "<서버> " + msgs);
 								users.get(j).send(buffer.toString());
 							}
 						}
@@ -140,12 +140,26 @@ public class ServerServiceImpl implements Runnable {
 						buffer.append(Command.DENY_SIGN_UP);
 						send(buffer.toString());
 					}
-				case Command.ADD_FRIENDS: //친구추가 명령어 | 친구번호
+				case Command.SEARCH_FRIENDS: // 친구검색 명령어 | 친구번호
 					MemberVO target = dao.searchFriend(token.nextToken());
-					System.out.println("디비찾아온친구 " + target.toString());
-					if(target != null) {
+					//System.out.println("디비찾아온친구 " + target.toString());
+					if (target != null) {
 						buffer.setLength(0);
-						buffer.append(Command.ALLOW_FRIENDS + "|" + target.toString());
+						buffer.append(Command.ALLOW_SEARCH + "|" + target.toString());
+						send(buffer.toString());
+					} else {
+						buffer.setLength(0);
+						buffer.append(Command.DENY_SEARCH);
+						send(buffer.toString());
+					}
+					break;
+				case Command.ADD_FRIENDS:
+					// 내전화번호 , 친구전화번호
+					System.out.println("친구추가하고싶어 죽겄당!!!");
+					int resultNum =	dao.addFriend(token.nextToken().toString(), token.nextToken().toString());
+					if (resultNum != 0) {
+						buffer.setLength(0);
+						buffer.append(Command.ALLOW_FRIENDS);
 						send(buffer.toString());
 					} else {
 						buffer.setLength(0);
@@ -166,13 +180,14 @@ public class ServerServiceImpl implements Runnable {
 							if (num.equals(users.get(j).phone)) {
 								System.out.println("같아서 수행 " + users.get(j).phone);
 								buffer.setLength(0);
-								buffer.append(Command.DEFFUSION_CHATROOM + "|" + roomNumber); // 방번호를 전송
+								buffer.append(Command.DEFFUSION_CHATROOM + "|" + roomNumber); // 방번호를
+																								// 전송
 								users.get(j).send(buffer.toString());
 							}
 						}
 					}
 					// 해당방의 정보를 가지고 있는 채트룸을 만듦
-					rooms.add(roomNumber, new ChatRoomVO(clients)); 
+					rooms.add(roomNumber, new ChatRoomVO(clients));
 					roomNumber++;
 					break;
 				default:

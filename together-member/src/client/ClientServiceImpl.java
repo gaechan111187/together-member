@@ -87,14 +87,18 @@ public class ClientServiceImpl implements Runnable {
 						temp.setEmail(contentToken.nextToken().trim());
 						vec.add(temp); // 벡터에 추가함
 					}
+					MemberVO myInfo = vec.get(vec.size()-1);
+					vec.remove(vec.size()-1);
+					//System.out.println("내정보 " + myInfo);
 					// 인석이형 UI실행
 					memUI.dispose();
 					mainUI = new MainUI(this);
+					mainUI.setMyInfo(myInfo);
 					break;
 				case Command.DENY_LOGIN: // 로그인 거부
 					JOptionPane.showMessageDialog(null, "로그인이 실패하였습니다.");
 					break;
-				case Command.ALLOW_FRIENDS: // 명령어 | 친구정보
+				case Command.ALLOW_SEARCH: // 명령어 | 친구정보
 					String friendInfo = token.nextToken();
 					friendInfo = friendInfo.replace("[", "");
 					friendInfo = friendInfo.replace("]", "");
@@ -112,16 +116,26 @@ public class ClientServiceImpl implements Runnable {
 					mainUI.getAddFriend().setTarget(temp); // 해당 친구를 추가시킴
 					mainUI.getAddFriend().makeList();
 					break;
+				case Command.DENY_SEARCH:
+					JOptionPane.showMessageDialog(null, "해당 사용자가 존재하지 않습니다.");
+					break;
+				case Command.ALLOW_FRIENDS:
+					System.out.println("친구추가를 성공해가는중!!!");
+					mainUI.getVec().add(mainUI.getAddFriend().getTarget());
+					MemberVO myIn = mainUI.getMyInfo();
+					mainUI.dispose();
+					mainUI = new MainUI(this);
+					mainUI.setMyInfo(myIn);
+					break;
 				case Command.DENY_FRIENDS:
+					JOptionPane.showMessageDialog(null, "친구추가를 실패했습니다.");
 					break;
 				case Command.RECEIVE_MESSAGE:
 					break;
 				case Command.DEFFUSION_CHATROOM: // 방을만들라는 명령이 오면
 					System.out.println("방만들라고 하십니다.");
 					int roomNum = Integer.parseInt(token.nextToken());
-					mainUI.setRooms(roomNum, new ChatUI(this, roomNum)); // 채팅창을
-																			// 띄우고
-																			// 수행함
+					mainUI.setRooms(roomNum, new ChatUI(this, roomNum)); // 채팅창을 띄우고 수행함
 					sendSeverMessage(mainUI.getMyInfo().getName() + "님이 입장하셨습니다.", roomNum);
 					break;
 				case Command.ALLOW_SIGN_UP:
@@ -210,9 +224,15 @@ public class ClientServiceImpl implements Runnable {
 		send(buffer.toString());
 	}
 
-	public void addFriends(String phone) {
+	public void searchFriends(String phone) {
 		buffer.setLength(0);
-		buffer.append(Command.ADD_FRIENDS + "|" + phone); // 친구추가 명령어와 해당번호를 전송
+		buffer.append(Command.SEARCH_FRIENDS + "|" + phone); // 친구추가 명령어와 해당번호를 전송
+		send(buffer.toString());
+	}
+
+	public void addFriends(String myPhone, String targetPhone) {
+		buffer.setLength(0);
+		buffer.append(Command.ADD_FRIENDS + "|" + myPhone + "|" + targetPhone);
 		send(buffer.toString());
 		
 	}
