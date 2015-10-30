@@ -20,10 +20,12 @@ public class ServerMain {
 				service.setThisThread(server);
 				server.start();
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, "서버가 이미 가동중입니다.");
 			System.exit(0);
+			
 		}
 	}
 }

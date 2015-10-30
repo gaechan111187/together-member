@@ -22,8 +22,6 @@ public class ClientDAO {
 		con = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ORACLE_ID, Constants.ORACLE_PASSWORD).getConnection();
 	}
 
-	
-
 	public void requestQuitRoom() {
 		// TODO Auto-generated method stub
 		

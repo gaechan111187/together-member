@@ -13,6 +13,8 @@ public class MainVO{
 		this.email = email;
 	}
 	
+	
+	
 	public MainVO() {
 		// TODO Auto-generated constructor stub
 	}
@@ -67,7 +69,11 @@ public class MainVO{
 		return query;
 	}
 		
-	
+	// 친구삭제
+		public String deleteFriend(){
+			String query = "delete from friend (f_seq, uphone, fphone) values (f_seq.nextval,?,?)";
+			return query;
+		}
 	
 	
 	

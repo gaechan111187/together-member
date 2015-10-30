@@ -26,6 +26,8 @@ public class MainDAO {
 		con = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ORACLE_ID, Constants.ORACLE_PASSWORD)
 				.getConnection();
 	}
+	
+	
 	// 친구목록불러오기
 	public List<MainVO> selectMyFriends(String phone) {
 		list = new ArrayList<MainVO>();

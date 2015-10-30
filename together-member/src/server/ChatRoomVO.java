@@ -11,7 +11,6 @@ public class ChatRoomVO implements Serializable{
 	public int getNumOfUser() {
 		return numOfUser;
 	}
-
 	public void setNumOfUser(int numOfUser) {
 		this.numOfUser = numOfUser;
 	}
@@ -21,7 +20,6 @@ public class ChatRoomVO implements Serializable{
 		this.clients = new StringBuffer();
 		this.clients.append(clients);
 	}
-
 	public String getClients() {
 		return clients.toString();
 	}

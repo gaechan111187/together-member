@@ -20,9 +20,9 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
 import chat.ChatUI;
@@ -31,7 +31,7 @@ import member.MemberVO;
 
 public class MainUI extends JFrame implements ActionListener, ItemListener {
 	private static final long serialVersionUID = 1L;
-	JButton btnAddFriend, btnChat, btnExit;
+	JButton btnAddFriend, btnChat, btnDelFriend, btnExit;
 	JPanel menuPanel, uMenuPanel, dMenuPanel; // 메뉴, 위, 아래
 	JPanel friendsPanel; // 친구목록
 	JPanel southPanel;
@@ -39,12 +39,14 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 	ClientServiceImpl client;
 	List<MemberVO> vec;
 	MemberVO myInfo;
+	boolean flag;
 	private StringBuffer friends;
 	Map<Integer, ChatUI> rooms;
 	
 	public void setMyInfo(MemberVO myInfo) {
 		this.myInfo = myInfo;
 	}
+	
 	
 	public List<MemberVO> getVec() {
 		return vec;
@@ -85,21 +87,23 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 	MainService service = MainServiceImpl.getService();
 
 	public MainUI(ClientServiceImpl client) {
+		flag = false;
 		rooms = new HashMap<Integer, ChatUI>();
 		vec = new Vector<MemberVO>();
 		friends = new StringBuffer();
 		this.client = client;
 		this.init();
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
 	public MainUI(ClientServiceImpl client, MemberVO myInfo) {
+		flag = false;
 		rooms = new HashMap<Integer, ChatUI>();
 		vec = new Vector<MemberVO>();
 		friends = new StringBuffer();
 		this.client = client;
 		this.setMyInfo(myInfo);
 		this.init();
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
 
 	private void init() {
@@ -145,6 +149,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 
 		
 		btnChat = new JButton("채팅하기");
+		btnDelFriend = new JButton("친구삭제");
 		btnExit = new JButton("종료");
 
 		me = new JLabel("  내 정보");
@@ -154,6 +159,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		// 조립단계 => 작은것부터 큰것 순으로
 
 		btnChat.addActionListener(this);
+		btnDelFriend.addActionListener(this);
 		btnExit.addActionListener(this);
 
 		uMenuPanel.add(btnAddFriend);
@@ -166,6 +172,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		menuPanel.add(dMenuPanel);
 
 		southPanel.add(btnChat);
+		southPanel.add(btnDelFriend);
 		southPanel.add(btnExit);
 
 		vec = client.getVec(); // 친구목록 맨마지막은 나
@@ -212,23 +219,26 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		String command = e.getActionCommand();
 		switch (command) {
 		case "채팅하기":
-//<<<<<<< HEAD
-			//chatList = new ArrayList<MemberVO>();
 			friends.setLength(0);
 			for (int i = 0; i < check.length; i++) {
 				if (check[i] == 1) {
 					friends.append(vec.get(i).getPhone() + "`");
+					flag = true;
 				}
 			}
-
-			friends.append(myInfo.getPhone());
-			System.out.println("친구친구 " + friends);
-
-			client.creatChatRoom(friends.toString());
-
+			if (flag) {
+				friends.append(myInfo.getPhone());
+				System.out.println("친구친구 " + friends);
+				client.creatChatRoom(friends.toString());
+				flag = false;
+			} else {
+				JOptionPane.showMessageDialog(null, "대화상대를 선택해주세요.");
+			}
+			break;
+		case "친구삭제":
 			break;
 		case "종료":
-			System.exit(0);
+			client.logOut();
 			break;
 		default:
 			break;
@@ -239,7 +249,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 	public MemberVO getMyInfo() {
 		return myInfo;
 	}
-
+	
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		String source = e.paramString();

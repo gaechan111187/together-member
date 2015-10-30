@@ -23,7 +23,6 @@ public class MemberDAO {
 		con = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ORACLE_ID, Constants.ORACLE_PASSWORD)
 				.getConnection();
 	}
-
 	
 	
 	// 회원가입
@@ -41,8 +40,6 @@ public class MemberDAO {
 		}
 		return result;
 	}
-	
-	
 	
 	
 /*	// email로 검색 - 로그인에 사용

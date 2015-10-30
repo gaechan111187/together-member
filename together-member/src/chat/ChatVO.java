@@ -6,5 +6,4 @@ public class ChatVO{
 	private String password; //비번
 	private String phone; //전화번호
 	private String email; //이메일
-	
 }

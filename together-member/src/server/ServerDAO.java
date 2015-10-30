@@ -26,7 +26,6 @@ public class ServerDAO {
 		con = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ORACLE_ID, Constants.ORACLE_PASSWORD)
 				.getConnection();
 	}
-
 	public int confirmSignUp(String name, String phone, String password, String email) {
 		int result = 0;
 		try {
@@ -40,6 +39,7 @@ public class ServerDAO {
 			e.printStackTrace();
 		}
 		return result;
+		
 	}
 
 	public List<MemberVO> confirmLogin(String phone, String password) {

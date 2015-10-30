@@ -17,8 +17,6 @@ public class MemberVO implements Serializable{
 		this.email = email;
 	}
 	
-	
-	
 	public MemberVO() {
 		
 	}
