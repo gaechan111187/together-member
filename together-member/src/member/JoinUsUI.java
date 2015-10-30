@@ -63,6 +63,10 @@ public class JoinUsUI extends JFrame implements ActionListener {
 		case "회원가입":
 			dispose();
 			client.requestSignUp(fieldName.getText(), fieldPhone.getText(), fieldPass.getText(), fieldEmail.getText());
+			fieldEmail.setText("");
+			fieldName.setText("");
+			fieldPhone.setText("");
+			fieldPass.setText("");
 			break;
 
 		default:

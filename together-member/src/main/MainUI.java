@@ -156,7 +156,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		btnDelFriend = new JButton("친구삭제");
 		btnExit = new JButton("종료");
 
-		me = new JLabel("  나"+"("+myInfo.getName()+")");
+		me = new JLabel("  나(" + myInfo.getName() +")" );
 		myName = new JLabel(myInfo.getEmail());
 		myMail = new JLabel(myInfo.getPhone());
 

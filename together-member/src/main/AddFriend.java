@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -63,8 +64,9 @@ public class AddFriend extends JFrame implements ActionListener {			// 친구추
 
 		southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		southPanel.setBorder(LineBorder.createBlackLineBorder());
-
-		ImageIcon searchIcon = new ImageIcon("src/images/search.jpeg");
+		
+		URL searchURL = getClass().getClassLoader().getResource("images/search.jpeg");
+		ImageIcon searchIcon = new ImageIcon(searchURL);
 
 		///////////////////////////////////////////////////////////////////////////////////////
 		btnSearch = new JButton(searchIcon);
