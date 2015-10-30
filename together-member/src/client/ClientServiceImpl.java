@@ -53,7 +53,7 @@ public class ClientServiceImpl implements Runnable {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "서버에 접속할 수 없습니다.");
+			JOptionPane.showMessageDialog(null, "서버에 접속할 수 없어요.");
 			System.exit(0);
 		}
 	}
