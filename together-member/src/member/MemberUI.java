@@ -1,6 +1,5 @@
 package member;
 
-import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
@@ -111,7 +110,7 @@ public class MemberUI extends JFrame implements ActionListener, KeyListener{
 		pack();
 		setBounds(700, 350, 270, 270);
 		setVisible(true);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
 	
 	

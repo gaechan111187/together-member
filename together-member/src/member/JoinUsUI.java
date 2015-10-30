@@ -1,6 +1,5 @@
 package member;
 
-import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
@@ -11,7 +10,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.text.JTextComponent;
 
 import client.ClientServiceImpl;
 public class JoinUsUI extends JFrame implements ActionListener {
@@ -55,7 +53,7 @@ public class JoinUsUI extends JFrame implements ActionListener {
 		setBounds(700, 350, 350, 350);
 		this.setResizable(false);
 		setVisible(true);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
 
 	@Override
