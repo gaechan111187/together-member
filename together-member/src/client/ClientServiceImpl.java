@@ -102,7 +102,6 @@ public class ClientServiceImpl implements Runnable {
 					friendInfo = friendInfo.replace("[", "");
 					friendInfo = friendInfo.replace("]", "");
 					StringTokenizer userTokens = new StringTokenizer(friendInfo, Command.USER_DELIMETER);
-					int sizes = userTokens.countTokens();
 					MemberVO temp = new MemberVO();
 					StringTokenizer contentToken = new StringTokenizer(userTokens.nextToken(),
 							Command.CONTENT_DELIMITER);
