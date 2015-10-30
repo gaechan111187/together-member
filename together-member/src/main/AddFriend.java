@@ -139,7 +139,6 @@ public class AddFriend extends JFrame implements ActionListener {			// 친구추
 			JOptionPane.showMessageDialog(null, "친구추가 성공");
 			//JDialog dialog = new JDialog(this, service.addFriend(myVO, tempAddFriend));
 			this.dispose();
-			MainUI mainUI = new MainUI(client, myVO);
 			//dialog.setSize(250, 200);
 			//dialog.setVisible(true);
 			break;
