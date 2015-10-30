@@ -24,12 +24,10 @@ public class JoinUsUI extends JFrame implements ActionListener {
 		this.client = client;
 		jPanel = new JPanel();
 		jPanel.setLayout(new GridLayout(10, 1));
-
 		b1 = new JButton("회원가입");
 		jPanel.add(new JLabel("  이름     ")); //이름 라벨 붙임.
 		fieldName = new JTextField(10);
 		jPanel.add(fieldName);
-		
 		jPanel.add(new JLabel("   핸드폰 번호     "));
 		fieldPhone = new JTextField(10);
 		jPanel.add(fieldPhone);

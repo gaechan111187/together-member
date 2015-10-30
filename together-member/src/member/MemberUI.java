@@ -32,7 +32,6 @@ public class MemberUI extends JFrame implements ActionListener, KeyListener{
 		panel.add(new JLabel("    핸드폰 번호:")); //판넬에다 "핸드폰 번호" 라벨 in 
 		fieldPhone = new JTextField(10);
 		panel.add(fieldPhone);
-		
 		panel.add(new JLabel("    패스워드: ")); //판넬에다 "패스워드" 라벨 in
 		fieldPass = new JTextField(10);
 		panel.add(fieldPass);

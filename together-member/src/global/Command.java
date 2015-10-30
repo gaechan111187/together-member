@@ -31,6 +31,5 @@ public class Command {
 	public static final String ALLOW_DEL = "allowdel";
 	public static final String DENY_DEL = "denydel";
 	public static final String CANT_LOGIN = "cantlogin";
-	
 }
 

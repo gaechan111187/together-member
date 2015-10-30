@@ -36,7 +36,6 @@ public class ServerServiceImpl implements Runnable {
 	}
 	public ServerServiceImpl() {
 	}
-
 	public ServerServiceImpl(Socket clientSocket) {			//초기화 (소켓과  input, output stream set)
 		flag = true;
 		user = "";
