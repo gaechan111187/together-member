@@ -96,6 +96,9 @@ public class ClientServiceImpl implements Runnable {
 				case Command.DENY_LOGIN: // 로그인 거부
 					JOptionPane.showMessageDialog(null, "해당 유저가 이미 접속중입니다.");
 					break;
+				case Command.CANT_LOGIN: // 로그인 거부
+					JOptionPane.showMessageDialog(null, "아이디와 비밀번호를 확인해주세요.");
+					break;
 				case Command.ALLOW_SEARCH: // 명령어 | 친구정보
 					String friendInfo = token.nextToken();
 					friendInfo = friendInfo.replace("[", "");

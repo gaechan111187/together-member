@@ -48,6 +48,8 @@ public class MemberUI extends JFrame implements ActionListener, KeyListener{
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_ENTER:
 					client.requestLogin(fieldPhone.getText(), fieldPass.getText());
+					fieldPhone.setText("");
+					fieldPass.setText("");
 					break;
 
 				default:

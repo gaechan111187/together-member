@@ -67,6 +67,9 @@ public class ServerDAO {
 				temp.setPassword(rs.getString("password"));
 				temp.setPhone(rs.getString("phone"));
 				vec.add(temp); // 내정보 저장
+			} else {
+				vec.clear();
+				return vec;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
