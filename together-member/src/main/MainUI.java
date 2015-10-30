@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
@@ -26,6 +27,7 @@ import javax.swing.border.LineBorder;
 
 import chat.ChatUI;
 import client.ClientServiceImpl;
+import global.Command;
 import member.MemberVO;
 
 public class MainUI extends JFrame implements ActionListener, ItemListener {
@@ -79,8 +81,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		this.rooms.put(index, rooms); // 해당 인덱스에 채팅방을 생성함
 	}
 
-	
-	int[] check;
+	int[] check;		// check박스 상태 배열
 	MainService service = MainServiceImpl.getService();
 
 	public MainUI(ClientServiceImpl client) {
@@ -147,7 +148,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		btnDelFriend = new JButton("친구삭제");
 		btnExit = new JButton("종료");
 
-		me = new JLabel("  내 정보");
+		me = new JLabel("  나"+"("+myInfo.getName()+")");
 		myName = new JLabel(myInfo.getEmail());
 		myMail = new JLabel(myInfo.getPhone());
 
@@ -214,7 +215,6 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		String command = e.getActionCommand();
 		switch (command) {
 		case "채팅하기":
-//<<<<<<< HEAD
 			//chatList = new ArrayList<MemberVO>();
 			friends.setLength(0);
 			for (int i = 0; i < check.length; i++) {
@@ -230,6 +230,15 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 
 			break;
 		case "친구삭제":
+			List<MemberVO> temp = new Vector<MemberVO>();
+			for (int i = 0; i < check.length; i++) {
+				if (check[i] == 1) {
+					temp.add(vec.get(i));
+				}
+			}
+			service.deleteFriend(myInfo, temp);
+			dispose();
+			MainUI mainUI = new MainUI(client, myInfo);
 			break;
 		case "종료":
 			System.exit(0);

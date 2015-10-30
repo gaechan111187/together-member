@@ -47,7 +47,7 @@ public class AddFriend extends JFrame implements ActionListener {			// 친구추
 		this.client = client;
 		init();
 	}
-	
+	/*
 	public void makeList(MemberVO temp) {
 		JPanel fPanel = new JPanel(new GridLayout(1, 3));
 		fPanel.setPreferredSize(new Dimension(MAXIMIZED_HORIZ, 50));
@@ -57,9 +57,9 @@ public class AddFriend extends JFrame implements ActionListener {			// 친구추
 		fPanel.add(fname);
 		friendsPanel.removeAll();
 		friendsPanel.add(fPanel);
-		friendsPanel.repaint();
 		init();
 	}
+	*/
 	public void init() {
 		this.setTitle("친구추가");
 
@@ -92,6 +92,15 @@ public class AddFriend extends JFrame implements ActionListener {			// 친구추
 					System.out.println("타겟은 " + target);
 					tfSearch.setText("");
 				}
+				JPanel fPanel = new JPanel(new GridLayout(1, 3));
+				fPanel.setPreferredSize(new Dimension(MAXIMIZED_HORIZ, 50));
+				fPanel.setBorder(LineBorder.createBlackLineBorder());
+				System.out.println("친구가 들어있어야 정상" + searchPhone);
+				JLabel fname = new JLabel(searchPhone);
+				fPanel.add(fname);
+				friendsPanel.removeAll();
+				friendsPanel.add(fPanel);
+				init();
 			}
 		});
 		
@@ -140,7 +149,7 @@ public class AddFriend extends JFrame implements ActionListener {			// 친구추
 			JOptionPane.showMessageDialog(null, "친구추가 성공");
 			//JDialog dialog = new JDialog(this, service.addFriend(myVO, tempAddFriend));
 			this.dispose();
-		
+			MainUI mainUI = new MainUI(client, myVO);
 			//dialog.setSize(250, 200);
 			//dialog.setVisible(true);
 			break;

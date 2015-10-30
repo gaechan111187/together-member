@@ -14,6 +14,7 @@ public interface MainService {
 	public List<MainVO> getFriends(String phone);
 	public MainVO searchFriend(String searchPhone);
 	public String addFriend(MemberVO userVO, MainVO friendVO);
+	public String deleteFriend(MemberVO userVO, List<MemberVO> friendVO);
 	public String getSource(String resources);		// check박스 검사
 }
 

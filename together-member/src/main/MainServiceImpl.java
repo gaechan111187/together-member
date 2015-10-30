@@ -37,8 +37,16 @@ public class MainServiceImpl implements MainService {
 	}
 	
 	@Override
+	public String deleteFriend(MemberVO userVO, List<MemberVO> friendVO) {
+		for (MemberVO delFriednd : friendVO) {
+			dao.deleteFriend(userVO, delFriednd);
+		}
+		return null;
+	}
+		
+	
+	@Override
 	public String getSource(String resources){
 		return resources.substring(457).substring(resources.substring(457).indexOf("=")+1, resources.substring(457).indexOf("]"));
 	}
-
 }

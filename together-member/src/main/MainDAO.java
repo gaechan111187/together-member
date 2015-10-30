@@ -78,6 +78,20 @@ public class MainDAO {
 		return result;
 	}
 
+	// 친구 삭제
+	public int deleteFriend(MemberVO userVO, MemberVO friendVO) {
+		int result = 0;
+			try {
+				pstmt = con.prepareStatement(member.deleteFriend());
+				pstmt.setString(1, userVO.getPhone());
+				pstmt.setString(2, friendVO.getPhone());
+				result = pstmt.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		return result;			
+	}
+	
 	
 /*	
 	// 회원가입

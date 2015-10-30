@@ -193,6 +193,7 @@ public class ServerServiceImpl implements Runnable {
 						send(buffer.toString());
 					}
 					break;
+				
 				case Command.CREATE_CHATROOM: // 방을만들겠다고 클라이언트가 신청을하면
 					
 					names = token.nextToken(); // 사람들 목록

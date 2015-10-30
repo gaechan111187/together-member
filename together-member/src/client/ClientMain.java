@@ -8,6 +8,5 @@ public class ClientMain {
 		Thread user = new Thread(client);
 		client.setThisThread(user);
 		user.start();
-	
 	}
 }
