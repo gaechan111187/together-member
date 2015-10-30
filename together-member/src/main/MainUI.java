@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -131,9 +132,13 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 
 		southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		southPanel.setBorder(LineBorder.createBlackLineBorder());
-
-		ImageIcon addFriendIcon = new ImageIcon("src/images/addFriend.png");
-		ImageIcon addLogoIcon = new ImageIcon("src/images/logo.png");
+		
+//		URL imageURL = getClass().getClassLoader().getResource("image/" + temp[i] + ".gif");
+//		btns.get(i).setIcon(new ImageIcon(imageURL));
+		URL friendURL = getClass().getClassLoader().getResource("images/addFriend.png");
+		URL logoURL = getClass().getClassLoader().getResource("images/logo.png");
+		ImageIcon addFriendIcon = new ImageIcon(friendURL);
+		ImageIcon addLogoIcon = new ImageIcon(logoURL);
 		logo = new JLabel(addLogoIcon); //로고 라벨 제작
 		
 		

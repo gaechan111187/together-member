@@ -41,14 +41,15 @@ public class ServerServiceImpl implements Runnable {
 	private int length;
 	private StringTokenizer secondToken;
 
-	public void setThisThread(Thread thisThread) {
+	
+	public void setThisThread(Thread thisThread) {			//지금 쓰레드 지정
 		this.thisThread = thisThread;
 
 	}
 	public ServerServiceImpl() {
 	}
 
-	public ServerServiceImpl(Socket clientSocket) {
+	public ServerServiceImpl(Socket clientSocket) {			//초기화 (소켓과  input, output stream set)
 		flag = true;
 		tempNum = 0;
 		user = "";
@@ -69,7 +70,7 @@ public class ServerServiceImpl implements Runnable {
 	}
 
 	@Override
-	public void run() {
+	public void run() {				//실행
 		try {
 			while (true) {
 				String command = in.readUTF();
