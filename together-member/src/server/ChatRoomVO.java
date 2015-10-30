@@ -7,7 +7,6 @@ public class ChatRoomVO implements Serializable{
 	private StringBuffer clients; // 접속한 유저목록
 	private int numOfUser;
 	//private StringBuffer roomBuffer; // 채팅로그 만들경우 사용
-
 	public int getNumOfUser() {
 		return numOfUser;
 	}
