@@ -21,6 +21,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
@@ -40,12 +41,14 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 	ClientServiceImpl client;
 	List<MemberVO> vec;
 	MemberVO myInfo;
+	boolean flag;
 	private StringBuffer friends;
 	Map<Integer, ChatUI> rooms;
 	
 	public void setMyInfo(MemberVO myInfo) {
 		this.myInfo = myInfo;
 	}
+	
 	
 	public List<MemberVO> getVec() {
 		return vec;
@@ -81,30 +84,32 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		this.rooms.put(index, rooms); // 해당 인덱스에 채팅방을 생성함
 	}
 
-	int[] check;		// check박스 상태 배열
-	MainService service = MainServiceImpl.getService();
+	
+	int[] check;
 
 	public MainUI(ClientServiceImpl client) {
+		flag = false;
 		rooms = new HashMap<Integer, ChatUI>();
 		vec = new Vector<MemberVO>();
 		friends = new StringBuffer();
 		this.client = client;
 		this.init();
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
 	public MainUI(ClientServiceImpl client, MemberVO myInfo) {
+		flag = false;
 		rooms = new HashMap<Integer, ChatUI>();
 		vec = new Vector<MemberVO>();
 		friends = new StringBuffer();
 		this.client = client;
 		this.setMyInfo(myInfo);
 		this.init();
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
 
-	private void init() {
+	public void init() {
 
-		this.setTitle("Together");
+		this.setTitle("Talk-Together");
 
 		menuPanel = new JPanel(new GridLayout(2, 1));
 		menuPanel.setBorder(LineBorder.createBlackLineBorder());
@@ -112,10 +117,8 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		uMenuPanel.setBorder(LineBorder.createBlackLineBorder());
 		dMenuPanel = new JPanel(new GridLayout(1, 3));
 		dMenuPanel.setBorder(LineBorder.createBlackLineBorder());
-
 		friendsPanel = new JPanel(new GridLayout(10, 1)); // 친구수에 따라 행 바뀌어야 함	
 		friendsPanel.setBorder(LineBorder.createBlackLineBorder());
-
 		uMenuPanel.setBackground(new Color(255, 255, 255)); // 타이틀 색상
 		dMenuPanel.setBackground(new Color(255, 255, 255)); //
 		friendsPanel.setBackground(new Color(255, 255, 255));
@@ -215,33 +218,34 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		String command = e.getActionCommand();
 		switch (command) {
 		case "채팅하기":
-			//chatList = new ArrayList<MemberVO>();
 			friends.setLength(0);
-			for (int i = 0; i < check.length; i++) {
+			for (int i = 0; i < vec.size(); i++) {
 				if (check[i] == 1) {
 					friends.append(vec.get(i).getPhone() + "`");
+					flag = true;
 				}
 			}
-
-			friends.append(myInfo.getPhone());
-			System.out.println("친구친구 " + friends);
-
-			client.creatChatRoom(friends.toString());
-
+			if (flag) {
+				friends.append(myInfo.getPhone());
+				System.out.println("친구친구 " + friends);
+				client.creatChatRoom(friends.toString());
+				flag = false;
+			} else {
+				JOptionPane.showMessageDialog(null, "대화상대를 선택해주세요.");
+			}
 			break;
 		case "친구삭제":
-			List<MemberVO> temp = new Vector<MemberVO>();
-			for (int i = 0; i < check.length; i++) {
+			friends.setLength(0);
+			for (int i = 0; i < vec.size(); i++) {
 				if (check[i] == 1) {
-					temp.add(vec.get(i));
+					friends.append(vec.get(i).getPhone() + "`");
+					vec.remove(i);
 				}
 			}
-			service.deleteFriend(myInfo, temp);
-			dispose();
-			MainUI mainUI = new MainUI(client, myInfo);
+			client.deleteFriend(friends.toString());
 			break;
 		case "종료":
-			System.exit(0);
+			client.logOut();
 			break;
 		default:
 			break;
@@ -252,16 +256,22 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 	public MemberVO getMyInfo() {
 		return myInfo;
 	}
-	
+
+
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		String source = e.paramString();
 		for (int i = 0; i < vec.size(); i++) {
-			if (vec.get(i).getPhone().equals(service.getSource(source)) && check[i] == 0) {
+			if (vec.get(i).getPhone().equals(getSource(source)) && check[i] == 0) {
 				check[i] = 1;
-			} else if (vec.get(i).getPhone().equals(service.getSource(source)) && check[i] == 1) {
+			} else if (vec.get(i).getPhone().equals(getSource(source)) && check[i] == 1){
 				check[i] = 0;
 			}
 		}
 	}
+	
+	public String getSource(String resources) {
+		return resources.substring(457).substring(resources.substring(457).indexOf("=")+1, resources.substring(457).indexOf("]"));
+	}
+	
 }

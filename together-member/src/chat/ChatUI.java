@@ -22,7 +22,6 @@ public class ChatUI extends JFrame implements ActionListener, KeyListener {
 //	public static void main(String[] args) {
 //		ChatUI ui = new ChatUI();
 //	}
-	
 	private static final long serialVersionUID = 1L;
 	private ClientServiceImpl client;
 	private JPanel inputField;
@@ -34,24 +33,24 @@ public class ChatUI extends JFrame implements ActionListener, KeyListener {
 	public int getRoomNumber() {
 		return roomNumber;
 	}
+	
 	public void setArea(String msg) {
 		area.append(msg);
 	}
-
 	public void setRoomNumber(int roomNumber) {
 		this.roomNumber = roomNumber;
 	}
-
 	public ChatUI(ClientServiceImpl client, int roomNum) {
-		super("테스트용 채팅");
+		super("Talk-Together");
 		myRoomNumber = roomNum;
 		this.client = client;
 		// 부품준비
 		init();
 		// 조립
 		assembly();
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
-
+	
 	private void init() {
 		inputField = new JPanel();
 		jbOk = new JButton("확인");
@@ -73,9 +72,7 @@ public class ChatUI extends JFrame implements ActionListener, KeyListener {
 		area.setEditable(false);
 		area.setBackground(new Color(234, 153, 153));
 		add(area, "Center");
-		inputField.setBackground(new Color(234, 153, 153));
 		add(inputField, "South");
-		
 		pack();
 		setBounds(100, 100, 550, 500);
 		setVisible(true);

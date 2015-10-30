@@ -18,7 +18,6 @@ import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
-import chat.ChatVO;
 import global.Command;
 import member.MemberVO;
 
@@ -41,11 +40,11 @@ public class ServerServiceImpl implements Runnable {
 	private String user;
 	private int length;
 	private StringTokenizer secondToken;
+
 	public void setThisThread(Thread thisThread) {
 		this.thisThread = thisThread;
-		
-	}
 
+	}
 	public ServerServiceImpl() {
 	}
 
@@ -74,7 +73,9 @@ public class ServerServiceImpl implements Runnable {
 		try {
 			while (true) {
 				String command = in.readUTF();
-				System.out.println(command);
+				if (command.equals("")) {
+					continue;
+				}
 				StringTokenizer token = new StringTokenizer(command, Command.COMMAND_DELIMITER);
 				switch (token.nextToken()) {
 				case Command.REQUEST_LOGIN:
@@ -89,6 +90,7 @@ public class ServerServiceImpl implements Runnable {
 							send(buffer.toString());
 						}
 					}
+					
 					if (flag) {
 						users.add(this); // 해당 유저를 유저목록에 추가함
 						System.out.println("폰번 : " + phone + " 패스워드 " + password);
@@ -150,11 +152,29 @@ public class ServerServiceImpl implements Runnable {
 						}
 					}
 					break;
+				case Command.DEL_FRIEND: //명령어|내폰|친구폰들
+					String myPhone = token.nextToken();
+					secondToken = new StringTokenizer(token.nextToken(), Command.CONTENT_DELIMITER);
+					length = secondToken.countTokens();
+					int temp = 0;
+					for (int i = 0; i < length; i++) {
+						 temp = dao.deleteFriend(myPhone, secondToken.nextToken());
+					}
+					if (temp != 0) {
+						buffer.setLength(0);
+						buffer.append(Command.ALLOW_DEL);
+						send(buffer.toString());
+					} else {
+						buffer.setLength(0);
+						buffer.append(Command.DENY_DEL);
+						send(buffer.toString());
+					}
+					break;
 				case Command.SIGN_UP:
 					secondToken = new StringTokenizer(token.nextToken(), Command.CONTENT_DELIMITER);
 					System.out.println(secondToken);
-					int result = dao.confirmSignUp(secondToken.nextToken(), secondToken.nextToken(), secondToken.nextToken(),
-							secondToken.nextToken());
+					int result = dao.confirmSignUp(secondToken.nextToken(), secondToken.nextToken(),
+							secondToken.nextToken(), secondToken.nextToken());
 					if (result != 0) {
 						buffer.setLength(0);
 						buffer.append(Command.ALLOW_SIGN_UP);
@@ -193,33 +213,51 @@ public class ServerServiceImpl implements Runnable {
 						send(buffer.toString());
 					}
 					break;
-				
-				case Command.CREATE_CHATROOM: // 방을만들겠다고 클라이언트가 신청을하면
-					
+
+				case Command.CREATE_CHATROOM: // 명령어|사람목록
 					names = token.nextToken(); // 사람들 목록
 					secondToken = new StringTokenizer(names, Command.CONTENT_DELIMITER);
 					length = secondToken.countTokens();
+					int count = 0;
 					for (int i = 0; i < length; i++) {
 						System.out.println("수행함");
 						user = secondToken.nextToken();
 						System.out.println("방을만들 이름은 " + user); // 친구 스레드명
-						for (int j = 0; j < users.size(); j++) { // 유저목록에서
-							System.out.println("유저 " + users.get(j).phone);
+						for (int j = 0; j < users.size(); j++) {
 							if (user.equals(users.get(j).phone)) {
-								System.out.println("같아서 수행 " + users.get(j).phone);
-								buffer.setLength(0);
-								buffer.append(Command.DEFFUSION_CHATROOM + "|" + roomNumber); // 방번호를
-																								// 전송
-								users.get(j).send(buffer.toString());
+								count++;
 							}
 						}
 					}
-					rooms.put(roomNumber, new ChatRoomVO(names, length)); //방을 만들고
-					roomNumber++;
+					secondToken = new StringTokenizer(names, Command.CONTENT_DELIMITER);
+					length = secondToken.countTokens();
+					if (count < 2) {
+						buffer.setLength(0);
+						buffer.append(Command.DENY_CHATROOM + "|");
+						send(buffer.toString());
+					} else {
+						for (int i = 0; i < length; i++) {
+							user = secondToken.nextToken();
+							System.out.println("카운트수 " + count);
+							System.out.println("유저수는 : " + users.size());
+							for (int j = 0; j < users.size(); j++) { // 유저목록에서
+								System.out.println("유저 " + users.get(j).phone);
+								if (user.equals(users.get(j).phone)) {
+									System.out.println("같아서 수행 " + users.get(j).phone);
+									buffer.setLength(0);
+									buffer.append(Command.DEFFUSION_CHATROOM + "|" + roomNumber); // 방번호를
+									users.get(j).send(buffer.toString());
+									break;
+								}
+							}
+						}
+						rooms.put(roomNumber, new ChatRoomVO(names, length)); // 방을
+						roomNumber++;
+					}
 					// 해당방의 정보를 가지고 있는 채트룸을 만듦
 					break;
-				case Command.EXIT_CHATROOM: // 명령어 | 방번호 | 폰번 | 내이름 
-					
+				case Command.EXIT_CHATROOM: // 명령어 | 방번호 | 폰번 | 내이름
+
 					tempNum = Integer.parseInt(token.nextToken()); // 방번호
 					phone = token.nextToken(); // 폰번호
 					String myName = token.nextToken(); // 이름
@@ -240,20 +278,45 @@ public class ServerServiceImpl implements Runnable {
 								if (user.equals(users.get(j).phone)) {
 									System.out.println(user + " 같습니다.");
 									buffer.setLength(0);
-									buffer.append(Command.DEFFUSION_MESSAGE + "|" + tempNum + "|" + "<서버> " + myName +"님이 퇴실하셨습니다.");
+									buffer.append(Command.DEFFUSION_MESSAGE + "|" + tempNum + "|" + "<서버> " + myName
+											+ "님이 퇴실하셨습니다.");
 									users.get(j).send(buffer.toString());
 								}
 							}
 						}
 					}
+					break;
+				case Command.LOGOUT:
+					String delphone = token.nextToken();
+					System.out.println("삭제할 폰번");
+					buffer.setLength(0);
+					buffer.append(Command.LOGOUT);
+					send(buffer.toString());
+					length = users.size();
+					for (int i = 0; i < length; i++) {
+						if (users.get(i).phone.equals(delphone)) {
+							release();
+							users.remove(i);
+							break;
+						}
+					}
+					break;
 				default:
 					break;
 				}
 				Thread.sleep(200);
 			}
 		} catch (Exception e) {
+			System.out.println("무슨문제냥 : " + e);
 			e.printStackTrace();
+		} finally {
+			return;
 		}
+	}
+
+	private StringTokenizer StringTokenizer(String nextToken, String contentDelimiter) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	public void respondLogin(String str) {
@@ -272,6 +335,28 @@ public class ServerServiceImpl implements Runnable {
 			out.flush();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	private void release() {
+		if (thisThread != null) {
+			thisThread = null;
+		}
+		try {
+			if (out != null) {
+				out.close();
+			}
+			if (in != null) {
+				in.close();
+			}
+			if (client != null) {
+				client.close();
+			}
+		} catch (Exception e) {
+		} finally {
+			out = null;
+			in = null;
+			client = null;
 		}
 	}
 }

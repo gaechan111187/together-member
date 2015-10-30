@@ -1,6 +1,6 @@
 package client;
 
-import java.awt.Color;
+import java.awt.image.BufferedImageFilter;
 /**
  * 클라이언트가 구동되면
  * 최초, 로그인 창이 로드된다. (확인, 회원가입)
@@ -15,14 +15,14 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.plaf.synth.SynthSeparatorUI;
+
 
 import chat.ChatUI;
 import global.Command;
 import main.MainUI;
 import member.MemberUI;
 import member.MemberVO;
+
 public class ClientServiceImpl implements Runnable {
 	private String serverIP;
 	private Thread thisThread;
@@ -36,11 +36,9 @@ public class ClientServiceImpl implements Runnable {
 	MainUI mainUI;
 	ChatUI chatUI;
 
-	
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -71,8 +69,6 @@ public class ClientServiceImpl implements Runnable {
 				String command = in.readUTF(); // 명령을 읽어옴
 				StringTokenizer token = new StringTokenizer(command, Command.COMMAND_DELIMITER);
 				switch (token.nextToken()) {
-				case Command.SIGN_UP: // 회원가입
-					break;
 				case Command.ALLOW_LOGIN: // 로그인 허가
 					String content = token.nextToken();
 					content = content.replace("[", "");
@@ -90,12 +86,12 @@ public class ClientServiceImpl implements Runnable {
 						temp.setEmail(contentToken.nextToken().trim());
 						vec.add(temp); // 벡터에 추가함
 					}
-					MemberVO myInfo = vec.get(vec.size()-1);
-					vec.remove(vec.size()-1);
-					//System.out.println("내정보 " + myInfo);
+					MemberVO myInfo = vec.get(vec.size() - 1);
+					vec.remove(vec.size() - 1);
+					// System.out.println("내정보 " + myInfo);
 					// 인석이형 UI실행
 					memUI.dispose();
-					mainUI = new MainUI(this,myInfo);
+					mainUI = new MainUI(this, myInfo);
 					break;
 				case Command.DENY_LOGIN: // 로그인 거부
 					JOptionPane.showMessageDialog(null, "해당 유저가 이미 접속중입니다.");
@@ -116,7 +112,6 @@ public class ClientServiceImpl implements Runnable {
 					temp.setEmail(contentToken.nextToken().trim());
 					System.out.println("찾아온친구 " + temp);
 					mainUI.getAddFriend().setTarget(temp); // 해당 친구를 추가시킴
-					//mainUI.getAddFriend().makeList(temp);
 					break;
 				case Command.DENY_SEARCH:
 					JOptionPane.showMessageDialog(null, "해당 사용자가 존재하지 않습니다.");
@@ -126,8 +121,7 @@ public class ClientServiceImpl implements Runnable {
 					mainUI.getVec().add(mainUI.getAddFriend().getTarget());
 					MemberVO myIn = mainUI.getMyInfo();
 					mainUI.dispose();
-					mainUI = new MainUI(this);
-					mainUI.setMyInfo(myIn);
+					mainUI = new MainUI(this, myIn);
 					break;
 				case Command.DENY_FRIENDS:
 					JOptionPane.showMessageDialog(null, "친구추가를 실패했습니다.");
@@ -141,9 +135,11 @@ public class ClientServiceImpl implements Runnable {
 					mainUI.setRooms(roomNum, new ChatUI(this, roomNum)); // 채팅창을 띄우고 수행함
 					sendSeverMessage(mainUI.getMyInfo().getName() + "님이 입장하셨습니다.", roomNum);
 					break;
+				case Command.DENY_CHATROOM:
+					JOptionPane.showMessageDialog(null, "대화상대가 로그오프 상태입니다.");
+					break;
 				case Command.ALLOW_SIGN_UP:
 					JOptionPane.showMessageDialog(null, "회원가입을 성공했습니다.");
-					new MemberUI(this);
 					break;
 				case Command.DENY_SIGN_UP:
 					JOptionPane.showMessageDialog(null, "회원가입을 실패했습니다.");
@@ -156,8 +152,19 @@ public class ClientServiceImpl implements Runnable {
 					System.out.println("대화 " + dialog);
 					mainUI.getRooms().get(roomNum).setArea(dialog + "\n");
 					break;
-				case Command.EXIT:
-					// 종료버튼 누를시 종료
+				case Command.ALLOW_DEL:
+					JOptionPane.showMessageDialog(null, "친구삭제 성공");
+					MemberVO myInformation = mainUI.getMyInfo();
+					mainUI.dispose();
+					mainUI = new MainUI(this, myInformation);
+					break;
+				case Command.DENY_DEL:
+					JOptionPane.showMessageDialog(null, "친구삭제 실패");
+					break;
+				case Command.LOGOUT:
+					System.out.println("로그아웃 신청");
+					release();
+					mainUI.dispose();
 					break;
 				default:
 					break;
@@ -169,7 +176,29 @@ public class ClientServiceImpl implements Runnable {
 		}
 	}
 
-	//
+	private void release() {
+		if (thisThread != null) {
+			thisThread = null;
+		}
+		try {
+			if (out != null) {
+				out.close();
+			}
+			if (in != null) {
+				in.close();
+			}
+			if (clientSocket != null) {
+				clientSocket.close();
+			}
+		} catch (Exception e) {
+		} finally {
+			out = null;
+			in = null;
+			clientSocket = null;
+		}
+		System.exit(0);
+	}
+
 	public void sendMessage(String msg, int roomNumber) { // 명령어|방번호|내이름>>메시지
 		buffer.setLength(0);
 		buffer.append(Command.SEND_MESSAGE + "|" + roomNumber + "|" + mainUI.getMyInfo().getName() + ">> " + msg); // 123은
@@ -222,15 +251,15 @@ public class ClientServiceImpl implements Runnable {
 	public void creatChatRoom(String friends) {
 		// 서버로 채팅창 만들겠다고 전송함
 		buffer.setLength(0);
-		buffer.append(Command.CREATE_CHATROOM + "|" + friends); // 명령어와 친구목록을
-																// 전송해줌
+		buffer.append(Command.CREATE_CHATROOM + "|" + friends); // 명령어와 친구목록
 		send(buffer.toString());
 	}
 
 	public void searchFriends(String phone) {
 		buffer.setLength(0);
 		System.out.println("찾을 친구번호 " + phone);
-		buffer.append(Command.SEARCH_FRIENDS + "|" + phone);	// 친구추가 명령어와 해당번호를 전송
+		buffer.append(Command.SEARCH_FRIENDS + "|" + phone); // 친구추가 명령어와 해당번호를
+																// 전송
 		send(buffer.toString());
 	}
 
@@ -238,13 +267,26 @@ public class ClientServiceImpl implements Runnable {
 		buffer.setLength(0);
 		buffer.append(Command.ADD_FRIENDS + "|" + myPhone + "|" + targetPhone);
 		send(buffer.toString());
-		
+
 	}
 
 	public void exitChatRoom(int myRoomNumber) {
 		mainUI.getRooms().remove(myRoomNumber);
 		buffer.setLength(0);
-		buffer.append(Command.EXIT_CHATROOM + "|" + myRoomNumber + "|" + mainUI.getMyInfo().getPhone() + "|" + mainUI.getMyInfo().getName());
+		buffer.append(Command.EXIT_CHATROOM + "|" + myRoomNumber + "|" + mainUI.getMyInfo().getPhone() + "|"
+				+ mainUI.getMyInfo().getName());
+		send(buffer.toString());
+	}
+
+	public void logOut() {
+		buffer.setLength(0);
+		buffer.append(Command.LOGOUT + "|" + mainUI.getMyInfo().getPhone());
+		send(buffer.toString());
+	}
+
+	public void deleteFriend(String targetPhone) {
+		buffer.setLength(0);
+		buffer.append(Command.DEL_FRIEND + "|" + mainUI.getMyInfo().getPhone() + "|" + targetPhone);
 		send(buffer.toString());
 	}
 }

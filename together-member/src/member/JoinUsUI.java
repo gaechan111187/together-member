@@ -26,10 +26,8 @@ public class JoinUsUI extends JFrame implements ActionListener {
 		this.client = client;
 		jPanel = new JPanel();
 		jPanel.setLayout(new GridLayout(10, 1));
-		
-		
+
 		b1 = new JButton("회원가입");
-		
 		jPanel.add(new JLabel("  이름     ")); //이름 라벨 붙임.
 		fieldName = new JTextField(10);
 		jPanel.add(fieldName);
@@ -63,8 +61,8 @@ public class JoinUsUI extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
 		case "회원가입":
-			client.requestSignUp(fieldName.getText(), fieldPhone.getText(), fieldPass.getText(), fieldEmail.getText());
 			dispose();
+			client.requestSignUp(fieldName.getText(), fieldPhone.getText(), fieldPass.getText(), fieldEmail.getText());
 			break;
 
 		default:

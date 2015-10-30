@@ -23,7 +23,6 @@ import member.MemberVO;
 public class AddFriend extends JFrame implements ActionListener {			// 친구추가창
 	private static final long serialVersionUID = 1L;
 	
-	MainService service = MainServiceImpl.getService();
 	MemberVO myVO;
 	MemberVO target;
 	
@@ -32,6 +31,7 @@ public class AddFriend extends JFrame implements ActionListener {			// 친구추
 	}
 
 	public void setTarget(MemberVO target) {
+		System.out.println("타겟도 들어온당");
 		this.target = target;
 	}
 	JButton btnAddFriend, btnSearch, btnExit;
@@ -46,20 +46,9 @@ public class AddFriend extends JFrame implements ActionListener {			// 친구추
 		this.myVO = myVO;
 		this.client = client;
 		init();
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
-	/*
-	public void makeList(MemberVO temp) {
-		JPanel fPanel = new JPanel(new GridLayout(1, 3));
-		fPanel.setPreferredSize(new Dimension(MAXIMIZED_HORIZ, 50));
-		fPanel.setBorder(LineBorder.createBlackLineBorder());
-		System.out.println("친구가 들어있어야 정상" + temp.getName());
-		JLabel fname = new JLabel(temp.getName());
-		fPanel.add(fname);
-		friendsPanel.removeAll();
-		friendsPanel.add(fPanel);
-		init();
-	}
-	*/
+	
 	public void init() {
 		this.setTitle("친구추가");
 
@@ -90,8 +79,8 @@ public class AddFriend extends JFrame implements ActionListener {			// 친구추
 					 // 검색한 폰을 입력 검색해오라고
 					client.searchFriends(searchPhone); // 더할 친구를 찾아서 친구를 추가한다.
 					System.out.println("타겟은 " + target);
-					tfSearch.setText("");
 				}
+				tfSearch.setText("");
 				JPanel fPanel = new JPanel(new GridLayout(1, 3));
 				fPanel.setPreferredSize(new Dimension(MAXIMIZED_HORIZ, 50));
 				fPanel.setBorder(LineBorder.createBlackLineBorder());
@@ -100,6 +89,7 @@ public class AddFriend extends JFrame implements ActionListener {			// 친구추
 				fPanel.add(fname);
 				friendsPanel.removeAll();
 				friendsPanel.add(fPanel);
+				friendsPanel.repaint();
 				init();
 			}
 		});
