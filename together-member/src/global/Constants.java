@@ -22,5 +22,4 @@ public class Constants {
 	public static final String MONGODB_DRIVER="mongodb.jdbc.MongoDriver";
 	public static final String MONGODB_URL="jdbc:mongo://ds029847.mongolab.com:29847/tpch";
 	
-	
 }

@@ -18,7 +18,6 @@ import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
-import chat.ChatVO;
 import global.Command;
 import member.MemberVO;
 
@@ -41,15 +40,16 @@ public class ServerServiceImpl implements Runnable {
 	private String user;
 	private int length;
 	private StringTokenizer secondToken;
-	public void setThisThread(Thread thisThread) {
-		this.thisThread = thisThread;
-		
-	}
 
+	
+	public void setThisThread(Thread thisThread) {			//지금 쓰레드 지정
+		this.thisThread = thisThread;
+
+	}
 	public ServerServiceImpl() {
 	}
 
-	public ServerServiceImpl(Socket clientSocket) {
+	public ServerServiceImpl(Socket clientSocket) {			//초기화 (소켓과  input, output stream set)
 		flag = true;
 		tempNum = 0;
 		user = "";
@@ -70,7 +70,7 @@ public class ServerServiceImpl implements Runnable {
 	}
 
 	@Override
-	public void run() {
+	public void run() {				//실행
 		try {
 			while (true) {
 				String command = in.readUTF();
@@ -81,25 +81,27 @@ public class ServerServiceImpl implements Runnable {
 				switch (token.nextToken()) {
 				case Command.REQUEST_LOGIN:
 					System.out.println("로그인 요청이 들어왔습니다.");
-					phone = token.nextToken();
-					String password = token.nextToken();
+					phone = token.nextToken(); // 폰번
+					String password = token.nextToken(); // 비번
 					for (int i = 0; i < users.size(); i++) {
 						if (users.get(i).phone.equals(phone)) { // 이미 로그인상태이면
 							flag = false;
 							buffer.setLength(0);
 							buffer.append(Command.DENY_LOGIN);
 							send(buffer.toString());
+							break;
 						}
-					}
+					} //로그인이 되지 않은상태면
 					if (flag) {
-						users.add(this); // 해당 유저를 유저목록에 추가함
 						System.out.println("폰번 : " + phone + " 패스워드 " + password);
 						List<MemberVO> temp = dao.confirmLogin(phone, password);
 						System.out.println("템프수 : " + temp.size());
 						System.out.println(temp);
 						if (!temp.isEmpty()) {
+							users.add(this); // 해당 유저를 유저목록에 추가함
 							respondLogin(temp.toString());
 						} else {
+							System.out.println("비어있는데");
 							respondLogin(null);
 						}
 					}
@@ -150,6 +152,24 @@ public class ServerServiceImpl implements Runnable {
 								users.get(j).send(buffer.toString());
 							}
 						}
+					}
+					break;
+				case Command.DEL_FRIEND: //명령어|내폰|친구폰들
+					String myPhone = token.nextToken();
+					secondToken = new StringTokenizer(token.nextToken(), Command.CONTENT_DELIMITER);
+					length = secondToken.countTokens();
+					int temp = 0;
+					for (int i = 0; i < length; i++) {
+						 temp = dao.deleteFriend(myPhone, secondToken.nextToken());
+					}
+					if (temp != 0) {
+						buffer.setLength(0);
+						buffer.append(Command.ALLOW_DEL);
+						send(buffer.toString());
+					} else {
+						buffer.setLength(0);
+						buffer.append(Command.DENY_DEL);
+						send(buffer.toString());
 					}
 					break;
 				case Command.SIGN_UP:
@@ -295,13 +315,18 @@ public class ServerServiceImpl implements Runnable {
 		}
 	}
 
+	private StringTokenizer StringTokenizer(String nextToken, String contentDelimiter) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	public void respondLogin(String str) {
 		if (str != null) {
 			buffer.setLength(0);
 			buffer.append(Command.ALLOW_LOGIN + "|" + str); // 로그인 허가
 			send(buffer.toString());
 		} else {
-			send(Command.DENY_LOGIN); // 로그인 거부 전송
+			send(Command.CANT_LOGIN); // 로그인 거부 전송
 		}
 	}
 

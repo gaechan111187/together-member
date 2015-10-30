@@ -39,9 +39,7 @@ public class ServerDAO {
 			e.printStackTrace();
 		}
 		return result;
-		
 	}
-
 	public List<MemberVO> confirmLogin(String phone, String password) {
 		List<MemberVO> vec = new Vector<MemberVO>();
 		MemberVO temp = null;
@@ -67,6 +65,9 @@ public class ServerDAO {
 				temp.setPassword(rs.getString("password"));
 				temp.setPhone(rs.getString("phone"));
 				vec.add(temp); // 내정보 저장
+			} else {
+				vec.clear();
+				return vec;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -107,5 +108,17 @@ public class ServerDAO {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	public int deleteFriend(String myPhone, String fPhone) {
+		int temp =0;
+		try {
+			pstmt = con.prepareStatement("delete from friend where uphone = " 
+					+ makeQuery(myPhone) + " and fphone = " + makeQuery(fPhone));
+			temp = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return temp;
 	}
 }

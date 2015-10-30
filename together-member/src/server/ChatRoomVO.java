@@ -7,14 +7,12 @@ public class ChatRoomVO implements Serializable{
 	private StringBuffer clients; // 접속한 유저목록
 	private int numOfUser;
 	//private StringBuffer roomBuffer; // 채팅로그 만들경우 사용
-
 	public int getNumOfUser() {
 		return numOfUser;
 	}
 	public void setNumOfUser(int numOfUser) {
 		this.numOfUser = numOfUser;
 	}
-
 	public ChatRoomVO(String clients, int length) {
 		numOfUser = length;
 		this.clients = new StringBuffer();
@@ -27,7 +25,7 @@ public class ChatRoomVO implements Serializable{
 	public void setClients(String clients) {
 		this.clients.append("`" + clients);
 	}
-	
+
 	public void delClients(String clients) {
 		String temp = this.clients.toString().replace(clients, ""); //명단에서 지워버림
 		temp.replace("``", "`");

@@ -18,7 +18,6 @@ public class MemberVO implements Serializable{
 	}
 	
 	public MemberVO() {
-		
 	}
 
 	public String getName() {
@@ -49,7 +48,6 @@ public class MemberVO implements Serializable{
 	/**
 	 * CRUD 
 	 */
-	
 	
 	// 회원가입 생성.
 	public String joinUs(){

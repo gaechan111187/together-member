@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -84,7 +85,6 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 
 	
 	int[] check;
-	MainService service = MainServiceImpl.getService();
 
 	public MainUI(ClientServiceImpl client) {
 		flag = false;
@@ -106,9 +106,9 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
 
-	private void init() {
+	public void init() {
 
-		this.setTitle("Together");
+		this.setTitle("Talk-Together");
 
 		menuPanel = new JPanel(new GridLayout(2, 1));
 		menuPanel.setBorder(LineBorder.createBlackLineBorder());
@@ -116,10 +116,8 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		uMenuPanel.setBorder(LineBorder.createBlackLineBorder());
 		dMenuPanel = new JPanel(new GridLayout(1, 3));
 		dMenuPanel.setBorder(LineBorder.createBlackLineBorder());
-
 		friendsPanel = new JPanel(new GridLayout(10, 1)); // 친구수에 따라 행 바뀌어야 함	
 		friendsPanel.setBorder(LineBorder.createBlackLineBorder());
-
 		uMenuPanel.setBackground(new Color(255, 255, 255)); // 타이틀 색상
 		dMenuPanel.setBackground(new Color(255, 255, 255)); //
 		friendsPanel.setBackground(new Color(255, 255, 255));
@@ -132,9 +130,13 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 
 		southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		southPanel.setBorder(LineBorder.createBlackLineBorder());
-
-		ImageIcon addFriendIcon = new ImageIcon("src/images/addFriend.png");
-		ImageIcon addLogoIcon = new ImageIcon("src/images/logo.png");
+		
+//		URL imageURL = getClass().getClassLoader().getResource("image/" + temp[i] + ".gif");
+//		btns.get(i).setIcon(new ImageIcon(imageURL));
+		URL friendURL = getClass().getClassLoader().getResource("images/addFriend.png");
+		URL logoURL = getClass().getClassLoader().getResource("images/logo.png");
+		ImageIcon addFriendIcon = new ImageIcon(friendURL);
+		ImageIcon addLogoIcon = new ImageIcon(logoURL);
 		logo = new JLabel(addLogoIcon); //로고 라벨 제작
 		
 		
@@ -152,7 +154,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		btnDelFriend = new JButton("친구삭제");
 		btnExit = new JButton("종료");
 
-		me = new JLabel("  내 정보");
+		me = new JLabel("  나(" + myInfo.getName() +")" );
 		myName = new JLabel(myInfo.getEmail());
 		myMail = new JLabel(myInfo.getPhone());
 
@@ -220,7 +222,7 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 		switch (command) {
 		case "채팅하기":
 			friends.setLength(0);
-			for (int i = 0; i < check.length; i++) {
+			for (int i = 0; i < vec.size(); i++) {
 				if (check[i] == 1) {
 					friends.append(vec.get(i).getPhone() + "`");
 					flag = true;
@@ -236,6 +238,14 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 			}
 			break;
 		case "친구삭제":
+			friends.setLength(0);
+			for (int i = 0; i < vec.size(); i++) {
+				if (check[i] == 1) {
+					friends.append(vec.get(i).getPhone() + "`");
+					vec.remove(i);
+				}
+			}
+			client.deleteFriend(friends.toString());
 			break;
 		case "종료":
 			client.logOut();
@@ -249,16 +259,22 @@ public class MainUI extends JFrame implements ActionListener, ItemListener {
 	public MemberVO getMyInfo() {
 		return myInfo;
 	}
-	
+
+
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		String source = e.paramString();
 		for (int i = 0; i < vec.size(); i++) {
-			if (vec.get(i).getPhone().equals(service.getSource(source)) && check[i] == 0) {
+			if (vec.get(i).getPhone().equals(getSource(source)) && check[i] == 0) {
 				check[i] = 1;
-			} else if (vec.get(i).getPhone().equals(service.getSource(source)) && check[i] == 1) {
+			} else if (vec.get(i).getPhone().equals(getSource(source)) && check[i] == 1){
 				check[i] = 0;
 			}
 		}
 	}
+	
+	public String getSource(String resources) {
+		return resources.substring(457).substring(resources.substring(457).indexOf("=")+1, resources.substring(457).indexOf("]"));
+	}
+	
 }

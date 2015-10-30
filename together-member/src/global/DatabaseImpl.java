@@ -20,7 +20,6 @@ public class DatabaseImpl implements Database {
 		this.password = password;
 	}
 	
-	
 	public Connection getConnection() {
 		try {
 			Class.forName(driver);

@@ -34,17 +34,14 @@ public class ChatUI extends JFrame implements ActionListener, KeyListener {
 		return roomNumber;
 	}
 	
-	
 	public void setArea(String msg) {
 		area.append(msg);
 	}
-
 	public void setRoomNumber(int roomNumber) {
 		this.roomNumber = roomNumber;
 	}
-
 	public ChatUI(ClientServiceImpl client, int roomNum) {
-		super("테스트용 채팅");
+		super("Talk-Together");
 		myRoomNumber = roomNum;
 		this.client = client;
 		// 부품준비
@@ -76,7 +73,6 @@ public class ChatUI extends JFrame implements ActionListener, KeyListener {
 		area.setBackground(new Color(234, 153, 153));
 		add(area, "Center");
 		add(inputField, "South");
-		
 		pack();
 		setBounds(100, 100, 550, 500);
 		setVisible(true);
