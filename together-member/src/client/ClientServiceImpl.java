@@ -44,7 +44,7 @@ public class ClientServiceImpl implements Runnable {
 	public ClientServiceImpl() {
 		try {
 			vec = new Vector<MemberVO>();
-			serverIP = JOptionPane.showInputDialog("서버IP 설정", "192.168.0.81");
+			serverIP = JOptionPane.showInputDialog("서버IP 설정", "192.168.0.67");
 			if (!serverIP.equals(null)) {
 				clientSocket = new Socket(serverIP, Command.PORT);
 				in = new DataInputStream(clientSocket.getInputStream());
